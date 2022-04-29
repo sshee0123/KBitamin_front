@@ -24,7 +24,7 @@ function App() {
 
   return (
     <ThemeProvider>
-              <div>
+        <div>
             백엔드에서 가져온 데이터입니다 : {hello}
         </div>
       <ScrollToTop />
@@ -35,6 +35,7 @@ function App() {
 }
 
 
+export default App;
 // function App() {
 //    const [hello, setHello] = useState('')
 
@@ -50,5 +51,3 @@ function App() {
 //         </div>
 //     );
 // }
-
-export default App;
