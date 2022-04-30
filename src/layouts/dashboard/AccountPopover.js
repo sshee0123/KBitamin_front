@@ -46,7 +46,7 @@ export default function AccountPopover() {
 
   const handleClose = () => {
     
-    MemberService.logout();
+    // MemberService.logout();
     setOpen(null);
   };
 
