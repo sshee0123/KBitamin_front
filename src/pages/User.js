@@ -31,11 +31,10 @@ import USERLIST from '../_mock/user';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'name', label: '의약품', alignRight: false },
+  { id: 'role', label: '복용 날짜', alignRight: false },
+  { id: 'isVerified', label: '부작용', alignRight: false },
+  { id: 'status', label: '복용중', alignRight: false },
   { id: '' },
 ];
 
@@ -137,10 +136,10 @@ export default function User() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            User
+            My Medi
           </Typography>
           <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New User
+            New Medicine
           </Button>
         </Stack>
 
@@ -161,7 +160,7 @@ export default function User() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
+                    const { id, name, role, status, avatarUrl, isVerified } = row;
                     const isItemSelected = selected.indexOf(name) !== -1;
 
                     return (
@@ -184,7 +183,6 @@ export default function User() {
                             </Typography>
                           </Stack>
                         </TableCell>
-                        <TableCell align="left">{company}</TableCell>
                         <TableCell align="left">{role}</TableCell>
                         <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
                         <TableCell align="left">
