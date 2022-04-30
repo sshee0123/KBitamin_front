@@ -97,6 +97,7 @@ export default function RegisterForm() {
   // };
 
   const handleSexChange = (event) => {
+    console.log(event.target.value)
     setValues({sex:event.target.value});
   };
 

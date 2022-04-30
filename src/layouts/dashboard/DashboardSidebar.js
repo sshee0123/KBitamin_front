@@ -14,6 +14,7 @@ import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 //
 import navConfig from './NavConfig';
+import MemberService from '../../service/MemberService';
 
 // ----------------------------------------------------------------------
 
@@ -53,6 +54,14 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
+  const handleUserInfo = () => {
+    if(MemberService.getCurrentUser()){
+      return MemberService.getCurrentUser().id;
+    }
+    
+    return account.displayName;
+  };
+
   const renderContent = (
     <Scrollbar
       sx={{
@@ -70,7 +79,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             <Avatar src={account.photoURL} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+                {handleUserInfo()}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 {account.role}
