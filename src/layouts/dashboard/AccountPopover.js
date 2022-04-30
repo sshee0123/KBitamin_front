@@ -7,7 +7,7 @@ import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@
 import MenuPopover from '../../components/MenuPopover';
 // mocks_
 import account from '../../_mock/account';
-
+import MemberService from '../../service/MemberService';
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
@@ -36,15 +36,23 @@ export default function AccountPopover() {
   const [open, setOpen] = useState(null);
 
   const handleOpen = (event) => {
-    setOpen(event.currentTarget);
+    if(!MemberService.getCurrentUser()){
+      alert('로그인 후 이용 가능합니다.');
+      window.location.href = "/login";
+    }
+    else
+      setOpen(event.currentTarget);
   };
 
   const handleClose = () => {
+    
+    MemberService.logout();
     setOpen(null);
   };
 
   return (
     <>
+    
       <IconButton
         ref={anchorRef}
         onClick={handleOpen}

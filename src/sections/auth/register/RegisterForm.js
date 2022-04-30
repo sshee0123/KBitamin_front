@@ -55,7 +55,7 @@ export default function RegisterForm() {
         formik.values.Name,
         new Date('1999-11-06'),
         '010-0000-0000',
-        'X'
+        'F'
       );
     },
   });
