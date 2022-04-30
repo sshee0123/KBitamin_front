@@ -41,7 +41,8 @@ export default function LoginForm() {
         // window.location.href = "/main-board";
         // 로그인 정보 저장
         handleUserMock();
-        navigate('/dashboard/app', { replace: true });
+        window.location.href = "/dashboard/app";
+        // navigate('/dashboard/app', { replace: true });
     },
     error => { const resMessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
       console.log('로그인 오류!');

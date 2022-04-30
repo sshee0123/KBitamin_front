@@ -40,16 +40,38 @@ export default function AccountPopover() {
       alert('로그인 후 이용 가능합니다.');
       window.location.href = "/login";
     }
-    else
+    else{
       setOpen(event.currentTarget);
+      console.log(MemberService.getCurrentUser().id);
+    }
   };
 
   const handleClose = () => {
-    
-    // MemberService.logout();
     setOpen(null);
   };
 
+  const handleLogout = () => {
+    if(MemberService.getCurrentUser()){
+      account.displayName = 'K-Bitamin';
+      MemberService.logout();
+    }
+    setOpen(null);
+    window.location.href = "/dashboard/app";
+  };
+  const handleUserInfo = (info) => {
+    if(MemberService.getCurrentUser()){
+      if(info=='id'){
+        return MemberService.getCurrentUser().id;
+      }
+      if (info=='email'){
+        return MemberService.getCurrentUser().email;
+      }
+    }
+    else{
+      return account.displayName;
+    }
+    setOpen(null);
+  };
   return (
     <>
     
@@ -90,10 +112,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {handleUserInfo('id')}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {handleUserInfo('email')}
           </Typography>
         </Box>
 
@@ -109,7 +131,7 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem onClick={handleClose} sx={{ m: 1 }}>
+        <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
           Logout
         </MenuItem>
       </MenuPopover>
