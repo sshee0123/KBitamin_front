@@ -18,10 +18,11 @@ class MemberService{
     }
 */
     // eslint-disable-next-line class-methods-use-this
-    register(email, password, username) {
+    register(id, email, password, username, birthDate, phone, sex) {
         console.log('hello~~~~~~~~~~~~~~~');
-        console.log(email);
-        return axios.post(`${MEMBER_API_BASE_URL}/signup` , { username, email, password});
+        console.log(birthDate, sex);
+
+        return axios.post(`${MEMBER_API_BASE_URL}/signup` , { id, username, email, password, birthDate, phone, sex});
          // return axios.post(MEMBER_API_BASE_URL + "signup", { id, username, email, password, birthDate, phone, sex});
     }
 /*
