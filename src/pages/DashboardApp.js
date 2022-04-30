@@ -27,10 +27,11 @@ export default function DashboardApp() {
     <Page title="Dashboard">
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
+          Hi, Welcome K-Bitamin
         </Typography>
 
         <Grid container spacing={3}>
+<<<<<<< HEAD
 
           {/* 대시보드 페이지 맨 위 4가지 주석 */}
           {/* <Grid item xs={12} sm={6} md={3}>
@@ -39,12 +40,22 @@ export default function DashboardApp() {
 
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="부작용 약의 수" total={1352831} color="info" icon={'ant-design:apple-filled'} />
-          </Grid>
+=======
 
+          {/* 대시보드 페이지 맨 위 4가지 주석 */}
+          {/* <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="오늘 복용할 약" total={714000} icon={'ant-design:android-filled'} />
+>>>>>>> 101dc392b5e82461003f4c4bbf4649623af40507
+          </Grid>
           <Grid item xs={12} sm={6} md={3}>
+<<<<<<< HEAD
+=======
+            <AppWidgetSummary title="부작용 약의 수" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+>>>>>>> 101dc392b5e82461003f4c4bbf4649623af40507
             <AppWidgetSummary title="" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
           </Grid>
-
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
           </Grid> */}
