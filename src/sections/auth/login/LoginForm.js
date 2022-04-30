@@ -4,9 +4,13 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 // material
 import { Link, Stack, Checkbox, TextField, IconButton, InputAdornment, FormControlLabel } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { LoadingButton, Alert, AlertTitle } from '@mui/lab';
 // component
 import Iconify from '../../../components/Iconify';
+import MemberService from '../../../service/MemberService';
+
+// mocks_
+import account from '../../../_mock/account';
 
 // ----------------------------------------------------------------------
 
@@ -16,19 +20,41 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+    id: Yup.string().required('Id is required'),
     password: Yup.string().required('Password is required'),
   });
 
+  const [valueState, setValueState] = useState({ id: "", password: "", loading: false, message: ""});
+
   const formik = useFormik({
     initialValues: {
-      email: '',
+      id: '',
       password: '',
       remember: true,
+      loading: false,
+      message: ""
     },
     validationSchema: LoginSchema,
     onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+      // navigate('/dashboard', { replace: true });
+      MemberService.login(formik.values.id, formik.values.password).then(() => {
+        // window.location.href = "/main-board";
+        navigate('/dashboard/app', { replace: true });
+        account.displayName=MemberService.getCurrentUser().id;
+        account.email=MemberService.getCurrentUser().email;
+        console.log(MemberService.getCurrentUser().id);
+        console.log(MemberService.getCurrentUser().email);
+    },
+    error => { const resMessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+      console.log('로그인 오류!');
+      <Alert severity="error">
+        <AlertTitle>Error</AlertTitle>
+        아이디 혹은 비밀번호를 다시 확인해주세요. — <strong>check it out!</strong>
+      </Alert>
+      setValueState({ loading: false, message: resMessage });
+      // window.location.reload();
+      
+    });
     },
   });
 
@@ -36,6 +62,7 @@ export default function LoginForm() {
 
   const handleShowPassword = () => {
     setShowPassword((show) => !show);
+    
   };
 
   return (
@@ -45,11 +72,12 @@ export default function LoginForm() {
           <TextField
             fullWidth
             autoComplete="username"
-            type="email"
-            label="Email address"
-            {...getFieldProps('email')}
-            error={Boolean(touched.email && errors.email)}
-            helperText={touched.email && errors.email}
+            type="text"
+            label="Id"
+            value={formik.values.Id}
+            {...getFieldProps('id')}
+            error={Boolean(touched.id && errors.id)}
+            helperText={touched.id && errors.id}
           />
 
           <TextField
@@ -57,6 +85,7 @@ export default function LoginForm() {
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
             label="Password"
+            value={formik.values.password}
             {...getFieldProps('password')}
             InputProps={{
               endAdornment: (

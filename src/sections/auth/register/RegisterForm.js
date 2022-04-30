@@ -28,13 +28,13 @@ export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const RegisterSchema = Yup.object().shape({
-    Id : Yup.string().min(5, 'Too Short!').max(20, 'Too Long!').required('name required'),
+    Id: Yup.string().min(5, 'Too Short!').max(20, 'Too Long!').required('name required'),
     Name: Yup.string().min(3, 'Too Short!').max(20, 'Too Long!').required('name required'),
     birth: Yup.date(),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().min(6, 'Too Short!').required('Password is required'),
   });
-  const [values, setValues] = useState({ Id:"", Name: "", email: "" ,  password: '', sex:''});
+  const [values, setValues] = useState({ Id: '', Name: '', email: '', password: '', sex: '' });
 
   const formik = useFormik({
     initialValues: {
@@ -42,19 +42,41 @@ export default function RegisterForm() {
       Name: '',
       email: '',
       password: '',
-      sex: ''
+      sex: '',
     },
     validationSchema: RegisterSchema,
     onSubmit: () => {
       navigate('/dashboard/app', { replace: true });
+<<<<<<< HEAD
+      console.log('성별 뭐야 ? ', formik.values.sex);
+      MemberService.register(
+        formik.values.Id,
+        formik.values.email,
+        formik.values.password,
+        formik.values.Name,
+        new Date('1999-11-06'),
+        '010-0000-0000',
+        'F'
+=======
       console.log('성별 뭐야 ? ',formik.values.sex);
       // 함수 인자 참고 register(id, email, password, username, birthDate, phone, sex), 폰 추후 없애야함
       MemberService.register(formik.values.Id,formik.values.email, formik.values.password, formik.values.Name, new Date("1999-11-06")
       , "010-0000-0000", 'F'
+>>>>>>> 101dc392b5e82461003f4c4bbf4649623af40507
       );
-      
     },
   });
+  // 남, 녀 선택 위한 코드 currencies
+  const currencies = [
+    {
+      value: 'M',
+      label: 'Male',
+    },
+    {
+      value: 'F',
+      label: 'Female',
+    },
+  ];
 
   // 남, 녀 선택 위한 코드 currencies
   const currencies = [
@@ -80,6 +102,12 @@ export default function RegisterForm() {
 
   // 남, 녀 선택 위한 코드 이하 5줄
   const [currency, setCurrency] = React.useState('M');
+<<<<<<< HEAD
+
+  const handleChange = (event) => {
+    setValues(event.target.value);
+  };
+=======
   // const handleChange = (event) => {
   //   setValues(event.target.value);
   // };
@@ -88,11 +116,62 @@ export default function RegisterForm() {
     setValues({sex:event.target.value});
   };
 
+>>>>>>> 101dc392b5e82461003f4c4bbf4649623af40507
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}> */}
+<<<<<<< HEAD
+          <TextField
+            fullWidth
+            label="name"
+            value={formik.values.Name}
+            {...getFieldProps('Name')}
+            error={Boolean(touched.Name && errors.Name)}
+            helperText={touched.Name && errors.Name}
+          />
+
+          <TextField
+            fullWidth
+            label="id"
+            value={formik.values.Id}
+            {...getFieldProps('Id')}
+            error={Boolean(touched.Id && errors.Id)}
+            helperText={touched.Id && errors.Id}
+          />
+
+          {/* <TextField
+              fullWidth
+              label="Last name"
+              {...getFieldProps('lastName')}
+              error={Boolean(touched.lastName && errors.lastName)}
+              helperText={touched.lastName && errors.lastName}
+            />
+          </Stack> */}
+
+          {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
+
+            <KeyboardDatePicker
+              label="Material Date Picker"
+              value={selectedDate}
+              onChange={handleDateChange}
+            />
+
+          </MuiPickersUtilsProvider> */}
+
+          <TextField
+            fullWidth
+            autoComplete="username"
+            type="email"
+            label="Email address"
+            value={formik.values.email}
+            {...getFieldProps('email')}
+            error={Boolean(touched.email && errors.email)}
+            helperText={touched.email && errors.email}
+          />
+
+=======
 
           {/* id */}
           <TextField
@@ -105,12 +184,12 @@ export default function RegisterForm() {
             />
 
           {/* password */}
+>>>>>>> 101dc392b5e82461003f4c4bbf4649623af40507
           <TextField
             fullWidth
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
             label="Password"
-            
             value={formik.values.password}
             {...getFieldProps('password')}
             InputProps={{
@@ -126,6 +205,8 @@ export default function RegisterForm() {
             helperText={touched.password && errors.password}
           />
 
+<<<<<<< HEAD
+=======
           {/* name 성명 */}
             <TextField
               fullWidth
@@ -174,6 +255,7 @@ export default function RegisterForm() {
             </TextField>
           </Box>
 
+>>>>>>> 101dc392b5e82461003f4c4bbf4649623af40507
           {/* <FormControl component="fieldset">
               <FormLabel component="legend">Gender</FormLabel>
               <RadioGroup aria-label="sex" name="gender1" 
@@ -195,6 +277,32 @@ export default function RegisterForm() {
             </FormControl>
           </TextField> */}
 
+<<<<<<< HEAD
+          {/* 성별 선택 UI */}
+          <Box
+            component="form"
+            sx={{
+              '& .MuiTextField-root': { m: 1, width: '25ch' },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <TextField
+              id="outlined-select-currency"
+              select
+              label="Select"
+              value={currency}
+              onChange={handleChange}
+              helperText="Please select your gender"
+            >
+              {currencies.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Box>
+=======
           {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
               label="Material Date Picker"
@@ -203,6 +311,7 @@ export default function RegisterForm() {
             />
           </MuiPickersUtilsProvider> */}
 
+>>>>>>> 101dc392b5e82461003f4c4bbf4649623af40507
           <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
             Register
           </LoadingButton>
