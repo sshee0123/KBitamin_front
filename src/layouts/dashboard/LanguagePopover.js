@@ -41,7 +41,7 @@ export default function LanguagePopover() {
 
   return (
     <>
-      <IconButton
+      {/* <IconButton
         ref={anchorRef}
         onClick={handleOpen}
         sx={{
@@ -54,7 +54,7 @@ export default function LanguagePopover() {
         }}
       >
         <img src={LANGS[0].icon} alt={LANGS[0].label} />
-      </IconButton>
+      </IconButton> */}
 
       <MenuPopover
         open={open}

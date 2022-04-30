@@ -3,23 +3,20 @@ import React, { useState, Component } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
 // material
-import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
+import { Stack, TextField, IconButton, InputAdornment, MenuItem } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
-// 라디오 버튼 
+// 라디오 버튼
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 // // --- Material Ui Imports --- //
-// import { Typography, Container, Button, Box } from '@material-ui/core';
+import { Typography, Container, Button, Box } from '@material-ui/core';
 // --- Material Ui Picker Imports --- //
-import DateFnsUtils from "@date-io/date-fns";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker
-} from "@material-ui/pickers";
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 // component
 import Iconify from '../../../components/Iconify';
 import MemberService from '../../../service/MemberService';
@@ -51,13 +48,29 @@ export default function RegisterForm() {
     onSubmit: () => {
       navigate('/dashboard/app', { replace: true });
       console.log('성별 뭐야 ? ',formik.values.sex);
+      // 함수 인자 참고 register(id, email, password, username, birthDate, phone, sex), 폰 추후 없애야함
       MemberService.register(formik.values.Id,formik.values.email, formik.values.password, formik.values.Name, new Date("1999-11-06")
-      , "010-0000-0000", 'X'
+      , "010-0000-0000", 'F'
       );
       
     },
   });
 
+  // 남, 녀 선택 위한 코드 currencies
+  const currencies = [
+    {
+      value: 'M',
+      label: 'Male',
+    },
+    {
+      value: 'F',
+      label: 'Female',
+    },
+    {
+      value: 'N',
+      label: 'Secret',
+    }
+  ];
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
   const [selectedDate, setSelectedDate] = useState(new Date());
   const handleDateChange = (date) => {
@@ -65,26 +78,24 @@ export default function RegisterForm() {
     setSelectedDate(date);
   };
 
-  /*
-  const handleChange = (event) => {
-    setValues(event.target.value);
+  // 남, 녀 선택 위한 코드 이하 5줄
+  const [currency, setCurrency] = React.useState('M');
+  // const handleChange = (event) => {
+  //   setValues(event.target.value);
+  // };
+
+  const handleSexChange = (event) => {
+    setValues({sex:event.target.value});
   };
-  */
+
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}> */}
-            <TextField
-              fullWidth
-              label="name"
-              value={formik.values.Name}
-              {...getFieldProps('Name')}
-              error={Boolean(touched.Name && errors.Name)}
-              helperText={touched.Name && errors.Name}
-            />
 
-            <TextField
+          {/* id */}
+          <TextField
               fullWidth
               label="id"
               value={formik.values.Id}
@@ -93,37 +104,7 @@ export default function RegisterForm() {
               helperText={touched.Id && errors.Id}
             />
 
-            {/* <TextField
-              fullWidth
-              label="Last name"
-              {...getFieldProps('lastName')}
-              error={Boolean(touched.lastName && errors.lastName)}
-              helperText={touched.lastName && errors.lastName}
-            />
-          </Stack> */}
-
-          {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
-
-            <KeyboardDatePicker
-              label="Material Date Picker"
-              value={selectedDate}
-              onChange={handleDateChange}
-            />
-
-          </MuiPickersUtilsProvider> */}
-
-
-          <TextField
-            fullWidth
-            autoComplete="username"
-            type="email"
-            label="Email address"
-            value={formik.values.email}
-            {...getFieldProps('email')}
-            error={Boolean(touched.email && errors.email)}
-            helperText={touched.email && errors.email}
-          />
-
+          {/* password */}
           <TextField
             fullWidth
             autoComplete="current-password"
@@ -144,8 +125,56 @@ export default function RegisterForm() {
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
           />
-          {/*
-              <FormControl component="fieldset">
+
+          {/* name 성명 */}
+            <TextField
+              fullWidth
+              label="name"
+              value={formik.values.Name}
+              {...getFieldProps('Name')}
+              error={Boolean(touched.Name && errors.Name)}
+              helperText={touched.Name && errors.Name}
+            />
+
+          {/* email address */}
+          <TextField
+            fullWidth
+            autoComplete="username"
+            type="email"
+            label="Email address"
+            value={formik.values.email}
+            {...getFieldProps('email')}
+            error={Boolean(touched.email && errors.email)}
+            helperText={touched.email && errors.email}
+          />
+            {/* 성별 선택 UI */}
+            <Box
+            component="form"
+            sx={{
+              '& .MuiTextField-root': { m: 1, width: '25ch' },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <TextField
+              id="outlined-select-currency"
+              select
+              // label="Select"
+              label="sex"
+              // value={currency}
+              value={formik.values.sex}
+              onChange={handleSexChange}
+              helperText="Please select your gender"
+            >
+              {currencies.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Box>
+
+          {/* <FormControl component="fieldset">
               <FormLabel component="legend">Gender</FormLabel>
               <RadioGroup aria-label="sex" name="gender1" 
               value={formik.values.sex}
@@ -154,8 +183,26 @@ export default function RegisterForm() {
                 <FormControlLabel value="X" control={<Radio />} label="Female" />
                 <FormControlLabel value="Y" control={<Radio />} label="Male" />
               </RadioGroup>
+          
+          </FormControl> */}
+          {/* <TextField>
+            <FormControl>
+              <FormLabel id="demo-row-radio-buttons-group-label">성별</FormLabel>
+              <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
+                <FormControlLabel value="female" control={<Radio />} label="Female" />
+                <FormControlLabel value="male" control={<Radio />} label="Male" />
+              </RadioGroup>
             </FormControl>
-          */}
+          </TextField> */}
+
+          {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              label="Material Date Picker"
+              value={selectedDate}
+              onChange={handleDateChange}
+            />
+          </MuiPickersUtilsProvider> */}
+
           <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
             Register
           </LoadingButton>
