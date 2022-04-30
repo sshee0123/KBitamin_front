@@ -39,20 +39,13 @@ export default function LoginForm() {
       // navigate('/dashboard', { replace: true });
       MemberService.login(formik.values.id, formik.values.password).then(() => {
         // window.location.href = "/main-board";
+        // 로그인 정보 저장
+        handleUserMock();
         navigate('/dashboard/app', { replace: true });
-        account.displayName=MemberService.getCurrentUser().id;
-        account.email=MemberService.getCurrentUser().email;
-        console.log(MemberService.getCurrentUser().id);
-        console.log(MemberService.getCurrentUser().email);
     },
     error => { const resMessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
       console.log('로그인 오류!');
-      <Alert severity="error">
-        <AlertTitle>Error</AlertTitle>
-        아이디 혹은 비밀번호를 다시 확인해주세요. — <strong>check it out!</strong>
-      </Alert>
-      setValueState({ loading: false, message: resMessage });
-      // window.location.reload();
+      window.location.reload();
       
     });
     },
@@ -63,6 +56,13 @@ export default function LoginForm() {
   const handleShowPassword = () => {
     setShowPassword((show) => !show);
     
+  };
+
+  const handleUserMock = () => {
+    account.displayName=MemberService.getCurrentUser().id;
+    account.email=MemberService.getCurrentUser().email;
+    console.log(MemberService.getCurrentUser().id);
+    console.log(MemberService.getCurrentUser().email);    
   };
 
   return (
