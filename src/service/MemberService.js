@@ -22,9 +22,9 @@ class MemberService{
     }
 
     // eslint-disable-next-line class-methods-use-this
-    register(id, email, password, username, birthDate, phone, sex) {
+    register(id, email, password, username, birthDate, sex) {
         console.log('register !');
-        return axios.post(`${MEMBER_API_BASE_URL}/signup` , { id, username, email, password, birthDate, phone, sex});
+        return axios.post(`${MEMBER_API_BASE_URL}/signup` , { id, username, email, password, birthDate, sex});
     }
 
     // eslint-disable-next-line class-methods-use-this

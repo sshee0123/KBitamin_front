@@ -21,6 +21,8 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picker
 import Iconify from '../../../components/Iconify';
 import MemberService from '../../../service/MemberService';
 import UserService from '../../../service/UserService';
+// mocks_
+import account from '../../../_mock/account';
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
@@ -47,7 +49,6 @@ export default function RegisterForm() {
       email: '',
       password: '',
       birthDate: "",
-      phone: '',
       sex: '',
     },
     validationSchema: RegisterSchema,
@@ -56,7 +57,6 @@ export default function RegisterForm() {
         username: formik.values.Name,
         email: formik.values.email,
         password: formik.values.password,
-        phone: formik.values.phone,
         sex: formik.values.sex,
         birthDate: formik.values.birthDate
       };
@@ -67,6 +67,8 @@ export default function RegisterForm() {
         // pathname: "/set_account",
         //  state: { message: response.data.message, successful: true }
         // })
+        handleUserMock();
+        
         alert('회원정보 수정완료');
     }, 
     error =>{
@@ -85,6 +87,10 @@ export default function RegisterForm() {
 
   });
 
+  const handleUserMock = () => {
+    account.email=formik.values.email;
+    console.log(formik.values.email);    
+  };
   useEffect(() => {
     UserService.getUserInfo(MemberService.getCurrentUser().id).then((res) => {
       formik.values.Id = res.data.id;
