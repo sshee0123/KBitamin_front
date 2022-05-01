@@ -44,7 +44,7 @@ if(!MemberService.getCurrentUser()){
       icon: getIcon('eva:person-add-fill'),
     },
     {
-      title: 'Not found',
+      title: 'Calendar(Not found)',
       path: '/404',
       icon: getIcon('eva:alert-triangle-fill'),
     },
