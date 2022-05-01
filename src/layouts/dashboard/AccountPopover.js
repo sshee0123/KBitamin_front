@@ -19,7 +19,7 @@ const MENU_OPTIONS = [
   {
     label: 'Profile',
     icon: 'eva:person-fill',
-    linkTo: '#',
+    linkTo: '/profile',
   },
   {
     label: 'Settings',
@@ -42,7 +42,6 @@ export default function AccountPopover() {
     }
     else{
       setOpen(event.currentTarget);
-      console.log(MemberService.getCurrentUser().id);
     }
   };
 
