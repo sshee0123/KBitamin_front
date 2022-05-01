@@ -50,7 +50,7 @@ export default function RegisterForm() {
       console.log('성별 뭐야 ? ',formik.values.sex);
       // 함수 인자 참고 register(id, email, password, username, birthDate, phone, sex), 폰 추후 없애야함
       MemberService.register(formik.values.Id,formik.values.email, formik.values.password, formik.values.Name, new Date("1999-11-06")
-      , "010-0000-0000", 'F'
+      , "010-0000-0000", formik.values.sex
       );
     },
   });
@@ -98,6 +98,7 @@ export default function RegisterForm() {
 
   const handleSexChange = (event) => {
     console.log(event.target.value)
+    formik.values.sex = event.target.value;
     setValues({sex:event.target.value});
   };
 
