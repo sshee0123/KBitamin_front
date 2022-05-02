@@ -67,7 +67,11 @@ export default function RegisterForm() {
         // pathname: "/set_account",
         //  state: { message: response.data.message, successful: true }
         // })
+
+        MemberService.logout();
+
         handleUserMock();
+        
         
         alert('회원정보 수정완료');
     }, 
@@ -89,7 +93,9 @@ export default function RegisterForm() {
 
   const handleUserMock = () => {
     account.email=formik.values.email;
-    console.log(formik.values.email);    
+    console.log('account.email', account.email);  
+    console.log('formik.values.email', formik.values.email);  
+    
   };
   useEffect(() => {
     UserService.getUserInfo(MemberService.getCurrentUser().id).then((res) => {
