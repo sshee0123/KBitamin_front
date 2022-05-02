@@ -58,6 +58,8 @@ export default function AccountPopover() {
     window.location.href = "/dashboard/app";
   };
   const handleUserInfo = (info) => {
+    console.log('handleUserInfo 내 계정 확인해줘. AccountPropover');
+    
     if(MemberService.getCurrentUser()){
       if(info=='id'){
         return MemberService.getCurrentUser().id;

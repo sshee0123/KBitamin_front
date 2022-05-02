@@ -20,14 +20,14 @@ import {
 
 // ----------------------------------------------------------------------
 
-export default function DashboardApp() {
+export default function Calendar() {
   const theme = useTheme();
 
   return (
-    <Page title="Dashboard">
+    <Page title="Calendar">
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome K-Bitamin
+          Hi, Welcome K-Bitamin's Calendar
         </Typography>
 
         <Grid container spacing={3}>

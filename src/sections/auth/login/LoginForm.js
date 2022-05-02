@@ -59,7 +59,6 @@ export default function LoginForm() {
   };
 
   const handleUserMock = () => {
-    alert(MemberService.getCurrentUser().id);
     account.displayName=MemberService.getCurrentUser().id;
     account.email=MemberService.getCurrentUser().email;
     console.log(MemberService.getCurrentUser().id);

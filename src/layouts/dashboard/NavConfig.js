@@ -48,6 +48,11 @@ if(!MemberService.getCurrentUser()){
       path: '/404',
       icon: getIcon('eva:alert-triangle-fill'),
     },
+    {
+      title: 'Calendar',
+      path: '/dashboard/calendar',
+      icon: getIcon('eva:alert-triangle-fill'),
+    }
   ];
 }
 
@@ -78,6 +83,11 @@ if(MemberService.getCurrentUser()){
       path: '/404',
       icon: getIcon('eva:alert-triangle-fill'),
     },
+    {
+      title: 'Calendar',
+      path: '/dashboard/calendar',
+      icon: getIcon('eva:alert-triangle-fill'),
+    }
   ];
 }
 
