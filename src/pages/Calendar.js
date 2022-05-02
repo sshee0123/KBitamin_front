@@ -43,9 +43,12 @@ export default function Calendar() {
     }, []);
   return (
     
-    <Page title="404 Page Not Found">
+    <Page title="Calendar Page">
       <Container>
         <ContentStyle>
+        <Typography variant="h4" sx={{ mb: 5 }}>
+          Hi, Welcome K-Bitamin's Calendar
+        </Typography>
           <Eventcalendar
             theme="ios"
             themeVariant="light"
