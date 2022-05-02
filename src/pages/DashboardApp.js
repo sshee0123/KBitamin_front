@@ -27,7 +27,7 @@ export default function Calendar() {
     <Page title="Calendar">
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome K-Bitamin's Calendar
+          Hi, Welcome K-Bitamin
         </Typography>
 
         <Grid container spacing={3}>

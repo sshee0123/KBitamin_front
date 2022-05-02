@@ -19,6 +19,11 @@ if(!MemberService.getCurrentUser()){
       icon: getIcon('eva:pie-chart-2-fill'),
     },
     {
+      title: 'MediInfo',
+      path: '/dashboard/mediInfo',
+      icon: getIcon('eva:alert-triangle-fill'),
+    },
+    {
       title: 'user',
       path: '/dashboard/user',
       icon: getIcon('eva:people-fill'),
@@ -62,6 +67,11 @@ if(MemberService.getCurrentUser()){
       title: 'dashboard',
       path: '/dashboard/app',
       icon: getIcon('eva:pie-chart-2-fill'),
+    },
+    {
+      title: 'MediInfo',
+      path: '/dashboard/mediInfo',
+      icon: getIcon('eva:alert-triangle-fill'),
     },
     {
       title: 'user',
