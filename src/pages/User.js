@@ -136,10 +136,10 @@ export default function User() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            My Medi
+            My Medicine
           </Typography>
-          <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New Medicine
+          <Button variant="contained" component={RouterLink} to="/dashboard/blog" startIcon={<Iconify icon="eva:plus-fill" />}>
+           Add My Medicine
           </Button>
         </Stack>
 

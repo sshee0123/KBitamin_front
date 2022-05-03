@@ -41,7 +41,6 @@ import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 // mock
-import USERLIST from '../_mock/user';
 import MEDICINELIST from '../_mock/medicine';
 
 // import { id } from 'date-fns/locale';
@@ -49,12 +48,6 @@ import MEDICINELIST from '../_mock/medicine';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  // 원래 id 값 우선 보존
-  // { id: 'name', label: '의약품', alignRight: false },
-  // { id: 'role', label: '외형정보', alignRight: false },
-  // { id: 'isVerified', label: '효능', alignRight: false },
-  // { id: '' }
-
   { id: 'medicineName', label: '의약품', alignRight: false },
   { id: 'shape', label: '외형정보', alignRight: false },
   { id: 'efficacy', label: '효능', alignRight: false },
@@ -87,7 +80,6 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    // return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
     return filter(array, (_user) => _user.medicineName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
@@ -104,11 +96,8 @@ export default function MediInfo() {
   const [orderBy, setOrderBy] = useState('medicineName');
 
   const [filterName, setFilterName] = useState('');
-  // const [filterMedicine, setFilterMedicine] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  // const [formats, setFormats] = useState({shape:'ALL', color:'ALL', fomula:'ALL',dividing:'ALL'});
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -194,7 +183,7 @@ export default function MediInfo() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Medi Info
+            Medicine Information
           </Typography>
           
         </Stack>
@@ -255,55 +244,55 @@ export default function MediInfo() {
       <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
        </Stack>
 
-       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-       <Button>모양 전체</Button>
+       <Stack direction="row" alignItems="center" mb={3} spacing = {3}>
+       <Button style={{backgroundColor:'Highlight', color:'-moz-initial'}}>모양 전체</Button>
 
-       <Button>원형</Button>
-       <Button>타원형</Button>
-       <Button>반원형</Button>
-       <Button>삼각형</Button>
-       <Button>사각형</Button>
-       <Button>마름모형</Button>
-       <Button>장방형</Button>
-       <Button>오각형</Button>
-       <Button>육각형</Button>
+       <Button style={{color:'black'}}>원형</Button>
+       <Button style={{color:'black'}}>타원형</Button>
+       <Button style={{color:'black'}}>반원형</Button>
+       <Button style={{color:'black'}}>삼각형</Button>
+       <Button style={{color:'black'}}>사각형</Button>
+       <Button style={{color:'black'}}>마름모형</Button>
+       <Button style={{color:'black'}}>장방형</Button>
+       <Button style={{color:'black'}}>오각형</Button>
+       <Button style={{color:'black'}}>육각형</Button>
        {/* 모양 버튼 추가 - 추후 이쁘게 */}
 
 
        </Stack>
-       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-       <Button>색상 전체</Button>
+       <Stack direction="row" alignItems="center" mb={3} spacing = {3}>
+       <Button style={{backgroundColor:'Highlight', color:'-moz-initial'}}>색상 전체</Button>
 
-       <Button>하양</Button>
-       <Button>노랑</Button>
-       <Button>주황</Button>
-       <Button>분홍</Button>
-       <Button>빨강</Button>
-       <Button>갈색</Button>
-       <Button>연두</Button>
-       <Button>초록</Button>
-       <Button>청록</Button>
+       <Button style={{backgroundColor:'whitesmoke',color:'black'}}>하양</Button>
+       <Button style={{backgroundColor:'yellow',color:'black'}}>노랑</Button>
+       <Button style={{backgroundColor:'orange',color:'black'}}>주황</Button>
+       <Button style={{backgroundColor:'pink',color:'black'}}>분홍</Button>
+       <Button style={{backgroundColor:'red',color:'black'}}>빨강</Button>
+       <Button style={{backgroundColor:'brown',color:'black'}}>갈색</Button>
+       <Button style={{backgroundColor:'greenyellow',color:'black'}}>연두</Button>
+       <Button style={{backgroundColor:'green',color:'black'}}>초록</Button>
+       <Button style={{backgroundColor:'#005666',color:'black'}}>청록</Button>
     {/* 색상 버튼 추가 - 추후 이쁘게 */}
 
 
        </Stack>
-       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-       <Button>제형 전체</Button>
+       <Stack direction="row" alignItems="center" mb={3} spacing = {3}>
+       <Button style={{backgroundColor:'Highlight', color:'-moz-initial'}}>제형 전체</Button>
 
-       <Button>정제류</Button>
-       <Button>경질캡슐</Button>
-       <Button>연질캡슐</Button>
+       <Button style={{color:'black'}}>정제류</Button>
+       <Button style={{color:'black'}}>경질캡슐</Button>
+       <Button style={{color:'black'}}>연질캡슐</Button>
 
       {/* 제형 버튼 추가 - 추후 이쁘게 */}
 
        </Stack>
-       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-       <Button>분할선 전체</Button>
+       <Stack direction="row" alignItems="center" mb={3} spacing = {3}>
+       <Button style={{backgroundColor:'Highlight', color:'-moz-initial'}}>분할선 전체</Button>
 
-       <Button>없음</Button>
-       <Button>(-)형</Button>
-       <Button>(+)형</Button>
-       <Button>기타</Button>
+       <Button style={{color:'black'}}>없음</Button>
+       <Button style={{color:'black'}}>(-)형</Button>
+       <Button style={{color:'black'}}>(+)형</Button>
+       <Button style={{color:'black'}}>기타</Button>
       {/* 분할선 버튼 추가 - 추후 이쁘게 */}
 
 
@@ -330,7 +319,6 @@ export default function MediInfo() {
                     return (
                       <TableRow
                         hover
-                        // key={id}
                         key={medicineName}
                         tabIndex={-1}
                         role="checkbox"
