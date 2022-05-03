@@ -19,6 +19,22 @@ import {
   TablePagination,
 } from '@mui/material';
 // components
+import { LoadingButton } from '@mui/lab';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+// eslint-disable-next-line import/no-unresolved
+import FormatBoldIcon from '@material-ui/icons/FormatBold';
+import FormatItalicIcon from '@material-ui/icons/FormatItalic';
+import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import FormatUnderlinedIcon from '@material-ui/icons/FormatUnderlined';
+import { deepOrange, deepPurple, green, pink, red, yellow } from '@mui/material/colors';
+import LaptopIcon from '@material-ui/icons/Laptop';
+import TvIcon from '@material-ui/icons/Tv';
+import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
@@ -28,6 +44,8 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashbo
 // mock
 import USERLIST from '../_mock/user';
 
+// Button
+// import Button from '@material-ui/core/Button';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -76,6 +94,7 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function MediInfo() {
+  
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -88,6 +107,8 @@ export default function MediInfo() {
   // const [filterMedicine, setFilterMedicine] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  // const [formats, setFormats] = useState({shape:'ALL', color:'ALL', fomula:'ALL',dividing:'ALL'});
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -132,6 +153,32 @@ export default function MediInfo() {
     setFilterName(event.target.value);
   };
 
+  // Toggle function
+  const useStyles = makeStyles((theme) => ({
+    toggleContainer: {
+      margin: theme.spacing(2, 0),
+    },
+  }));
+
+  const [alignment, setAlignment] = useState('left');
+  const [formats, setFormats] = useState(() => ['phone']);
+
+  const handleFormat = (event, newFormats) => {
+    console.log(newFormats);
+    if (newFormats.length) {
+      setFormats(newFormats);
+    }
+  };
+
+  const handleAlignment = (event, newAlignment) => {
+    console.log(newAlignment);
+    if (newAlignment !== null) {
+      setAlignment(newAlignment);
+    }
+  };
+
+  const classes = useStyles();
+
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
   const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
@@ -146,6 +193,55 @@ export default function MediInfo() {
             Medi Info
           </Typography>
         </Stack>
+        <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+
+
+        <Grid container direction="column" spacing={2}>
+      <Grid item sm={10} md={6}>
+        <div className={classes.toggleContainer}>
+          <ToggleButtonGroup
+            value={alignment}
+            exclusive
+            onChange={handleAlignment}
+            aria-label="text alignment"
+          >
+            <ToggleButton value="all" aria-label="left aligned">
+            <Avatar src={'/static/mock-images/avatars/avatar_default.jpg'} alt="photoURL" />
+            </ToggleButton>
+            <ToggleButton value="yellow" aria-label="centered">
+            <Avatar sx={{ bgcolor: yellow[500], fontSize: "0.8rem"}}>노랑</Avatar>
+            </ToggleButton>
+            <ToggleButton value="orange" aria-label="centered">
+            <Avatar sx={{ bgcolor: deepOrange[500], fontSize: "0.8rem"}}>주황</Avatar>
+            </ToggleButton>
+            <ToggleButton value="pink" aria-label="centered">
+            <Avatar sx={{ bgcolor: pink[200], fontSize: "0.8rem"}}>분홍</Avatar>
+            </ToggleButton>
+            <ToggleButton value="red" aria-label="centered">
+            <Avatar sx={{ bgcolor: red[500], fontSize: "0.8rem"}}>빨강</Avatar>
+            </ToggleButton>
+            <ToggleButton value="green" aria-label="right aligned">
+            <Avatar sx={{ bgcolor: green[500] , fontSize: "0.8rem"}}>초록</Avatar>
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </div>
+      </Grid>
+      <Grid item sm={12} md={6}>
+        <div className={classes.toggleContainer}>
+          <ToggleButtonGroup value={formats} onChange={handleFormat} aria-label="device">
+            <ToggleButton value="laptop" aria-label="laptop">
+              <LaptopIcon />
+            </ToggleButton>
+            <ToggleButton value="tv" aria-label="tv">
+              <TvIcon />
+            </ToggleButton>
+            <ToggleButton value="phone" aria-label="phone">
+              <PhoneAndroidIcon />
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </div>
+      </Grid>
+    </Grid>
 
 
   {/* Medicine 검색 조건 */}
@@ -235,9 +331,7 @@ export default function MediInfo() {
                         selected={isItemSelected}
                         aria-checked={isItemSelected}
                       >
-                        <TableCell padding="checkbox">
-                          <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} />
-                        </TableCell>
+                        <TableCell> </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
                             <Avatar alt={name} src={avatarUrl} />
@@ -249,9 +343,6 @@ export default function MediInfo() {
                         <TableCell align="left">{role}</TableCell>
                         <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
 
-                        <TableCell align="right">
-                          <UserMoreMenu />
-                        </TableCell>
                       </TableRow>
                     );
                   })}
