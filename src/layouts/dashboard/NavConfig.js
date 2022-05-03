@@ -21,7 +21,7 @@ if(!MemberService.getCurrentUser()){
     {
       title: 'MediInfo',
       path: '/dashboard/mediInfo',
-      icon: getIcon('eva:alert-triangle-fill'),
+      icon: getIcon('eva:info-fill'),
     },
     {
       title: 'user',
@@ -48,15 +48,15 @@ if(!MemberService.getCurrentUser()){
       path: '/register',
       icon: getIcon('eva:person-add-fill'),
     },
-    {
-      title: 'Calendar(Not found)',
-      path: '/404',
-      icon: getIcon('eva:alert-triangle-fill'),
-    },
+//    {
+//     title: 'Calendar(Not found)',
+//      path: '/404',
+//      icon: getIcon('eva:alert-triangle-fill'),
+//    },
     {
       title: 'Calendar',
       path: '/dashboard/calendar',
-      icon: getIcon('eva:alert-triangle-fill'),
+      icon: getIcon('eva:calendar-fill'),
     }
   ];
 }
@@ -71,7 +71,7 @@ if(MemberService.getCurrentUser()){
     {
       title: 'MediInfo',
       path: '/dashboard/mediInfo',
-      icon: getIcon('eva:alert-triangle-fill'),
+      icon: getIcon('eva:info-fill'),
     },
     {
       title: 'user',
@@ -88,15 +88,15 @@ if(MemberService.getCurrentUser()){
       path: '/dashboard/blog',
       icon: getIcon('eva:file-text-fill'),
     },
-    {
-      title: 'Not found',
-      path: '/404',
-      icon: getIcon('eva:alert-triangle-fill'),
-    },
+//    {
+//     title: 'Calendar(Not found)',
+//      path: '/404',
+//      icon: getIcon('eva:alert-triangle-fill'),
+//    },
     {
       title: 'Calendar',
       path: '/dashboard/calendar',
-      icon: getIcon('eva:alert-triangle-fill'),
+      icon: getIcon('eva:calendar-fill'),
     }
   ];
 }

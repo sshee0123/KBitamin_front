@@ -23,6 +23,7 @@ import { LoadingButton } from '@mui/lab';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+// eslint-disable-next-line import/no-unresolved
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
 import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
@@ -42,23 +43,22 @@ import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
-import MEDICINELIST from '../_mock/medicine';
 
-// import { id } from 'date-fns/locale';
-
+// Button
+// import Button from '@material-ui/core/Button';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   // 원래 id 값 우선 보존
-  // { id: 'name', label: '의약품', alignRight: false },
-  // { id: 'role', label: '외형정보', alignRight: false },
-  // { id: 'isVerified', label: '효능', alignRight: false },
-  // { id: '' }
+  { id: 'name', label: '의약품', alignRight: false },
+  { id: 'role', label: '외형정보', alignRight: false },
+  { id: 'isVerified', label: '효능', alignRight: false },
+  { id: '' }
 
-  { id: 'medicineName', label: '의약품', alignRight: false },
-  { id: 'shape', label: '외형정보', alignRight: false },
-  { id: 'efficacy', label: '효능', alignRight: false },
-  { id: '' },
+  // { id: 'medicine', label: '의약품', alignRight: false },
+  // { id: 'medicine_shape', label: '외형정보', alignRight: false },
+  // { id: 'medicine_efficacy', label: '효능', alignRight: false },
+  // { id: '' },
 ];
 
 // ----------------------------------------------------------------------
@@ -87,8 +87,8 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    // return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
-    return filter(array, (_user) => _user.medicineName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    // return filter(array, (_user) => _user.medicine.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -98,10 +98,10 @@ export default function MediInfo() {
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
- 
+
   const [selected, setSelected] = useState([]);
 
-  const [orderBy, setOrderBy] = useState('medicineName');
+  const [orderBy, setOrderBy] = useState('name');
 
   const [filterName, setFilterName] = useState('');
   // const [filterMedicine, setFilterMedicine] = useState('');
@@ -118,7 +118,7 @@ export default function MediInfo() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = MEDICINELIST.map((n) => n.medicineName);
+      const newSelecteds = USERLIST.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -183,9 +183,9 @@ export default function MediInfo() {
 
   const classes = useStyles();
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - MEDICINELIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
-  const filteredUsers = applySortFilter(MEDICINELIST, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
 
@@ -196,10 +196,11 @@ export default function MediInfo() {
           <Typography variant="h4" gutterBottom>
             Medi Info
           </Typography>
-          
         </Stack>
-
-      {/* <Grid container direction="column" spacing={2}>
+        <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+        
+ {/*
+        <Grid container direction="column" spacing={2}>
       <Grid item sm={10} md={6}>
         <div className={classes.toggleContainer}>
           <ToggleButtonGroup
@@ -229,7 +230,6 @@ export default function MediInfo() {
           </ToggleButtonGroup>
         </div>
       </Grid>
-      
       <Grid item sm={12} md={6}>
         <div className={classes.toggleContainer}>
           <ToggleButtonGroup value={formats} onChange={handleFormat} aria-label="device">
@@ -245,14 +245,15 @@ export default function MediInfo() {
           </ToggleButtonGroup>
         </div>
       </Grid>
-    </Grid> */}
-
+      
+    </Grid>
+*/}
 
   {/* Medicine 검색 조건 */}
       <Card>
        
-       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-      <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
+       <div>    검색 조건 여기에<UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} /></div> 
        </Stack>
 
        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -316,40 +317,36 @@ export default function MediInfo() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={MEDICINELIST.length}
+                  rowCount={USERLIST.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    // const { id, name, role, avatarUrl, isVerified } = row;
-                    const { medicineName, shape, efficacy} = row;
-                    const isItemSelected = selected.indexOf(medicineName) !== -1;
+                    const { id, name, role, avatarUrl, isVerified } = row;
+                    const isItemSelected = selected.indexOf(name) !== -1;
 
                     return (
                       <TableRow
                         hover
-                        // key={id}
-                        key={medicineName}
+                        key={id}
                         tabIndex={-1}
                         role="checkbox"
                         selected={isItemSelected}
-                        // 해야함
                         aria-checked={isItemSelected}
                       >
                         <TableCell> </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            {/* <Avatar alt={medicine_name} src={} /> */}
-                            {/* 여기 Avatar src에 이미지url 들어가야함. */}
+                            <Avatar alt={name} src={avatarUrl} />
                             <Typography variant="subtitle2" noWrap>
-                              {medicineName}
+                              {name}
                             </Typography>
                           </Stack>
                         </TableCell>
-                        <TableCell align="left">{shape}</TableCell>
-                        <TableCell align="left">{efficacy}</TableCell>
+                        <TableCell align="left">{role}</TableCell>
+                        <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
 
                       </TableRow>
                     );
@@ -377,7 +374,7 @@ export default function MediInfo() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={MEDICINELIST.length}
+            count={USERLIST.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
