@@ -324,9 +324,9 @@ export default function MediInfo() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, imageUrl, isVerified } = row;
+                    const { id, name, role, avatarUrl, isVerified } = row;
                     const isItemSelected = selected.indexOf(name) !== -1;
-                    console.log('id ',id);
+
                     return (
                       <TableRow
                         hover
@@ -339,7 +339,7 @@ export default function MediInfo() {
                         <TableCell> </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={imageUrl} />
+                            <Avatar alt={name} src={avatarUrl} />
                             <Typography variant="subtitle2" noWrap>
                               {name}
                             </Typography>
