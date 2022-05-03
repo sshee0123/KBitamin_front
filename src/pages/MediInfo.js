@@ -31,11 +31,16 @@ import USERLIST from '../_mock/user';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
+  // 원래 id 값 우선 보존
   { id: 'name', label: '의약품', alignRight: false },
-  { id: 'role', label: '복용 날짜', alignRight: false },
-  { id: 'isVerified', label: '부작용', alignRight: false },
-  { id: 'status', label: '복용중', alignRight: false },
-  { id: '' },
+  { id: 'role', label: '외형정보', alignRight: false },
+  { id: 'isVerified', label: '효능', alignRight: false },
+  { id: '' }
+
+  // { id: 'medicine', label: '의약품', alignRight: false },
+  // { id: 'medicine_shape', label: '외형정보', alignRight: false },
+  // { id: 'medicine_efficacy', label: '효능', alignRight: false },
+  // { id: '' },
 ];
 
 // ----------------------------------------------------------------------
@@ -65,6 +70,7 @@ function applySortFilter(array, comparator, query) {
   });
   if (query) {
     return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    // return filter(array, (_user) => _user.medicine.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -79,6 +85,7 @@ export default function MediInfo() {
   const [orderBy, setOrderBy] = useState('name');
 
   const [filterName, setFilterName] = useState('');
+  // const [filterMedicine, setFilterMedicine] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -138,14 +145,70 @@ export default function MediInfo() {
           <Typography variant="h4" gutterBottom>
             Medi Info
           </Typography>
-          <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New Medicine
-          </Button>
         </Stack>
 
-        <Card>
-          <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
+  {/* Medicine 검색 조건 */}
+      <Card>
+       
+       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
+       <div>    검색 조건 여기에<UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} /></div> 
+       </Stack>
+
+       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+       <Button>모양 전체</Button>
+
+       <Button>원형</Button>
+       <Button>타원형</Button>
+       <Button>반원형</Button>
+       <Button>삼각형</Button>
+       <Button>사각형</Button>
+       <Button>마름모형</Button>
+       <Button>장방형</Button>
+       <Button>오각형</Button>
+       <Button>육각형</Button>
+       {/* 모양 버튼 추가 - 추후 이쁘게 */}
+
+
+       </Stack>
+       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+       <Button>색상 전체</Button>
+
+       <Button>하양</Button>
+       <Button>노랑</Button>
+       <Button>주황</Button>
+       <Button>분홍</Button>
+       <Button>빨강</Button>
+       <Button>갈색</Button>
+       <Button>연두</Button>
+       <Button>초록</Button>
+       <Button>청록</Button>
+    {/* 색상 버튼 추가 - 추후 이쁘게 */}
+
+
+       </Stack>
+       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+       <Button>제형 전체</Button>
+
+       <Button>정제류</Button>
+       <Button>경질캡슐</Button>
+       <Button>연질캡슐</Button>
+
+      {/* 제형 버튼 추가 - 추후 이쁘게 */}
+
+       </Stack>
+       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+       <Button>분할선 전체</Button>
+
+       <Button>없음</Button>
+       <Button>(-)형</Button>
+       <Button>(+)형</Button>
+       <Button>기타</Button>
+      {/* 분할선 버튼 추가 - 추후 이쁘게 */}
+
+
+       </Stack>
+          
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -160,7 +223,7 @@ export default function MediInfo() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, avatarUrl, isVerified } = row;
+                    const { id, name, role, avatarUrl, isVerified } = row;
                     const isItemSelected = selected.indexOf(name) !== -1;
 
                     return (
@@ -185,11 +248,6 @@ export default function MediInfo() {
                         </TableCell>
                         <TableCell align="left">{role}</TableCell>
                         <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
-                        <TableCell align="left">
-                          <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
-                            {sentenceCase(status)}
-                          </Label>
-                        </TableCell>
 
                         <TableCell align="right">
                           <UserMoreMenu />
