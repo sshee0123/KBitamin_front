@@ -9,8 +9,6 @@ const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 // eslint-disable-next-line import/no-mutable-exports
 let navConfig = null;
 
-console.log('Nav Rendering !')
-
 if(!MemberService.getCurrentUser()){
   navConfig = [
     {

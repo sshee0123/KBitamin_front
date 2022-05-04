@@ -25,12 +25,12 @@ import UserService from '../../../service/UserService';
 import account from '../../../_mock/account';
 // ----------------------------------------------------------------------
 
-export default function RegisterForm() {
+export default function ProfileForm() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const RegisterSchema = Yup.object().shape({
+  const ProfileSchema = Yup.object().shape({
     Id: Yup.string().min(5, 'Too Short!').max(20, 'Too Long!').required('name required'),
     Name: Yup.string().min(3, 'Too Short!').max(20, 'Too Long!').required('name required'),
     birth: Yup.date(),
@@ -51,7 +51,7 @@ export default function RegisterForm() {
       birthDate: "",
       sex: '',
     },
-    validationSchema: RegisterSchema,
+    validationSchema: ProfileSchema,
     onSubmit: () => {
       const user = {
         username: formik.values.Name,
