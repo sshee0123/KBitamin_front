@@ -112,19 +112,14 @@ const [inputData, setInputData] = useState([{
 
 useEffect(() => {
   MediService.getAllMedicineInfo().then((res) => {
-    // formik.values.Id = res.data.id;
-    console.log("MediInfo data length :  ",res.data.length);
-    console.log("MediInfo data :  ",res.data.name);
-    // 받아온 데이터로 다음 작업을 진행하기 위해 await 로 대기
-      // 받아온 데이터를 map 해주어 rowData 별로 _inputData 선언
-      // const _inputData = res.data.map((rowData) => ({
-      //   name: rowData.name,
-      //   shape: rowData.shape,
-      //   efficacy: rowData.efficacy
-      // })
-      // )
-      // 선언된 _inputData 를 최초 선언한 inputData 에 concat 으로 추가
-      // setInputData(inputData.concat(_inputData))
+    // const medicines = [...Array(24)].map((_, index) => ({
+    //   id:0,
+    //   medicineName:res.name
+
+    //   }));
+    console.log(res.data) // String
+    console.log('JSON : ', JSON.stringify(res.data));
+    console.log('efficacy : ', res.data.efficacy);
   }); 
 }, []);
 
