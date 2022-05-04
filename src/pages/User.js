@@ -1,6 +1,15 @@
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import '@mobiscroll/react/dist/css/mobiscroll.min.css';
+import { Dropdown, Input, setOptions } from '@mobiscroll/react';
+import { styled } from '@mui/material/styles';
+import { DateRangePicker, DateRange } from 'react-date-range';
+import 'react-date-range/dist/styles.css'; // main css file
+import 'react-date-range/dist/theme/default.css'; // theme css file
+import Box from '@mui/material/Box';
+import { addDays } from "date-fns"
+import Modal from '@mui/material/Modal';
+import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
@@ -28,6 +37,7 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashbo
 // mock
 import USERLIST from '../_mock/user';
 
+
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -37,6 +47,20 @@ const TABLE_HEAD = [
   { id: 'status', label: '복용중', alignRight: false },
   { id: '' },
 ];
+
+const style = {
+  
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 1000,
+  bgcolor: '#FCFCFC',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 
 // ----------------------------------------------------------------------
 
@@ -131,6 +155,19 @@ export default function User() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
+  
+  const [state, setState] = useState([
+    {
+      startDate: new Date(),
+      endDate: null,
+      key: 'selection'
+    }
+  ]);
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <Page title="User">
       <Container>
@@ -138,9 +175,57 @@ export default function User() {
           <Typography variant="h4" gutterBottom>
             My Medicine
           </Typography>
-          <Button variant="contained" component={RouterLink} to="/dashboard/blog" startIcon={<Iconify icon="eva:plus-fill" />}>
-           Add My Medicine
-          </Button>
+            <Button onClick={handleOpen}  variant="contained" startIcon= {<Iconify icon="eva:plus-fill" />}>Add My Medicine</Button>
+            <Modal
+              id = 'modal'
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx ={style}>
+              <div className="mbsc-grid mbsc-grid-fixed">
+                <div className="mbsc-form-group">
+                  <div className="mbsc-row mbsc-justify-content-center">
+                    <div className="mbsc-col-md-10 mbsc-col-xl-8 mbsc-form-grid">
+                      <div className="mbsc-form-group-title" id='mediInfoEnter'>약 정보 입력</div>
+
+                      <div className="mbsc-row">
+                        <div className="mbsc-col-md-6 mbsc-col-12">
+                          <Input type="text" label="약 이름" placeholder="약 이름" inputStyle="box" labelStyle="floating" />
+                          <Input type="text" label="약 이름" placeholder="약 이름" inputStyle="box" labelStyle="floating" />
+                          <Input type="text" label="약 이름" placeholder="약 이름" inputStyle="box" labelStyle="floating" />
+                          <p className='btn1'>
+                            <Button align='right'> + 약 추가</Button>
+                            &nbsp;&nbsp;&nbsp;
+                            <Button align='right'> - 삭제</Button>
+                          </p>
+                        </div>
+
+                        <div className="mbsc-col-md-6 mbsc-col-12">
+                          <DateRange
+                            // editableDateInputs={true}
+                            onChange={item => setState([item.selection])}
+                            moveRangeOnFirstSelection={false}
+                            ranges={state}
+                          />
+                          <p className='btn2'>
+                            <p>&nbsp;&nbsp;&nbsp;</p>
+                            <Button variant="contained">저장하기 </Button>
+                            &nbsp;&nbsp;&nbsp;
+                            <Button variant="contained" >취소</Button>
+                          </p>
+                        </div >
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+              </Box>
+            </Modal>
         </Stack>
 
         <Card>
