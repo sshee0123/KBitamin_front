@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
@@ -43,6 +43,8 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashbo
 // mock
 import MEDICINELIST from '../_mock/medicine';
 
+// MediService
+import MediService from '../service/MedicineService';
 // import { id } from 'date-fns/locale';
 
 // ----------------------------------------------------------------------
@@ -98,6 +100,33 @@ export default function MediInfo() {
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  
+// ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
+
+const [inputData, setInputData] = useState([{
+  name: '',
+  shape: '',
+  efficacy: ''
+}])
+
+useEffect(() => {
+  MediService.getAllMedicineInfo().then((res) => {
+    // formik.values.Id = res.data.id;
+    console.log("MediInfo data length :  ",res.data.length);
+    console.log("MediInfo data :  ",res.data.name);
+    // 받아온 데이터로 다음 작업을 진행하기 위해 await 로 대기
+      // 받아온 데이터를 map 해주어 rowData 별로 _inputData 선언
+      // const _inputData = res.data.map((rowData) => ({
+      //   name: rowData.name,
+      //   shape: rowData.shape,
+      //   efficacy: rowData.efficacy
+      // })
+      // )
+      // 선언된 _inputData 를 최초 선언한 inputData 에 concat 으로 추가
+      // setInputData(inputData.concat(_inputData))
+  }); 
+}, []);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
