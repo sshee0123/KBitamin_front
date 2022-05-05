@@ -211,9 +211,9 @@ export default function User() {
                           />
                           <p className='btn2'>
                             <p>&nbsp;&nbsp;&nbsp;</p>
-                            <Button variant="contained">저장하기 </Button>
+                            <Button variant="contained" onClick={handleClose}>저장하기 </Button>
                             &nbsp;&nbsp;&nbsp;
-                            <Button variant="contained" >취소</Button>
+                            <Button variant="contained" onClick={handleClose}>취소</Button>
                           </p>
                         </div >
                       </div>

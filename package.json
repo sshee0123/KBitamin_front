@@ -37,6 +37,10 @@
     ]
   },
   "dependencies": {
+    "@date-io/date-fns": "^2.13.1",
+    "@date-io/dayjs": "^2.13.1",
+    "@date-io/luxon": "^2.13.1",
+    "@date-io/moment": "^2.13.1",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@faker-js/faker": "^6.1.2",
@@ -48,6 +52,7 @@
     "@mobiscroll/react": "https://npm.mobiscroll.com/@mobiscroll/react-trial/-/react-trial-5.16.0.tgz",
     "@mui/lab": "^5.0.0-alpha.77",
     "@mui/material": "^5.6.4",
+    "@mui/x-date-pickers": "^5.0.0-alpha.2",
     "@testing-library/jest-dom": "^5.16.2",
     "apexcharts": "^3.35.0",
     "axios": "^0.27.2",

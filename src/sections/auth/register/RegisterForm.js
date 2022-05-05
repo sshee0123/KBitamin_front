@@ -3,13 +3,18 @@ import React, { useState, Component } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
 // material
-import { Stack, TextField, IconButton, InputAdornment, MenuItem } from '@mui/material';
+import { IconButton, InputAdornment, MenuItem } from '@mui/material';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+
 import { LoadingButton } from '@mui/lab';
+import { DatePicker } from '@mui/x-date-pickers';
 
 // datapicker
 import isWeekend from 'date-fns/isWeekend';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 
 // 라디오 버튼
@@ -26,9 +31,19 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picker
 // component
 import Iconify from '../../../components/Iconify';
 import MemberService from '../../../service/MemberService';
+import './RegisterForm.css'
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
+  // Datepicker 코드 
+  const [value, setValue] = React.useState(new Date());
+
+  const handleBirthChange = (newValue) => {
+    setValue(newValue);
+    formik.values.birth = newValue;
+  };
+  // Datepicker
+
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -105,12 +120,8 @@ export default function RegisterForm() {
 
   const handleSexChange = (event) => {
     formik.values.sex = event.target.value;
-    setValues({sex:event.target.value});
+    setValues({ sex: event.target.value });
   };
-
-  
-// -----DatePicker---------
-const [value, setValue] = React.useState(new Date());
 
   return (
     <FormikProvider value={formik}>
@@ -120,13 +131,13 @@ const [value, setValue] = React.useState(new Date());
 
           {/* id */}
           <TextField
-              fullWidth
-              label="id"
-              value={formik.values.Id}
-              {...getFieldProps('Id')}
-              error={Boolean(touched.Id && errors.Id)}
-              helperText={touched.Id && errors.Id}
-            />
+            fullWidth
+            label="Id"
+            value={formik.values.Id}
+            {...getFieldProps('Id')}
+            error={Boolean(touched.Id && errors.Id)}
+            helperText={touched.Id && errors.Id}
+          />
 
           {/* password */}
           <TextField
@@ -150,14 +161,14 @@ const [value, setValue] = React.useState(new Date());
           />
 
           {/* name 성명 */}
-            <TextField
-              fullWidth
-              label="name"
-              value={formik.values.Name}
-              {...getFieldProps('Name')}
-              error={Boolean(touched.Name && errors.Name)}
-              helperText={touched.Name && errors.Name}
-            />
+          <TextField
+            fullWidth
+            label="Name"
+            value={formik.values.Name}
+            {...getFieldProps('Name')}
+            error={Boolean(touched.Name && errors.Name)}
+            helperText={touched.Name && errors.Name}
+          />
 
           {/* email address */}
           <TextField
@@ -170,8 +181,9 @@ const [value, setValue] = React.useState(new Date());
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
           />
-            {/* 성별 선택 UI */}
-            <Box
+          {/* 성별, 생일 선택 UI */}
+          <Box
+            className='gdBr'
             component="form"
             sx={{
               '& .MuiTextField-root': { m: 1, width: '25ch' },
@@ -179,36 +191,37 @@ const [value, setValue] = React.useState(new Date());
             noValidate
             autoComplete="off"
           >
-            <TextField
-              id="outlined-select-currency"
-              select
-              // label="Select"
-              label="sex"
-              // value={currency}
-              value={formik.values.sex}
-              onChange={handleSexChange}
-              helperText="Please select your gender"
-            >
-              {currencies.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Box>
+            <Stack className='gdBr'>
+              <TextField
+                id="outlined-select-currency"
+                select
+                // label="Select"
+                label="Gender"
+                // value={currency}
+                value={formik.values.sex}
+                onChange={handleSexChange}
+                helperText="Please select your gender"
+              >
+                {currencies.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
 
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <StaticDatePicker
-              orientation="landscape"
-              openTo="day"
-              value={value}
-              shouldDisableDate={isWeekend}
-              onChange={(newValue) => {
-                formik.values.birth = newValue;
-              }}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
+                <DesktopDatePicker
+                  id='datepicker'
+                  label="Birth"
+                  inputFormat="MM/dd/yyyy"
+                  value={value}
+                  onChange={handleBirthChange}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+
+              </LocalizationProvider>
+            </Stack>
+          </Box>
 
           {/* <FormControl component="fieldset">
               <FormLabel component="legend">Gender</FormLabel>

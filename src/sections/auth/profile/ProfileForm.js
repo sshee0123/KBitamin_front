@@ -18,6 +18,7 @@ import isWeekend from 'date-fns/isWeekend';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 // // --- Material Ui Imports --- //
 import { Typography, Container, Button, Box } from '@material-ui/core';
@@ -143,9 +144,13 @@ export default function ProfileForm() {
     setValues({sex:event.target.value});
   };
     
-// -----DatePicker---------
-const [value, setValue] = React.useState(new Date());
+  // Datepicker 코드 
+  const [value, setValue] = React.useState(new Date());
 
+  const handleBirthChange = (newValue) => {
+    setValue(newValue);
+    formik.values.birthDate = newValue;
+  };
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -214,11 +219,12 @@ const [value, setValue] = React.useState(new Date());
             noValidate
             autoComplete="off"
           >
+            <Stack className='gdBr'>
             <TextField
               id="outlined-select-currency"
               select
               // label="Select"
-              label="sex"
+              label="Gender"
               // value={currency}
               value={formik.values.sex}
               onChange={handleSexChange}
@@ -230,21 +236,21 @@ const [value, setValue] = React.useState(new Date());
                 </MenuItem>
               ))}
             </TextField>
-          </Box>
 
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <StaticDatePicker
-              orientation="landscape"
-              openTo="day"
-              value={value}
-              shouldDisableDate={isWeekend}
-              onChange={(newValue) => {
-                formik.values.birthDate = newValue;
-              }}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
 
+                <DesktopDatePicker
+                  id='datepicker'
+                  label="Birth"
+                  inputFormat="MM/dd/yyyy"
+                  value={value}
+                  onChange={handleBirthChange}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+
+              </LocalizationProvider>
+              </Stack>
+          </Box>
           <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
             Update
           </LoadingButton>
