@@ -17,6 +17,7 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Box
 } from '@mui/material';
 // components
 import { LoadingButton } from '@mui/lab';
@@ -28,7 +29,6 @@ import FormatItalicIcon from '@material-ui/icons/FormatItalic';
 import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import FormatUnderlinedIcon from '@material-ui/icons/FormatUnderlined';
-import { deepOrange, deepPurple, green, pink, red, yellow } from '@mui/material/colors';
 import LaptopIcon from '@material-ui/icons/Laptop';
 import TvIcon from '@material-ui/icons/Tv';
 import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
@@ -46,6 +46,36 @@ import MEDICINELIST from '../_mock/medicine';
 // MediService
 import MediService from '../service/MedicineService';
 // import { id } from 'date-fns/locale';
+import './MediInfo.css';
+import circle from './Images/circle.png';
+import diamond from './Images/diamond.png';
+import fillcolor from './Images/fillcolor.png';
+import halfcircle from './Images/halfcircle.png';
+import hexa from './Images/hexa.png';
+import jangbang from './Images/jangbang.png';
+import jeongjae from './Images/jeongjae.png';
+import kyungjil from './Images/kyungjil.png';
+import minus from './Images/minus.png';
+import nothing from './Images/nothing.png';
+import othershape from './Images/othershape.png';
+import oval from './Images/oval.png';
+import penta from './Images/penta.png';
+import plusplus from './Images/plusplus.png';
+import square from './Images/square.png';
+import triangle from './Images/triangle.png';
+import yeonjil from './Images/yeonjil.png';
+import brown from './color/brown.png';
+import green from './color/green.png';
+import lightgreen from './color/lightgreen.png';
+import orange from './color/orange.png';
+import pink from './color/pink.png';
+import red from './color/red.png';
+import teal from './color/teal.png';
+import white from './color/white.png'
+import yellow from './color/yellow.png';
+
+
+
 
 // ----------------------------------------------------------------------
 
@@ -88,11 +118,11 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function MediInfo() {
-  
+
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
- 
+
   const [selected, setSelected] = useState([]);
 
   const [orderBy, setOrderBy] = useState('medicineName');
@@ -101,27 +131,27 @@ export default function MediInfo() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  
-// ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
 
-const [inputData, setInputData] = useState([{
-  name: '',
-  shape: '',
-  efficacy: ''
-}])
+  // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
 
-useEffect(() => {
-  MediService.getAllMedicineInfo().then((res) => {
-    // const medicines = [...Array(24)].map((_, index) => ({
-    //   id:0,
-    //   medicineName:res.name
+  const [inputData, setInputData] = useState([{
+    name: '',
+    shape: '',
+    efficacy: ''
+  }])
 
-    //   }));
-    console.log(res.data) // String
-    console.log('JSON : ', JSON.stringify(res.data));
-    console.log('efficacy : ', res.data.efficacy);
-  }); 
-}, []);
+  useEffect(() => {
+    MediService.getAllMedicineInfo().then((res) => {
+      // const medicines = [...Array(24)].map((_, index) => ({
+      //   id:0,
+      //   medicineName:res.name
+
+      //   }));
+      console.log(res.data) // String
+      console.log('JSON : ', JSON.stringify(res.data));
+      console.log('efficacy : ', res.data.efficacy);
+    });
+  }, []);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -165,10 +195,10 @@ useEffect(() => {
   const handleFilterByName = (event) => {
     setFilterName(event.target.value);
   };
-  
-  const handleCellClick= (event) => {
+
+  const handleCellClick = (event) => {
     console.log("cell clicked")
-}
+  }
 
   // Toggle function
   const useStyles = makeStyles((theme) => ({
@@ -209,10 +239,10 @@ useEffect(() => {
           <Typography variant="h4" gutterBottom>
             Medicine Information
           </Typography>
-          
+
         </Stack>
 
-      {/* <Grid container direction="column" spacing={2}>
+        {/* <Grid container direction="column" spacing={2}>
       <Grid item sm={10} md={6}>
         <div className={classes.toggleContainer}>
           <ToggleButtonGroup
@@ -261,70 +291,91 @@ useEffect(() => {
     </Grid> */}
 
 
-  {/* Medicine 검색 조건 */}
-      <Card>
-       
-       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-      <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
-       </Stack>
+        {/* Medicine 검색 조건 */}
+        <Card id='cardInMediInfo'>
 
-       <Stack direction="row" alignItems="center" mb={3} spacing = {3}>
-       <Button style={{backgroundColor:'Highlight', color:'-moz-initial'}}>모양 전체</Button>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+            <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+          </Stack>
+          <ButtonGroup className='buttonGroup'>
+            <Stack direction="row" alignItems="center" mb={3} spacing={3}>
+              <Button style={{ backgroundColor: 'Highlight', color: '-moz-initial' }}>모양 전체</Button>
 
-       <Button style={{color:'black'}}>원형</Button>
-       <Button style={{color:'black'}}>타원형</Button>
-       <Button style={{color:'black'}}>반원형</Button>
-       <Button style={{color:'black'}}>삼각형</Button>
-       <Button style={{color:'black'}}>사각형</Button>
-       <Button style={{color:'black'}}>마름모형</Button>
-       <Button style={{color:'black'}}>장방형</Button>
-       <Button style={{color:'black'}}>오각형</Button>
-       <Button style={{color:'black'}}>육각형</Button>
-       {/* 모양 버튼 추가 - 추후 이쁘게 */}
-
-
-       </Stack>
-       <Stack direction="row" alignItems="center" mb={3} spacing = {3}>
-       <Button style={{backgroundColor:'Highlight', color:'-moz-initial'}}>색상 전체</Button>
-
-       <Button style={{backgroundColor:'whitesmoke',color:'black'}}>하양</Button>
-       <Button style={{backgroundColor:'yellow',color:'black'}}>노랑</Button>
-       <Button style={{backgroundColor:'orange',color:'black'}}>주황</Button>
-       <Button style={{backgroundColor:'pink',color:'black'}}>분홍</Button>
-       <Button style={{backgroundColor:'red',color:'black'}}>빨강</Button>
-       <Button style={{backgroundColor:'brown',color:'black'}}>갈색</Button>
-       <Button style={{backgroundColor:'greenyellow',color:'black'}}>연두</Button>
-       <Button style={{backgroundColor:'green',color:'black'}}>초록</Button>
-       <Button style={{backgroundColor:'#005666',color:'black'}}>청록</Button>
-    {/* 색상 버튼 추가 - 추후 이쁘게 */}
+              <Button style={{ color: 'black' }}><img src = {circle}/></Button>
+              <Button style={{ color: 'black' }}><img src = {oval}/></Button>
+              <Button style={{ color: 'black' }}><img src = {halfcircle}/></Button>
+              <Button style={{ color: 'black' }}><img src = {triangle}/></Button>
+              <Button style={{ color: 'black' }}><img src = {square}/></Button>
+              <Button style={{ color: 'black' }}><img src = {diamond}/></Button>
+              <Button style={{ color: 'black' }}><img src = {jangbang}/></Button>
+              <Button style={{ color: 'black' }}><img src = {penta}/></Button>
+              <Button style={{ color: 'black' }}><img src = {hexa}/></Button>
+              {/* 모양 버튼 추가 - 추후 이쁘게 */}
 
 
-       </Stack>
-       <Stack direction="row" alignItems="center" mb={3} spacing = {3}>
-       <Button style={{backgroundColor:'Highlight', color:'-moz-initial'}}>제형 전체</Button>
+            </Stack>
+          </ButtonGroup>
+          <ButtonGroup className='buttonGroup' >
+            <Stack direction="row" alignItems="center" mb={3} spacing={3}>
+              <Button style={{ backgroundColor: 'Highlight', color: '-moz-initial' }}>색상 전체</Button>
 
-       <Button style={{color:'black'}}>정제류</Button>
-       <Button style={{color:'black'}}>경질캡슐</Button>
-       <Button style={{color:'black'}}>연질캡슐</Button>
+              <Button style={{color: 'black'}}><img className='colorbtn' src = {white}/></Button>
+              <Button style={{ color: 'black' }}><img className='colorbtn' src = {yellow}/></Button>
+              <Button style={{ color: 'black' }}><img className='colorbtn' src = {orange}/></Button>
+              <Button style={{ color: 'black' }}><img className='colorbtn' src = {pink}/></Button>
+              <Button style={{ color: 'black' }}><img className='colorbtn' src = {red}/></Button>
+              <Button style={{ color: 'black' }}><img className='colorbtn' backgroundColor = 'brown' src = {brown}/></Button>
+              <Button style={{ color: 'black' }}><img className='colorbtn' src = {lightgreen}/></Button>
+              <Button style={{ color: 'black' }}><img className='colorbtn' src = {green}/></Button>
+              <Button style={{ color: 'black' }}><img className='colorbtn' src = {teal}/></Button>
 
-      {/* 제형 버튼 추가 - 추후 이쁘게 */}
-
-       </Stack>
-       <Stack direction="row" alignItems="center" mb={3} spacing = {3}>
-       <Button style={{backgroundColor:'Highlight', color:'-moz-initial'}}>분할선 전체</Button>
-
-       <Button style={{color:'black'}}>없음</Button>
-       <Button style={{color:'black'}}>(-)형</Button>
-       <Button style={{color:'black'}}>(+)형</Button>
-       <Button style={{color:'black'}}>기타</Button>
-      {/* 분할선 버튼 추가 - 추후 이쁘게 */}
+              {/* 색상 버튼 추가 - 추후 이쁘게 */}
 
 
-       </Stack>
-          
+            </Stack>
+          </ButtonGroup>
+          <ButtonGroup className='buttonGroup'>
+            <Stack direction="row" alignItems="center" mb={3} spacing={3}>
+              <Button style={{ backgroundColor: 'Highlight', color: '-moz-initial' }}>제형 전체</Button>
+
+              <Button style={{ color: 'black' }}><img src = {jeongjae}/></Button>
+              <Button style={{ color: 'black' }}><img src = {kyungjil}/></Button>
+              <Button style={{ color: 'black' }}><img src = {yeonjil}/></Button>
+
+              {/* 제형 버튼 추가 - 추후 이쁘게 */}
+
+            </Stack>
+          </ButtonGroup>
+          <p />
+          <Box
+                sx={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  '& > *': {
+                    m: 1,
+                  },
+                }}
+              >
+          <ButtonGroup className='buttonGroup' variant="outlined" aria-label="outlined button group">
+
+            <Stack direction="row" alignItems="center" mb={3} spacing={3}>
+              <Button style={{ backgroundColor: 'Highlight', color: '-moz-initial' }}>분할선 전체</Button>
+              
+
+                <Button style={{ color: 'black' }}><img src = {nothing}/></Button>
+                <Button style={{ color: 'black' }}><img src = {minus}/></Button>
+                <Button style={{ color: 'black' }}><img src = {plusplus}/></Button>
+                <Button style={{ color: 'black' }}><img src = {othershape}/></Button>
+                {/* 분할선 버튼 추가 - 추후 이쁘게 */}
+
+
+            </Stack>
+          </ButtonGroup>
+          </Box>
+
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table onCellClick= {handleCellClick}>
+              <Table onCellClick={handleCellClick}>
                 <UserListHead
                   order={order}
                   orderBy={orderBy}
@@ -337,7 +388,7 @@ useEffect(() => {
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     // const { id, name, role, avatarUrl, isVerified } = row;
-                    const { medicineName, shape, efficacy} = row;
+                    const { medicineName, shape, efficacy } = row;
                     const isItemSelected = selected.indexOf(medicineName) !== -1;
 
                     return (

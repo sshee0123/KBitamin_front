@@ -1,0 +1,9 @@
+.buttonGroup{
+    transform: translate(50px, 0%);
+}
+
+.colorbtn{
+    border-radius: 70%;
+    border : thin solid black;
+
+}
