@@ -57,6 +57,8 @@ const style = {
   width: 1000,
   bgcolor: '#FCFCFC',
   border: '2px solid #000',
+  // 끝 둥글게 
+  // borderRadius : '1%',
   boxShadow: 24,
   p: 4,
 };
@@ -65,7 +67,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    padding: theme.spacing(12, 0),
+    padding: theme.spacing(0, 0),
   }));
   
 
@@ -240,9 +242,9 @@ export default function User() {
                           />
                           <p className='btn2'>
                             <p>&nbsp;&nbsp;&nbsp;</p>
-                            <Button variant="contained">저장하기 </Button>
+                            <Button variant="contained" onClick={handleClose}>저장하기 </Button>
                             &nbsp;&nbsp;&nbsp;
-                            <Button variant="contained" >취소</Button>
+                            <Button variant="contained" onClick={handleClose}>취소</Button>
                           </p>
                         </div >
                       </div>
