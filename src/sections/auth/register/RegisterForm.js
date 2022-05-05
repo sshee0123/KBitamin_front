@@ -13,6 +13,10 @@ import Stack from '@mui/material/Stack';
 import { LoadingButton } from '@mui/lab';
 import { DatePicker } from '@mui/x-date-pickers';
 
+// datapicker
+import isWeekend from 'date-fns/isWeekend';
+import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
+
 // 라디오 버튼
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -36,6 +40,7 @@ export default function RegisterForm() {
 
   const handleBirthChange = (newValue) => {
     setValue(newValue);
+    formik.values.birth = newValue;
   };
   // Datepicker
 
@@ -63,10 +68,11 @@ export default function RegisterForm() {
     validationSchema: RegisterSchema,
     onSubmit: () => {
       navigate('/dashboard/app', { replace: true });
-      console.log('성별 뭐야 ? ', formik.values.sex);
+
+      console.log(new Date(formik.values.birth));
       // 함수 인자 참고 register(id, email, password, username, birthDate, phone, sex), 폰 추후 없애야함
-      MemberService.register(formik.values.Id, formik.values.email, formik.values.password, formik.values.Name, new Date("1999-11-06")
-        , formik.values.sex
+      MemberService.register(formik.values.Id,formik.values.email, formik.values.password, formik.values.Name, new Date(formik.values.birth)
+      , formik.values.sex
       );
     },
   });
@@ -113,7 +119,6 @@ export default function RegisterForm() {
   // };
 
   const handleSexChange = (event) => {
-    console.log(event.target.value)
     formik.values.sex = event.target.value;
     setValues({ sex: event.target.value });
   };
