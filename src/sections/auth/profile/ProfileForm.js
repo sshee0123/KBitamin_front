@@ -12,6 +12,13 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+
+// datapicker
+import isWeekend from 'date-fns/isWeekend';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
+
 // // --- Material Ui Imports --- //
 import { Typography, Container, Button, Box } from '@material-ui/core';
 // --- Material Ui Picker Imports --- //
@@ -71,7 +78,6 @@ export default function ProfileForm() {
         MemberService.logout();
 
         handleUserMock();
-        
         
         alert('회원정보 수정완료');
     }, 
@@ -136,6 +142,9 @@ export default function ProfileForm() {
     formik.values.sex = event.target.value;
     setValues({sex:event.target.value});
   };
+    
+// -----DatePicker---------
+const [value, setValue] = React.useState(new Date());
 
   return (
     <FormikProvider value={formik}>
@@ -222,6 +231,19 @@ export default function ProfileForm() {
               ))}
             </TextField>
           </Box>
+
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <StaticDatePicker
+              orientation="landscape"
+              openTo="day"
+              value={value}
+              shouldDisableDate={isWeekend}
+              onChange={(newValue) => {
+                formik.values.birthDate = newValue;
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
 
           <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
             Update

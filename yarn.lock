@@ -1624,6 +1624,20 @@
     "prop-types" "^15.7.2"
     "react-is" "^17.0.2"
 
+"@mui/base@5.0.0-alpha.79":
+  "integrity" "sha512-/lZLF027BkiEjM8MIYoeS/FEhTKf+41ePU9SOijMGrCin1Y0Igucw+IHa1fF8HXD7wDbFKqHuso3J1jMG8wyNw=="
+  "resolved" "https://registry.npmjs.org/@mui/base/-/base-5.0.0-alpha.79.tgz"
+  "version" "5.0.0-alpha.79"
+  dependencies:
+    "@babel/runtime" "^7.17.2"
+    "@emotion/is-prop-valid" "^1.1.2"
+    "@mui/types" "^7.1.3"
+    "@mui/utils" "^5.6.1"
+    "@popperjs/core" "^2.11.5"
+    "clsx" "^1.1.1"
+    "prop-types" "^15.7.2"
+    "react-is" "^17.0.2"
+
 "@mui/lab@^5.0.0-alpha.77":
   "integrity" "sha512-N+XVPqb3/IAH2i6oz2rk0sPogxOws9FNG045702z6cGL/F9lccOxF+3B12GxrHgKt9dmdeGV+BYDIf0bv2W+Eg=="
   "resolved" "https://registry.npmjs.org/@mui/lab/-/lab-5.0.0-alpha.77.tgz"
@@ -1640,14 +1654,14 @@
     "react-transition-group" "^4.4.2"
     "rifm" "^0.12.1"
 
-"@mui/material@^5.0.0", "@mui/material@^5.2.3", "@mui/material@^5.6.1":
-  "integrity" "sha512-xg6pPq+1jxWupwmPpnfmsHNjrsOe2xynUQWrRfcH8WHrrr1sQulq0VF4gORq/l8DD8a/jb4s8SsC20e/e6mHKQ=="
-  "resolved" "https://registry.npmjs.org/@mui/material/-/material-5.6.1.tgz"
-  "version" "5.6.1"
+"@mui/material@^5.0.0", "@mui/material@^5.2.3", "@mui/material@^5.6.4":
+  "integrity" "sha512-7TD+u/SExZK2a55w6reX56oPk37gKr/M/XGt156X+m0d9LhzOsW864nkErIX/H8oSkX/6kCimxu1FDsO+gjiVw=="
+  "resolved" "https://registry.npmjs.org/@mui/material/-/material-5.6.4.tgz"
+  "version" "5.6.4"
   dependencies:
     "@babel/runtime" "^7.17.2"
-    "@mui/base" "5.0.0-alpha.76"
-    "@mui/system" "^5.6.1"
+    "@mui/base" "5.0.0-alpha.79"
+    "@mui/system" "^5.6.4"
     "@mui/types" "^7.1.3"
     "@mui/utils" "^5.6.1"
     "@types/react-transition-group" "^4.4.4"
@@ -1658,10 +1672,10 @@
     "react-is" "^17.0.2"
     "react-transition-group" "^4.4.2"
 
-"@mui/private-theming@^5.6.1":
-  "integrity" "sha512-8lgh+tUt/3ftStfvml3dwAzhW3fe/cUFjLcBViOTnWk7UixWR79me4qehsO4NVj0THpu3d2qclrLzdD8qBAWAQ=="
-  "resolved" "https://registry.npmjs.org/@mui/private-theming/-/private-theming-5.6.1.tgz"
-  "version" "5.6.1"
+"@mui/private-theming@^5.6.2":
+  "integrity" "sha512-IbrSfFXfiZdyhRMC2bgGTFtb16RBQ5mccmjeh3MtAERWuepiCK7gkW5D9WhEsfTu6iez+TEjeUKSgmMHlsM2mg=="
+  "resolved" "https://registry.npmjs.org/@mui/private-theming/-/private-theming-5.6.2.tgz"
+  "version" "5.6.2"
   dependencies:
     "@babel/runtime" "^7.17.2"
     "@mui/utils" "^5.6.1"
@@ -1676,13 +1690,13 @@
     "@emotion/cache" "^11.7.1"
     "prop-types" "^15.7.2"
 
-"@mui/system@^5.2.3", "@mui/system@^5.6.1":
-  "integrity" "sha512-Y5pDvEOK6VOY+0vgNeyDuEEO5QCinhXbZQDyLOlaGLKuAoRGLXO9pcSsjZoGkewYZitXD44EDfgBQ+BqsAfgUA=="
-  "resolved" "https://registry.npmjs.org/@mui/system/-/system-5.6.1.tgz"
-  "version" "5.6.1"
+"@mui/system@^5.2.3", "@mui/system@^5.6.1", "@mui/system@^5.6.4":
+  "integrity" "sha512-7rsWED1wMFMePySJobsBerFZNu7ga580QSi3Zd6sJR8nVj12qD3yIdfvxA70/PxJ/805KbIT0GX7edKI+hpyhA=="
+  "resolved" "https://registry.npmjs.org/@mui/system/-/system-5.6.4.tgz"
+  "version" "5.6.4"
   dependencies:
     "@babel/runtime" "^7.17.2"
-    "@mui/private-theming" "^5.6.1"
+    "@mui/private-theming" "^5.6.2"
     "@mui/styled-engine" "^5.6.1"
     "@mui/types" "^7.1.3"
     "@mui/utils" "^5.6.1"

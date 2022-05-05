@@ -6,6 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import { Stack, TextField, IconButton, InputAdornment, MenuItem } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
+// datapicker
+import isWeekend from 'date-fns/isWeekend';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
+
 // 라디오 버튼
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -47,9 +53,10 @@ export default function RegisterForm() {
     validationSchema: RegisterSchema,
     onSubmit: () => {
       navigate('/dashboard/app', { replace: true });
-      console.log('성별 뭐야 ? ',formik.values.sex);
+
+      console.log(new Date(formik.values.birth));
       // 함수 인자 참고 register(id, email, password, username, birthDate, phone, sex), 폰 추후 없애야함
-      MemberService.register(formik.values.Id,formik.values.email, formik.values.password, formik.values.Name, new Date("1999-11-06")
+      MemberService.register(formik.values.Id,formik.values.email, formik.values.password, formik.values.Name, new Date(formik.values.birth)
       , formik.values.sex
       );
     },
@@ -97,10 +104,13 @@ export default function RegisterForm() {
   // };
 
   const handleSexChange = (event) => {
-    console.log(event.target.value)
     formik.values.sex = event.target.value;
     setValues({sex:event.target.value});
   };
+
+  
+// -----DatePicker---------
+const [value, setValue] = React.useState(new Date());
 
   return (
     <FormikProvider value={formik}>
@@ -186,6 +196,19 @@ export default function RegisterForm() {
               ))}
             </TextField>
           </Box>
+
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <StaticDatePicker
+              orientation="landscape"
+              openTo="day"
+              value={value}
+              shouldDisableDate={isWeekend}
+              onChange={(newValue) => {
+                formik.values.birth = newValue;
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
 
           {/* <FormControl component="fieldset">
               <FormLabel component="legend">Gender</FormLabel>
