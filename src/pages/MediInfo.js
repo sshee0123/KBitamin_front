@@ -40,8 +40,6 @@ import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
-// mock
-import MEDICINELIST from '../_mock/medicine';
 
 // MediService
 import MediService from '../service/MedicineService';
@@ -125,7 +123,7 @@ export default function MediInfo() {
 
   const [selected, setSelected] = useState([]);
 
-  const [orderBy, setOrderBy] = useState('medicineName');
+  const [orderBy, setOrderBy] = useState('name');
 
   const [filterName, setFilterName] = useState('');
 
@@ -137,18 +135,37 @@ export default function MediInfo() {
   const [medicines, setMedicines] = useState([])
   // 약 리스트 개수
   const [medicineCnt, setMedicineCnt] = useState(0)
-  useEffect(() => {
-    MediService.getAllMedicineInfo().then((res) => {
+  // useEffect(() => {
+  //   MediService.getAllMedicineInfo().then((res) => {
+  //     setMedicineCnt(medicineCnt+1);
+  //     return res.data;
+  //   })
+  //   .then(data =>{
+  //     setMedicines(data)
+  //     console.log(data);
+  //     console.log("length:  ",data.length)
+  //     console.log("setmidicnt:  ", medicineCnt.length)
+  //   })
+  // }, [])
+
+
+  // 비동기 처리로 다시 약 정보 가져오기
+  const fetchMediFunc = async () => {
+    const data = await MediService.getAllMedicineInfo().then((res) => {
       setMedicineCnt(medicineCnt+1);
       return res.data;
-    })
-    .then(data =>{
-      setMedicines(data)
-      console.log(data);
-      console.log("length:  ",data.length)
-      console.log("setmidicnt:  ", medicineCnt.length)
-    })
-  }, [])
+    })  
+      .then(data =>{
+          setMedicines(data)
+          console.log(data);
+          console.log("length:  ",data.length)
+          console.log("setmidicnt:  ", medicineCnt)
+        })
+  }
+
+  useEffect(() => {
+    fetchMediFunc()
+  },[]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -159,7 +176,7 @@ export default function MediInfo() {
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       // const newSelecteds = MEDICINELIST.map((n) => n.medicineName);
-      const newSelecteds = medicines.map((n) => n.name);
+      const newSelecteds = medicines.map((n) => n.medicineName);
       setSelected(newSelecteds);
       return;
     }
@@ -241,55 +258,6 @@ export default function MediInfo() {
           </Typography>
 
         </Stack>
-
-        {/* <Grid container direction="column" spacing={2}>
-      <Grid item sm={10} md={6}>
-        <div className={classes.toggleContainer}>
-          <ToggleButtonGroup
-            value={alignment}
-            exclusive
-            onChange={handleAlignment}
-            aria-label="text alignment"
-          >
-            <ToggleButton value="all" aria-label="left aligned">
-            <Avatar src={'/static/mock-images/avatars/avatar_default.jpg'} alt="photoURL" />
-            </ToggleButton>
-            <ToggleButton value="yellow" aria-label="centered">
-            <Avatar sx={{ bgcolor: yellow[500], fontSize: "0.8rem"}}>노랑</Avatar>
-            </ToggleButton>
-            <ToggleButton value="orange" aria-label="centered">
-            <Avatar sx={{ bgcolor: deepOrange[500], fontSize: "0.8rem"}}>주황</Avatar>
-            </ToggleButton>
-            <ToggleButton value="pink" aria-label="centered">
-            <Avatar sx={{ bgcolor: pink[200], fontSize: "0.8rem"}}>분홍</Avatar>
-            </ToggleButton>
-            <ToggleButton value="red" aria-label="centered">
-            <Avatar sx={{ bgcolor: red[500], fontSize: "0.8rem"}}>빨강</Avatar>
-            </ToggleButton>
-            <ToggleButton value="green" aria-label="right aligned">
-            <Avatar sx={{ bgcolor: green[500] , fontSize: "0.8rem"}}>초록</Avatar>
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </div>
-      </Grid>
-      
-      <Grid item sm={12} md={6}>
-        <div className={classes.toggleContainer}>
-          <ToggleButtonGroup value={formats} onChange={handleFormat} aria-label="device">
-            <ToggleButton value="laptop" aria-label="laptop">
-              <LaptopIcon />
-            </ToggleButton>
-            <ToggleButton value="tv" aria-label="tv">
-              <TvIcon />
-            </ToggleButton>
-            <ToggleButton value="phone" aria-label="phone">
-              <PhoneAndroidIcon />
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </div>
-      </Grid>
-    </Grid> */}
-
 
         {/* Medicine 검색 조건 */}
         <Card id='cardInMediInfo'>
@@ -396,10 +364,9 @@ export default function MediInfo() {
                         selected={isItemSelected}
                         aria-checked={isItemSelected}
                       >
-                        {/* <TableCell>약</TableCell> */}
                         <TableCell> </TableCell>
                         <TableCell component="th" scope="row" padding="none">
-                        <Stack direction="row" alignItems="center" spacing={2}>
+                        <Stack direction="row" alignItems="center" spacing={3}>
                         <Avatar alt={medicine.name} src={medicine.imageUrl} /> 
                         
                         <Typography variant="subtitle2" noWrap>{medicine.name}</Typography>
