@@ -134,24 +134,21 @@ export default function MediInfo() {
 
   // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
 
-  const [inputData, setInputData] = useState([{
-    name: '',
-    shape: '',
-    efficacy: ''
-  }])
-
+  const [medicines, setMedicines] = useState([])
+  // 약 리스트 개수
+  const [medicineCnt, setMedicineCnt] = useState(0)
   useEffect(() => {
     MediService.getAllMedicineInfo().then((res) => {
-      // const medicines = [...Array(24)].map((_, index) => ({
-      //   id:0,
-      //   medicineName:res.name
-
-      //   }));
-      console.log(res.data) // String
-      console.log('JSON : ', JSON.stringify(res.data));
-      console.log('efficacy : ', res.data.efficacy);
-    });
-  }, []);
+      setMedicineCnt(medicineCnt+1);
+      return res.data;
+    })
+    .then(data =>{
+      setMedicines(data)
+      console.log(data);
+      console.log("length:  ",data.length)
+      console.log("setmidicnt:  ", medicineCnt.length)
+    })
+  }, [])
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -161,7 +158,8 @@ export default function MediInfo() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = MEDICINELIST.map((n) => n.medicineName);
+      // const newSelecteds = MEDICINELIST.map((n) => n.medicineName);
+      const newSelecteds = medicines.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -226,9 +224,11 @@ export default function MediInfo() {
 
   const classes = useStyles();
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - MEDICINELIST.length) : 0;
+  // const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - MEDICINELIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - medicineCnt) : 0;
 
-  const filteredUsers = applySortFilter(MEDICINELIST, getComparator(order, orderBy), filterName);
+  // const filteredUsers = applySortFilter(MEDICINELIST, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(medicines, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
 
@@ -364,55 +364,65 @@ export default function MediInfo() {
             </Stack>
           </ButtonGroup>
 
+
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
+
               <Table onCellClick={handleCellClick}>
+     
                 <UserListHead
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={MEDICINELIST.length}
+                  rowCount={medicineCnt}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
+
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    // const { id, name, role, avatarUrl, isVerified } = row;
                     const { medicineName, shape, efficacy } = row;
                     const isItemSelected = selected.indexOf(medicineName) !== -1;
 
-                    return (
-                      <TableRow
+                    // 여기 return 또 있음.
+                    // 여기에 back에서 받은 json 데이터 list 보여줘야함.
+                    return medicines.map((medicine) => (
+                        <TableRow
                         hover
-                        key={medicineName}
+                        key={medicine.name}
                         tabIndex={-1}
                         role="checkbox"
                         selected={isItemSelected}
-                        // 해야함
                         aria-checked={isItemSelected}
                       >
+                        {/* <TableCell>약</TableCell> */}
                         <TableCell> </TableCell>
                         <TableCell component="th" scope="row" padding="none">
-                          <Stack direction="row" alignItems="center" spacing={2}>
-                            {/* <Avatar alt={medicine_name} src={} /> */}
-                            {/* 여기 Avatar src에 이미지url 들어가야함. */}
-                            <Typography variant="subtitle2" noWrap>
-                              {medicineName}
-                            </Typography>
-                          </Stack>
-                        </TableCell>
-                        <TableCell align="left">{shape}</TableCell>
-                        <TableCell align="left">{efficacy}</TableCell>
+                        <Stack direction="row" alignItems="center" spacing={2}>
+                        <Avatar alt={medicine.name} src={medicine.imageUrl} /> 
+                        
+                        <Typography variant="subtitle2" noWrap>{medicine.name}</Typography>
+                            
+                        </Stack>
 
+                        </TableCell> 
+
+                        <TableCell align="left">제형 : {medicine.formulation}
+                        , 모양 : {medicine.shape}</TableCell>
+                        <TableCell align="left">{medicine.efficacy}</TableCell>
                       </TableRow>
-                    );
+
+                       ));
                   })}
+
+
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
                       <TableCell colSpan={6} />
                     </TableRow>
                   )}
+
                 </TableBody>
 
                 {isUserNotFound && (
@@ -424,19 +434,23 @@ export default function MediInfo() {
                     </TableRow>
                   </TableBody>
                 )}
+
               </Table>
+
             </TableContainer>
           </Scrollbar>
 
+{/* 페이지 조절... 근데 검색해야해서 mediInfo 페이지는 그냥 페이지 안나누는게 날 것 같음. */}
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={MEDICINELIST.length}
+            count = {medicineCnt}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
+
         </Card>
       </Container>
     </Page>
