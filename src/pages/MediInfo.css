@@ -2,8 +2,15 @@
     transform: translate(50px, 0%);
 }
 
+
 .colorbtn{
     border-radius: 70%;
-    border : thin solid black;
+    border : thin solid lightgray;
+    width : 25px;
+    height : 25px;
+}
 
+.classify{
+    border : thin solid;
+    border-radius: 0%;
 }

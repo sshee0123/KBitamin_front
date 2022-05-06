@@ -299,17 +299,17 @@ export default function MediInfo() {
           </Stack>
           <ButtonGroup className='buttonGroup'>
             <Stack direction="row" alignItems="center" mb={3} spacing={3}>
-              <Button style={{ backgroundColor: 'Highlight', color: '-moz-initial' }}>모양 전체</Button>
+              <Button className='classify' style={{ color: '-moz-initial' }}>모양<br />전체</Button>
 
-              <Button style={{ color: 'black' }}><img src = {circle}/></Button>
-              <Button style={{ color: 'black' }}><img src = {oval}/></Button>
-              <Button style={{ color: 'black' }}><img src = {halfcircle}/></Button>
-              <Button style={{ color: 'black' }}><img src = {triangle}/></Button>
-              <Button style={{ color: 'black' }}><img src = {square}/></Button>
-              <Button style={{ color: 'black' }}><img src = {diamond}/></Button>
-              <Button style={{ color: 'black' }}><img src = {jangbang}/></Button>
-              <Button style={{ color: 'black' }}><img src = {penta}/></Button>
-              <Button style={{ color: 'black' }}><img src = {hexa}/></Button>
+              <Button style={{ color: 'black' }}><img src={circle} /></Button>
+              <Button style={{ color: 'black' }}><img src={oval} /></Button>
+              <Button style={{ color: 'black' }}><img src={halfcircle} /></Button>
+              <Button style={{ color: 'black' }}><img src={triangle} /></Button>
+              <Button style={{ color: 'black' }}><img src={square} /></Button>
+              <Button style={{ color: 'black' }}><img src={diamond} /></Button>
+              <Button style={{ color: 'black' }}><img src={jangbang} /></Button>
+              <Button style={{ color: 'black' }}><img src={penta} /></Button>
+              <Button style={{ color: 'black' }}><img src={hexa} /></Button>
               {/* 모양 버튼 추가 - 추후 이쁘게 */}
 
 
@@ -317,17 +317,18 @@ export default function MediInfo() {
           </ButtonGroup>
           <ButtonGroup className='buttonGroup' >
             <Stack direction="row" alignItems="center" mb={3} spacing={3}>
-              <Button style={{ backgroundColor: 'Highlight', color: '-moz-initial' }}>색상 전체</Button>
+              <Button className='classify' style={{ color: '-moz-initial' }}>색상<br />전체</Button>
 
-              <Button style={{color: 'black'}}><img className='colorbtn' src = {white}/></Button>
-              <Button style={{ color: 'black' }}><img className='colorbtn' src = {yellow}/></Button>
-              <Button style={{ color: 'black' }}><img className='colorbtn' src = {orange}/></Button>
-              <Button style={{ color: 'black' }}><img className='colorbtn' src = {pink}/></Button>
-              <Button style={{ color: 'black' }}><img className='colorbtn' src = {red}/></Button>
-              <Button style={{ color: 'black' }}><img className='colorbtn' backgroundColor = 'brown' src = {brown}/></Button>
-              <Button style={{ color: 'black' }}><img className='colorbtn' src = {lightgreen}/></Button>
-              <Button style={{ color: 'black' }}><img className='colorbtn' src = {green}/></Button>
-              <Button style={{ color: 'black' }}><img className='colorbtn' src = {teal}/></Button>
+              <Button style={{ color: 'black' }}><img className='colorbtn' src={white} /></Button>
+              
+              <Button style={{ color: 'black' }}><img className='colorbtn' src={yellow} /></Button>
+              <Button style={{ color: 'black' }}><img className='colorbtn' src={orange} /></Button>
+              <Button style={{ color: 'black' }}><img className='colorbtn' src={pink} /></Button>
+              <Button style={{ color: 'black' }}><img className='colorbtn' src={red} /></Button>
+              <Button style={{ color: 'black' }}><img className='colorbtn' backgroundColor='brown' src={brown} /></Button>
+              <Button style={{ color: 'black' }}><img className='colorbtn' src={lightgreen} /></Button>
+              <Button style={{ color: 'black' }}><img className='colorbtn' src={green} /></Button>
+              <Button style={{ color: 'black' }}><img className='colorbtn' src={teal} /></Button>
 
               {/* 색상 버튼 추가 - 추후 이쁘게 */}
 
@@ -336,42 +337,32 @@ export default function MediInfo() {
           </ButtonGroup>
           <ButtonGroup className='buttonGroup'>
             <Stack direction="row" alignItems="center" mb={3} spacing={3}>
-              <Button style={{ backgroundColor: 'Highlight', color: '-moz-initial' }}>제형 전체</Button>
+              <Button className='classify' style={{ color: '-moz-initial' }}>제형<br />전체</Button>
 
-              <Button style={{ color: 'black' }}><img src = {jeongjae}/></Button>
-              <Button style={{ color: 'black' }}><img src = {kyungjil}/></Button>
-              <Button style={{ color: 'black' }}><img src = {yeonjil}/></Button>
+              <Button style={{ color: 'black' }}><img src={jeongjae} /></Button>
+              <Button style={{ color: 'black' }}><img src={kyungjil} /></Button>
+              <Button style={{ color: 'black' }}><img src={yeonjil} /></Button>
 
               {/* 제형 버튼 추가 - 추후 이쁘게 */}
 
             </Stack>
           </ButtonGroup>
           <p />
-          <Box
-                sx={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  '& > *': {
-                    m: 1,
-                  },
-                }}
-              >
+
           <ButtonGroup className='buttonGroup' variant="outlined" aria-label="outlined button group">
-
             <Stack direction="row" alignItems="center" mb={3} spacing={3}>
-              <Button style={{ backgroundColor: 'Highlight', color: '-moz-initial' }}>분할선 전체</Button>
-              
+              <Button className='classify' style={{ color: '-moz-initial' }}>분할선<br />전체</Button>
 
-                <Button style={{ color: 'black' }}><img src = {nothing}/></Button>
-                <Button style={{ color: 'black' }}><img src = {minus}/></Button>
-                <Button style={{ color: 'black' }}><img src = {plusplus}/></Button>
-                <Button style={{ color: 'black' }}><img src = {othershape}/></Button>
-                {/* 분할선 버튼 추가 - 추후 이쁘게 */}
+
+              <Button style={{ color: 'black' }}><img src={nothing} /></Button>
+              <Button style={{ color: 'black' }}><img src={minus} /></Button>
+              <Button style={{ color: 'black' }}><img src={plusplus} /></Button>
+              <Button style={{ color: 'black' }}><img src={othershape} /></Button>
+              {/* 분할선 버튼 추가 - 추후 이쁘게 */}
 
 
             </Stack>
           </ButtonGroup>
-          </Box>
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
