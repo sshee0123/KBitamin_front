@@ -34,13 +34,13 @@ import TvIcon from '@material-ui/icons/Tv';
 import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Modal from '@mui/material/Modal';
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
-
 // MediService
 import MediService from '../service/MedicineService';
 // import { id } from 'date-fns/locale';
@@ -110,7 +110,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.medicineName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -157,7 +157,7 @@ export default function MediInfo() {
     })  
       .then(data =>{
           setMedicines(data)
-          console.log(data);
+          // console.log(data);
           console.log("length:  ",data.length)
           console.log("setmidicnt:  ", medicineCnt)
         })
@@ -166,6 +166,25 @@ export default function MediInfo() {
   useEffect(() => {
     fetchMediFunc()
   },[]);
+
+  /* 약 클릭시 Modal 창 띄우기 */
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const style = {
+  
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 800,
+    bgcolor: '#FCFCFC',
+    border: '2px solid lightgray',
+    borderRadius : '2%',
+    boxShadow: 24,
+    p: 4,
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -211,8 +230,10 @@ export default function MediInfo() {
     setFilterName(event.target.value);
   };
 
-  const handleCellClick = (event) => {
-    console.log("cell clicked")
+  // 약 테이블 cell 클릭 리스너
+  const handleCellClick = (MediName) => {
+    console.log(MediName);
+    handleOpen();
   }
 
   // Toggle function
@@ -256,6 +277,22 @@ export default function MediInfo() {
           <Typography variant="h4" gutterBottom>
             Medicine Information
           </Typography>
+
+          <Modal
+              id = 'modal'
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx ={style}>
+              <div className="mbsc-grid mbsc-grid-fixed">
+                      <Typography variant="h4" gutterBottom>
+                        약 정보
+                      </Typography>
+              </div>
+              </Box>
+            </Modal>
 
         </Stack>
 
@@ -335,9 +372,7 @@ export default function MediInfo() {
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-
-              <Table onCellClick={handleCellClick}>
-     
+              <Table>
                 <UserListHead
                   order={order}
                   orderBy={orderBy}
@@ -350,40 +385,40 @@ export default function MediInfo() {
 
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { medicineName, shape, efficacy } = row;
-                    const isItemSelected = selected.indexOf(medicineName) !== -1;
+                    const { name, shape, efficacy, formulation,imageUrl } = row;
+                    const isItemSelected = selected.indexOf(name) !== -1;
 
                     // 여기 return 또 있음.
                     // 여기에 back에서 받은 json 데이터 list 보여줘야함.
-                    return medicines.map((medicine) => (
+                    return (
                         <TableRow
                         hover
-                        key={medicine.name}
+                        key={name}
                         tabIndex={-1}
                         role="checkbox"
                         selected={isItemSelected}
                         aria-checked={isItemSelected}
+                        onClick={() => {
+                          handleCellClick(name);
+                        }}
                       >
                         <TableCell> </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                         <Stack direction="row" alignItems="center" spacing={3}>
-                        <Avatar alt={medicine.name} src={medicine.imageUrl} /> 
+                        <Avatar alt={name} src={imageUrl} /> 
                         
-                        <Typography variant="subtitle2" noWrap>{medicine.name}</Typography>
+                        <Typography variant="subtitle2" noWrap>{name}</Typography>
                             
                         </Stack>
 
                         </TableCell> 
 
-                        <TableCell align="left">제형 : {medicine.formulation}
-                        , 모양 : {medicine.shape}</TableCell>
-                        <TableCell align="left">{medicine.efficacy}</TableCell>
+                        <TableCell align="left">제형 : {formulation}
+                        , 모양 : {shape}</TableCell>
+                        <TableCell align="left">{efficacy}</TableCell>
                       </TableRow>
-
-                       ));
+                       );
                   })}
-
-
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
                       <TableCell colSpan={6} />
