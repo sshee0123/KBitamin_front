@@ -8,7 +8,6 @@ class MedicineService{
 
     // eslint-disable-next-line class-methods-use-this
     getAllMedicineInfo() {
-        console.log('MedicineService : 약 정보 모두 가져오기');
         return axios.get(`${MEDICINE_API_BASE_URL}/mediInfo`,  { headers: authHeader() });
     }
 

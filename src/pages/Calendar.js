@@ -183,6 +183,7 @@ export default function User() {
     React.useEffect(() => {
         getJson('https://trial.mobiscroll.com/events/?vers=5', (events) => {
             setEvents(events);
+            console.log(events)
         }, 'jsonp');
     }, []);
     

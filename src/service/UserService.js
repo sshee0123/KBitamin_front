@@ -17,7 +17,6 @@ class UserService{
         console.log('updateUserInfo userid , ', userid);
         return axios.put(`${USER_API_BASE_URL}/${userid}`, user, { headers: authHeader() });
     }
-
 }
 
 export default new UserService();
