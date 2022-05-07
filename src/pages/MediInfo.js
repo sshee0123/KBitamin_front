@@ -263,7 +263,7 @@ export default function MediInfo() {
   const classes = useStyles();
 
   // const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - MEDICINELIST.length) : 0;
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - medicineCnt) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - medicines.length) : 0;
 
   // const filteredUsers = applySortFilter(MEDICINELIST, getComparator(order, orderBy), filterName);
   const filteredUsers = applySortFilter(medicines, getComparator(order, orderBy), filterName);
@@ -446,7 +446,7 @@ export default function MediInfo() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count = {medicineCnt}
+            count = {medicines.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
