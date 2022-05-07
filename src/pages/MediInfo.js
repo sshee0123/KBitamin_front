@@ -129,43 +129,25 @@ export default function MediInfo() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+    // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
 
-  // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
+    const [medicines, setMedicines] = useState([]);
+    // 약 리스트 개수
+    const [medicineCnt, setMedicineCnt] = useState(0);
 
-  const [medicines, setMedicines] = useState([])
-  // 약 리스트 개수
-  const [medicineCnt, setMedicineCnt] = useState(0)
-  // useEffect(() => {
-  //   MediService.getAllMedicineInfo().then((res) => {
-  //     setMedicineCnt(medicineCnt+1);
-  //     return res.data;
-  //   })
-  //   .then(data =>{
-  //     setMedicines(data)
-  //     console.log(data);
-  //     console.log("length:  ",data.length)
-  //     console.log("setmidicnt:  ", medicineCnt.length)
-  //   })
-  // }, [])
-
-
-  // 비동기 처리로 다시 약 정보 가져오기
-  const fetchMediFunc = async () => {
-    const data = await MediService.getAllMedicineInfo().then((res) => {
-      setMedicineCnt(medicineCnt+1);
-      return res.data;
-    })  
-      .then(data =>{
-          setMedicines(data)
-          // console.log(data);
-          console.log("length:  ",data.length)
-          console.log("setmidicnt:  ", medicineCnt)
-        })
-  }
-
-  useEffect(() => {
-    fetchMediFunc()
-  },[]);
+    // 비동기 처리로 다시 약 정보 가져오기
+    const fetchMediFunc = async () => {
+      await MediService.getAllMedicineInfo().then((res) => {
+        setMedicineCnt(medicineCnt+1);
+        setMedicines(res.data);
+        return res.data;
+      })  
+    }
+  
+    useEffect(() => {
+      fetchMediFunc()
+    },[]);
+    
 
   /* 약 클릭시 Modal 창 띄우기 */
   const [open, setOpen] = useState(false);
