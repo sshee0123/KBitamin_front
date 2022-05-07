@@ -72,9 +72,6 @@ import teal from './color/teal.png';
 import white from './color/white.png'
 import yellow from './color/yellow.png';
 
-
-
-
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -147,7 +144,7 @@ export default function MediInfo() {
     useEffect(() => {
       fetchMediFunc()
     },[]);
-    
+
 
   /* 약 클릭시 Modal 창 띄우기 */
   const [open, setOpen] = useState(false);
