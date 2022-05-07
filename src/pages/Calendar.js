@@ -37,6 +37,8 @@ import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
+// CalendarService
+import CalendarService from '../service/CalendarService';
 
 // ----------------------------------------------------------------------
 
@@ -103,7 +105,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function User() {
+export default function Calendar() {
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -180,12 +182,24 @@ export default function User() {
 
   const [myEvents, setEvents] = React.useState([]);
 
-    React.useEffect(() => {
-        getJson('https://trial.mobiscroll.com/events/?vers=5', (events) => {
-            setEvents(events);
-            console.log(events)
-        }, 'jsonp');
-    }, []);
+    // React.useEffect(() => {
+    //     getJson('https://trial.mobiscroll.com/events/?vers=5', (events) => {
+    //         setEvents(events);
+    //         console.log(events)
+    //     }, 'jsonp');
+    // }, []);
+
+    // 비동기 처리로 다시 약 정보 가져오기
+  const fetchMediFunc = async () => {
+    const data = await CalendarService.getAllCalendars().then((res) => res.data)  
+      .then(data =>{
+          setEvents(data);
+        })
+  }
+
+  React.useEffect(() => {
+    fetchMediFunc()
+  },[]);
     
     const onEventClick = React.useCallback((event) => {
         toast({
