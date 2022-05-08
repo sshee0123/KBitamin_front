@@ -5,7 +5,7 @@ import { Grid, Container, Typography } from '@mui/material';
 // components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
-// sections
+// sections 
 import {
   AppTasks,
   AppNewsUpdate,
@@ -33,23 +33,23 @@ export default function Calendar() {
         <Grid container spacing={3}>
 
           {/* 대시보드 페이지 맨 위 4가지 주석 */}
-          {/* <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="오늘 복용할 약" total={714000} icon={'ant-design:android-filled'} />
+          <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="오늘 복용할 약" total={6} icon={'icon-park-outline:medicine-bottle'} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="부작용 약의 수" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+            <AppWidgetSummary title="복용 일수" total={2} color="info" icon={'ant-design:calendar-outlined'} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+            <AppWidgetSummary title="남은 복용 일수" total={5} color="warning" icon={'ant-design:calendar-outlined'} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
-          </Grid> */}
+            <AppWidgetSummary title="부작용이 발생한 약" total={3} color="error" icon={'jam:triangle-danger'} />
+          </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits
-              title="Website Visits"
-              subheader="(+43%) than last year"
+              title="방문자 수"
+              subheader="전일대비 증감 (+5%)"
               chartLabels={[
                 '01/01/2003',
                 '02/01/2003',
@@ -85,8 +85,21 @@ export default function Calendar() {
               ]}
             />
           </Grid>
-
-          <Grid item xs={12} md={6} lg={4}>
+          <Grid item xs={12} md={10} lg={4}>
+            <AppTasks
+              title="챙겨드셨나요?"
+              list={[
+                { id: '1', label: '가나릴정(이토프리드염산염)' },
+                { id: '2', label: '가나슨캡슐' },
+                { id: '3', label: '가로틴캡슐100밀리그램(가바펜틴)' },
+                { id: '4', label: '힙스브이파워정' },
+                { id: '5', label: '휴니즈트라셋정' },
+                { id: '5', label: '다펜-큐연질캡슐(이부프로펜)' },
+              ]}
+            />
+          </Grid>
+          {/* <Grid item xs={12} md={6} lg={4}>
+            
             <AppCurrentVisits
               title="Current Visits"
               chartData={[
@@ -102,12 +115,43 @@ export default function Calendar() {
                 theme.palette.chart.yellow[0],
               ]}
             />
+          </Grid> */}
+          <Grid item xs={12} md={6} lg={8}>
+            <AppNewsUpdate
+              title="부작용이 있었던 약"
+              list={[...Array(5)].map((_, index) => ({
+                id: faker.datatype.uuid(),
+                title: faker.name.jobTitle(),
+                description: faker.name.jobTitle(),
+                image: `/static/mock-images/covers/cover_${index + 1}.jpg`,
+                postedAt: faker.date.recent(),
+              }))}
+            />
+            
           </Grid>
 
-          <Grid item xs={12} md={6} lg={8}>
+          <Grid item xs={12} md={6} lg={4}>
+            <AppCurrentVisits
+              title="이 약은 피하세요!"
+              chartData={[
+                { label: 'America', value: 10 },
+                { label: 'Asia', value: 5 },
+                { label: 'Europe', value: 4 },
+                { label: 'Africa', value: 2 },
+              ]}
+              chartColors={[
+                theme.palette.error.main,
+                theme.palette.warning.main,
+                theme.palette.text.secondary,
+                theme.palette.text.disabled,
+              ]}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6} lg={12}>
             <AppConversionRates
-              title="Conversion Rates"
-              subheader="(+43%) than last year"
+              title="최근 이 약을 많이 먹어요"
+              // subheader="(+43%) than last year"
               chartData={[
                 { label: 'Italy', value: 400 },
                 { label: 'Japan', value: 430 },
@@ -123,7 +167,7 @@ export default function Calendar() {
             />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={4}>
+          {/* <Grid item xs={12} md={6} lg={4}>
             <AppCurrentSubject
               title="Current Subject"
               chartLabels={['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math']}
@@ -136,22 +180,9 @@ export default function Calendar() {
             />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={8}>
-            <AppNewsUpdate
-              title="News Update"
-              list={[...Array(5)].map((_, index) => ({
-                id: faker.datatype.uuid(),
-                title: faker.name.jobTitle(),
-                description: faker.name.jobTitle(),
-                image: `/static/mock-images/covers/cover_${index + 1}.jpg`,
-                postedAt: faker.date.recent(),
-              }))}
-            />
-          </Grid>
-
           <Grid item xs={12} md={6} lg={4}>
             <AppOrderTimeline
-              title="Order Timeline"
+              title="약을 먹은 기간"
               list={[...Array(5)].map((_, index) => ({
                 id: faker.datatype.uuid(),
                 title: [
@@ -166,6 +197,7 @@ export default function Calendar() {
               }))}
             />
           </Grid>
+          
 
           <Grid item xs={12} md={6} lg={4}>
             <AppTrafficBySite
@@ -206,7 +238,7 @@ export default function Calendar() {
                 { id: '5', label: 'Sprint Showcase' },
               ]}
             />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </Page>

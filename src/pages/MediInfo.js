@@ -1,4 +1,4 @@
-import { filter } from 'lodash';
+import { filters } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
@@ -37,7 +37,7 @@ import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+import { UserListHead, UserListToolbar, UserMoreMenu, ShapeStyle } from '../sections/@dashboard/user';
 // MediService
 import MediService from '../service/MedicineService';
 // import { id } from 'date-fns/locale';
@@ -104,7 +104,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filters(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -246,191 +246,36 @@ export default function MediInfo() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
+  const allCategories = ['All', '원형', '타원형', '장방형', 'None', '사각형', '삼각형'];
+  // console.log(medicines.shape)
+
+  // console.log('all', allCategories);
+
+  const allCategories1 = medicines.map(item => item.name);
+
+  console.log(allCategories1)
+
+
+  const [menuItem, setMenuItem] = useState(medicines);
+  const [buttons, setButtons] = useState(allCategories);
+
+
+
+  const filter = (button) => {
+
+    if (button === 'All') {
+      setMenuItem(medicines);
+      return;
+    }
+
+    const filteredData = medicines.filter(item => item.shape.include(button));
+    setMenuItem(filteredData)
+  };
+
   return (
-    <Page title="MediInfo">
-      <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            Medicine Information
-          </Typography>
+    
+              <ShapeStyle menuItems={menuItem}/>
 
-          <Modal
-              id = 'modal'
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-              <Box sx ={style}>
-              <div className="mbsc-grid mbsc-grid-fixed">
-                      <Typography variant="h4" gutterBottom>
-                        약 정보
-                      </Typography>
-              </div>
-              </Box>
-            </Modal>
-
-        </Stack>
-
-        {/* Medicine 검색 조건 */}
-        <Card id='cardInMediInfo'>
-
-          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-            <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
-          </Stack>
-          <ButtonGroup className='buttonGroup'>
-            <Stack direction="row" alignItems="center" mb={3} spacing={3}>
-              <Button className='classify' style={{ color: '-moz-initial' }}>모양<br />전체</Button>
-
-              <Button style={{ color: 'black' }}><img src={circle} /></Button>
-              <Button style={{ color: 'black' }}><img src={oval} /></Button>
-              <Button style={{ color: 'black' }}><img src={halfcircle} /></Button>
-              <Button style={{ color: 'black' }}><img src={triangle} /></Button>
-              <Button style={{ color: 'black' }}><img src={square} /></Button>
-              <Button style={{ color: 'black' }}><img src={diamond} /></Button>
-              <Button style={{ color: 'black' }}><img src={jangbang} /></Button>
-              <Button style={{ color: 'black' }}><img src={penta} /></Button>
-              <Button style={{ color: 'black' }}><img src={hexa} /></Button>
-              {/* 모양 버튼 추가 - 추후 이쁘게 */}
-
-
-            </Stack>
-          </ButtonGroup>
-          <ButtonGroup className='buttonGroup' >
-            <Stack direction="row" alignItems="center" mb={3} spacing={3}>
-              <Button className='classify' style={{ color: '-moz-initial' }}>색상<br />전체</Button>
-
-              <Button style={{ color: 'black' }}><img className='colorbtn' src={white} /></Button>
-              
-              <Button style={{ color: 'black' }}><img className='colorbtn' src={yellow} /></Button>
-              <Button style={{ color: 'black' }}><img className='colorbtn' src={orange} /></Button>
-              <Button style={{ color: 'black' }}><img className='colorbtn' src={pink} /></Button>
-              <Button style={{ color: 'black' }}><img className='colorbtn' src={red} /></Button>
-              <Button style={{ color: 'black' }}><img className='colorbtn' backgroundColor='brown' src={brown} /></Button>
-              <Button style={{ color: 'black' }}><img className='colorbtn' src={lightgreen} /></Button>
-              <Button style={{ color: 'black' }}><img className='colorbtn' src={green} /></Button>
-              <Button style={{ color: 'black' }}><img className='colorbtn' src={teal} /></Button>
-
-              {/* 색상 버튼 추가 - 추후 이쁘게 */}
-
-
-            </Stack>
-          </ButtonGroup>
-          <ButtonGroup className='buttonGroup'>
-            <Stack direction="row" alignItems="center" mb={3} spacing={3}>
-              <Button className='classify' style={{ color: '-moz-initial' }}>제형<br />전체</Button>
-
-              <Button style={{ color: 'black' }}><img src={jeongjae} /></Button>
-              <Button style={{ color: 'black' }}><img src={kyungjil} /></Button>
-              <Button style={{ color: 'black' }}><img src={yeonjil} /></Button>
-
-              {/* 제형 버튼 추가 - 추후 이쁘게 */}
-
-            </Stack>
-          </ButtonGroup>
-          <p />
-
-          <ButtonGroup className='buttonGroup' variant="outlined" aria-label="outlined button group">
-            <Stack direction="row" alignItems="center" mb={3} spacing={3}>
-              <Button className='classify' style={{ color: '-moz-initial' }}>분할선<br />전체</Button>
-
-
-              <Button style={{ color: 'black' }}><img src={nothing} /></Button>
-              <Button style={{ color: 'black' }}><img src={minus} /></Button>
-              <Button style={{ color: 'black' }}><img src={plusplus} /></Button>
-              <Button style={{ color: 'black' }}><img src={othershape} /></Button>
-              {/* 분할선 버튼 추가 - 추후 이쁘게 */}
-
-
-            </Stack>
-          </ButtonGroup>
-
-
-          <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
-                <UserListHead
-                  order={order}
-                  orderBy={orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={medicineCnt}
-                  numSelected={selected.length}
-                  onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
-                />
-
-                <TableBody>
-                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { name, shape, efficacy, formulation,imageUrl } = row;
-                    const isItemSelected = selected.indexOf(name) !== -1;
-
-                    // 여기 return 또 있음.
-                    // 여기에 back에서 받은 json 데이터 list 보여줘야함.
-                    return (
-                        <TableRow
-                        hover
-                        key={name}
-                        tabIndex={-1}
-                        role="checkbox"
-                        selected={isItemSelected}
-                        aria-checked={isItemSelected}
-                        onClick={() => {
-                          handleCellClick(name);
-                        }}
-                      >
-                        <TableCell> </TableCell>
-                        <TableCell component="th" scope="row" padding="none">
-                        <Stack direction="row" alignItems="center" spacing={3}>
-                        <Avatar alt={name} src={imageUrl} /> 
-                        
-                        <Typography variant="subtitle2" noWrap>{name}</Typography>
-                            
-                        </Stack>
-
-                        </TableCell> 
-
-                        <TableCell align="left">제형 : {formulation}
-                        , 모양 : {shape}</TableCell>
-                        <TableCell align="left">{efficacy}</TableCell>
-                      </TableRow>
-                       );
-                  })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-
-                </TableBody>
-
-                {isUserNotFound && (
-                  <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <SearchNotFound searchQuery={filterName} />
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                )}
-
-              </Table>
-
-            </TableContainer>
-          </Scrollbar>
-
-{/* 페이지 조절... 근데 검색해야해서 mediInfo 페이지는 그냥 페이지 안나누는게 날 것 같음. */}
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count = {medicines.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-
-        </Card>
-      </Container>
-    </Page>
+            
   );
 }
