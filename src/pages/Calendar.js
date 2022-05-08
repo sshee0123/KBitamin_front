@@ -1,7 +1,7 @@
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { Dropdown, Input, setOptions, Eventcalendar, getJson, toast } from '@mobiscroll/react';
-import { styled } from '@mui/material/styles';
+import { styled,createTheme } from '@mui/material/styles';
 import { DateRangePicker, DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
@@ -29,6 +29,11 @@ import {
   TablePagination,
 } from '@mui/material';
 // components
+import { purple } from '@mui/material/colors';
+import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { ColorPicker, createColor } from 'material-ui-color';
+// import { ColorPicker } from "material-ui-color-picker";
+
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
@@ -39,6 +44,7 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashbo
 import USERLIST from '../_mock/user';
 // CalendarService
 import CalendarService from '../service/CalendarService';
+
 
 // ----------------------------------------------------------------------
 
@@ -104,6 +110,7 @@ function applySortFilter(array, comparator, query) {
   }
   return stabilizedThis.map((el) => el[0]);
 }
+
 
 export default function Calendar() {
   const [page, setPage] = useState(0);
@@ -213,6 +220,12 @@ export default function Calendar() {
         };
     }, []);
   
+    // ColorPicker
+    const [color, setColor] = useState(createColor("#000"));
+    const handleColorChange = (value) => {
+      console.log("onChange=", value);
+      setColor(value);
+    };
 
   return (
     <Page title="User">
@@ -251,12 +264,14 @@ export default function Calendar() {
                         <div className="mbsc-col-md-6 mbsc-col-12">
                           <DateRange
                             // editableDateInputs={true}
-                            onChange={item => setState([item.selection])}
+                            onChange={item => setState([item.selection]) }
                             moveRangeOnFirstSelection={false}
                             ranges={state}
                           />
+                          {/* <ColorPicker name="color" defaultValue="#000" onChange={color => console.log(color)}/> */}
+                          <ColorPicker value={color} onChange={handleColorChange} />
                           <p className='btn2'>
-                            <p>&nbsp;&nbsp;&nbsp;</p>
+                            &nbsp;&nbsp;&nbsp;
                             <Button variant="contained" onClick={handleClose}>저장하기 </Button>
                             &nbsp;&nbsp;&nbsp;
                             <Button variant="contained" onClick={handleClose}>취소</Button>
