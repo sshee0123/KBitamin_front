@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '@mobiscroll/react/dist/css/mobiscroll.min.css';
 import { Dropdown, Input, Page, setOptions } from '@mobiscroll/react';
+import { useFormik, Form, FormikProvider } from 'formik';
 import { Link as RouterLink } from 'react-router-dom';
 import { DateRangePicker, DateRange } from 'react-date-range';
 import TextField from '@mui/material/TextField';
@@ -9,6 +10,7 @@ import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
+import { LoadingButton } from '@mui/lab';
 import { addDays } from "date-fns"
 // materialimport { DateRangePicker } from 'rsuite';
 import { Grid, Container, Stack, Typography, Button } from '@mui/material';
@@ -22,6 +24,9 @@ import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../sections/@dashb
 import POSTS from '../_mock/blog';
 // MediService
 import MediService from '../service/MedicineService';
+import CalendarService from '../service/CalendarService';
+
+import MemberService from '../service/MemberService';
 // ----------------------------------------------------------------------
 
 setOptions({
@@ -36,15 +41,6 @@ const SORT_OPTIONS = [
 ];
 
 // ----------------------------------------------------------------------
-const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-  { title: 'The Godfather: Part II', year: 1974 },
-  { title: 'The Dark Knight', year: 2008 },
-  { title: '12 Angry Men', year: 1957 },
-  { title: "Schindler's List", year: 1993 },
-  { title: 'Pulp Fiction', year: 1994 },
-];
 
 export default function Blog() {
 
@@ -59,19 +55,51 @@ export default function Blog() {
   const [state, setState] = useState([
     {
       startDate: new Date(),
-      endDate: null,
+      endDate: new Date(),
       key: 'selection'
     }
   ]);
 
+  const [values, setValues] = useState({ name: '', start: '', end: '', color: ''});
+
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      start: '',
+      end: '',
+      color: '',
+    },
+    onSubmit: () => {
+      CalendarService.calendarInsert(MemberService.getCurrentUser().id,formik.values.name,formik.values.start, formik.values.end, formik.values.color);
+    },
+  });
+
+  const { handleSubmit, isSubmitting, getFieldProps } = formik;
+  const handleTextChange = (event, value) => {
+    
+    formik.values.name = value.name;
+    setValues({ name: value.name });
+  };
+
   // ColorPicker
   const [color, setColor] = useState(createColor("#000"));
   const handleColorChange = (value) => {
-    console.log("onChange=", value);
-    setColor(value);
+    setColor(value.css.backgroundColor);
+    formik.values.color = value.css.backgroundColor;
   };
+
+  const handleDateSelect = (ranges) =>{
+    // console.log(ranges);
+    // console.log('start : ',ranges.selection.startDate)
+    // console.log('end : ',ranges.selection.endDate)
+    formik.values.start = ranges.selection.startDate;
+    formik.values.end = ranges.selection.endDate;
+    setState([ranges.selection]);
+  }
   
   return (
+    <FormikProvider value={formik}>
+    <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
     <Page>
       <div className="mbsc-grid mbsc-grid-fixed">
         <div className="mbsc-form-group">
@@ -88,8 +116,9 @@ export default function Blog() {
                     id="highlights-demo"
                     options={medicines}
                     getOptionLabel={(option) => option.name}
+                    onChange={handleTextChange}
                     renderInput={(params) => (
-                      <TextField {...params} label="약 이름" margin="normal"  variant="filled" color="secondary"/>
+                      <TextField {...params} label="약 이름" margin="normal"  variant="outlined" color="secondary" />
                     )}
                     renderOption={(props, option, { inputValue }) => {
                       const matches = match(option.name, inputValue);
@@ -119,14 +148,14 @@ export default function Blog() {
                 <div className="mbsc-col-md-6 mbsc-col-12">
                 <div className="mbsc-form-group-title">날짜 입력</div>
                   <DateRange
-                    // editableDateInputs={true}
-                    onChange={item => setState([item.selection])}
+                    editableDateInputs
+                    onChange={handleDateSelect}
                     moveRangeOnFirstSelection={false}
                     ranges={state}
                   />
                   <ColorPicker value={color} onChange={handleColorChange} />
                   <p>
-                  <Button variant="contained">저장하기</Button>
+                  <LoadingButton type="submit" variant="contained">저장하기</LoadingButton>
                 </p>
                 </div >
               </div>
@@ -139,5 +168,7 @@ export default function Blog() {
       </div>
       
     </Page>
+    </Form>
+    </FormikProvider>
   );
 }

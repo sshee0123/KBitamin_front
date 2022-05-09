@@ -4,13 +4,22 @@ import authHeader from './auth-header';
 
 const CALENDAR_API_BASE_URL = "/api/calendar"; 
 
-class CalenndarService{
+class CalendarService{
 
     // eslint-disable-next-line class-methods-use-this
-    getAllCalendars() {
-        console.log('calendar service')
-        return axios.get(`${CALENDAR_API_BASE_URL}/calendarInfo`,  { headers: authHeader() });
+    getAllCalendars(userid) {
+        return axios.get(`${CALENDAR_API_BASE_URL}/calendarInfo?id=${userid}`,  { headers: authHeader() });
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    calendarInsert(userid, title, start, end, color) {
+
+        console.log('calendar Insert ')
+        console.log(start)
+        console.log({ headers: authHeader() })
+        
+        return axios.post(`${CALENDAR_API_BASE_URL}/calendarInsert?id=${userid}` ,   { title, start, end, color});
     }
 }
 
-export default new CalenndarService();
+export default new CalendarService();

@@ -243,7 +243,7 @@ export default function ProfileForm() {
                   id='datepicker'
                   label="Birth"
                   inputFormat="MM/dd/yyyy"
-                  value={value}
+                  value={formik.values.birthDate}
                   onChange={handleBirthChange}
                   renderInput={(params) => <TextField {...params} />}
                 />
