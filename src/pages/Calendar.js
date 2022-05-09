@@ -44,7 +44,8 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashbo
 import USERLIST from '../_mock/user';
 // CalendarService
 import CalendarService from '../service/CalendarService';
-
+import MemberService from '../service/MemberService';
+import Blog from './Blog';
 
 // ----------------------------------------------------------------------
 
@@ -185,7 +186,7 @@ export default function Calendar() {
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {setOpen(false); fetchMediFunc();}
 
   const [myEvents, setEvents] = React.useState([]);
 
@@ -196,9 +197,9 @@ export default function Calendar() {
     //     }, 'jsonp');
     // }, []);
 
-    // 비동기 처리로 다시 약 정보 가져오기
+  // 비동기 처리로 다시 약 정보 가져오기
   const fetchMediFunc = async () => {
-    const data = await CalendarService.getAllCalendars().then((res) => res.data)  
+    const data = await CalendarService.getAllCalendars(MemberService.getCurrentUser().id).then((res) => res.data)  
       .then(data =>{
           setEvents(data);
         })
@@ -243,6 +244,8 @@ export default function Calendar() {
               aria-describedby="modal-modal-description"
             >
               <Box sx ={style}>
+                <Blog />
+                {/*
               <div className="mbsc-grid mbsc-grid-fixed">
                 <div className="mbsc-form-group">
                   <div className="mbsc-row mbsc-justify-content-center">
@@ -268,7 +271,6 @@ export default function Calendar() {
                             moveRangeOnFirstSelection={false}
                             ranges={state}
                           />
-                          {/* <ColorPicker name="color" defaultValue="#000" onChange={color => console.log(color)}/> */}
                           <ColorPicker value={color} onChange={handleColorChange} />
                           <p className='btn2'>
                             &nbsp;&nbsp;&nbsp;
@@ -285,6 +287,8 @@ export default function Calendar() {
                 </div>
 
               </div>
+
+              */}
               </Box>
             </Modal>
         </Stack>

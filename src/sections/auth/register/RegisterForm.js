@@ -87,24 +87,6 @@ export default function RegisterForm() {
       label: 'Female',
     },
   ];
-
-  {/*
-  남, 녀 선택 위한 코드 currencies
-  const currencies = [
-    {
-      value: 'M',
-      label: 'Male',
-    },
-    {
-      value: 'F',
-      label: 'Female',
-    },
-    {
-      value: 'N',
-      label: 'Secret',
-    }
-  ];
-*/}
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
   const [selectedDate, setSelectedDate] = useState(new Date());
   const handleDateChange = (date) => {
