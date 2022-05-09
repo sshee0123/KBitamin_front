@@ -13,6 +13,7 @@ import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import Calendar from './pages/Calendar';
 import MediInfo from './pages/MediInfo';
+import DetailOneMediInfo from './pages/DetailOneMediInfo';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -23,6 +24,7 @@ export default function Router() {
       children: [
         { path: 'app', element: <DashboardApp /> },
         { path: 'mediInfo', element: <MediInfo /> },
+        { path: 'medicine/detailOneMediInfo', element: <DetailOneMediInfo/> },
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },

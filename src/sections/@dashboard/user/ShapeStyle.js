@@ -1,7 +1,9 @@
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+// import { Link as RouterLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 // material
 import {
     Card,
@@ -70,6 +72,7 @@ import red from './color/red.png';
 import teal from './color/teal.png';
 import white from './color/white.png'
 import yellow from './color/yellow.png';
+// import { PinDropSharp } from '@material-ui/icons';
 
 // ----------------------------------------------------------------------
 
@@ -124,6 +127,8 @@ export default function MediInfo({ menuItems }) {
     const [filterName, setFilterName] = useState('');
 
     const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const navigate = useNavigate();
 
     // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
 
@@ -211,7 +216,8 @@ export default function MediInfo({ menuItems }) {
     // 약 테이블 cell 클릭 리스너
     const handleCellClick = (MediName) => {
         console.log(MediName);
-        handleOpen();
+        // window.location.href = '/dashboard/detailOneMediInfo';
+        // handleOpen();
     }
 
     // Toggle function
@@ -401,7 +407,11 @@ return (
                                                 selected={isItemSelected}
                                                 aria-checked={isItemSelected}
                                                 onClick={() => {
-                                                    handleCellClick(name);
+                                                    // handleCellClick(name);
+                                                    // medicine/detailOneMediInfo?name=가바민정(레바미피드)
+                                                    navigate(`/dashboard/medicine/detailOneMediInfo`,
+                                                        {state: name}
+                                                    )
                                                 }}
                                             >
                                                 <TableCell> </TableCell>
