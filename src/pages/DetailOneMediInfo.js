@@ -39,7 +39,6 @@ import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
-
 export default function DetailOneMediInfo(){
 
     // mediInfo 에서 보낸 props: name
