@@ -39,6 +39,7 @@ import USERLIST from '../_mock/user';
 // MediService
 import MediService from '../service/MedicineService';
 import MemberService from '../service/MemberService';
+import CalendarService from '../service/CalendarService';
 
 // ----------------------------------------------------------------------
 const currencies = [
@@ -132,7 +133,7 @@ export default function User() {
   
       // 비동기 처리로 다시 약 정보 가져오기
       const fetchMediFunc = async () => {
-        await MediService.getTakingPerUser(MemberService.getCurrentUser().id).then((res) => {
+        await CalendarService.getTakingPerUser(MemberService.getCurrentUser().id).then((res) => {
           setMedicineCnt(medicineCnt+1);
           setMedicines(res.data);
           console.log(res.data)

@@ -3,7 +3,6 @@ import axios from 'axios';
 import authHeader from './auth-header';
 
 const MEDICINE_API_BASE_URL = "/api/medicine"; 
-const TAKING_API_BASE_URL = "/api/taking"; 
 
 class MedicineService{
 
@@ -20,12 +19,6 @@ class MedicineService{
 
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    getTakingPerUser(id){
-        console.log("front service getTakingPerUser?user_id=` + user_id,",id);
-
-        return axios.get(`${TAKING_API_BASE_URL}/takingUser?id=${id}`,{ headers: authHeader() });
-    }
 
 }
 
