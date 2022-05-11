@@ -9,7 +9,7 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 import Box from '@mui/material/Box';
 import { addDays } from "date-fns"
 import Modal from '@mui/material/Modal';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
@@ -27,10 +27,10 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
-// components
 import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
+import Autocomplete from '@mui/material/Autocomplete';
 
+// components
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
@@ -39,11 +39,12 @@ import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
-import Selectbox from '../sections/@dashboard/user/Selectbox'
-
+// MediService
+import MediService from '../service/MedicineService';
+import MemberService from '../service/MemberService';
+import CalendarService from '../service/CalendarService';
 
 // ----------------------------------------------------------------------
-
 const currencies = [
   {
     value: 'EUR',
@@ -56,6 +57,11 @@ const currencies = [
 
 ];
 
+const options = ['없음', '어지러움', '두통', '권태감', '쇼크', '불면', '우울증', '흥분', '졸림', '빈맥', '혈압변화', '가슴 통증', '구토', '변비', '설사', '복통', '식욕부진', '위염', '발진', '두드러기', '부종', '탈모', '근육통', '관절통', '경련', '호흡곤란', '코피', '코막힘', '기침', '피로', '발열', '무기력증', '충혈', '눈곱', '각막염', '이명', '청력소실'];
+
+
+
+
 const TABLE_HEAD = [
   { id: 'name', label: '의약품', alignRight: false },
   { id: 'role', label: '복용 날짜', alignRight: false },
@@ -65,7 +71,7 @@ const TABLE_HEAD = [
 ];
 
 const style = {
-
+  
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -73,7 +79,7 @@ const style = {
   width: 800,
   bgcolor: '#FCFCFC',
   border: '2px solid lightgray',
-  borderRadius: '2%',
+  borderRadius : '2%',
   boxShadow: 24,
   p: 4,
 };
@@ -111,13 +117,11 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function User() {
-
   const [currency, setCurrency] = React.useState('EUR');
 
   const handleChange = (event) => {
     setCurrency(event.target.value);
   };
-
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -129,6 +133,27 @@ export default function User() {
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+      // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
+
+      const [medicines, setMedicines] = useState([]);
+      // 약 리스트 개수
+      const [medicineCnt, setMedicineCnt] = useState(0);
+  
+      // 비동기 처리로 다시 약 정보 가져오기
+      const fetchMediFunc = async () => {
+        await CalendarService.getTakingPerUser(MemberService.getCurrentUser().id).then((res) => {
+          setMedicineCnt(medicineCnt+1);
+          setMedicines(res.data);
+          console.log(res.data)
+          console.log(res.data.length)
+          return res.data;
+        })  
+      }
+    
+      useEffect(() => {
+        fetchMediFunc()
+      },[]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -150,16 +175,14 @@ export default function User() {
     let newSelected = [];
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, name);
-    } 
-    else if (selectedIndex === 0) {
+    } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
-    } 
-    else if (selectedIndex > 0) {
+    } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
     }
-    setSelected(selectedIndex);
+    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -181,7 +204,7 @@ export default function User() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
-
+  
   const [state, setState] = useState([
     {
       startDate: new Date(),
@@ -194,7 +217,12 @@ export default function User() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  
+const [value, setValue] = React.useState(options[0]);
+  const [inputValue, setInputValue] = React.useState('');
+
+
+
+
 
   return (
     <Page title="User">
@@ -203,15 +231,15 @@ export default function User() {
           <Typography variant="h4" gutterBottom>
             My Medicine
           </Typography>
-          <Button onClick={handleOpen} variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>Add My Medicine</Button>
-          <Modal
-            id='modal'
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={style}>
+            <Button onClick={handleOpen}  variant="contained" startIcon= {<Iconify icon="eva:plus-fill" />}>Add My Medicine</Button>
+            <Modal
+              id = 'modal'
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx ={style}>
               <div className="mbsc-grid mbsc-grid-fixed">
                 <div className="mbsc-form-group">
                   <div className="mbsc-row mbsc-justify-content-center">
@@ -252,8 +280,8 @@ export default function User() {
                 </div>
 
               </div>
-            </Box>
-          </Modal>
+              </Box>
+            </Modal>
         </Stack>
 
         <Card>
@@ -295,11 +323,23 @@ export default function User() {
                           </Stack>
                         </TableCell>
                         <TableCell align="left">{role}</TableCell>
-                        <TableCell align="left" >
-                          <Stack direction="row" >
-                          <Selectbox/>
-                          </Stack>
-                        </TableCell>
+                        <TableCell align="left">
+<Autocomplete
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+        inputValue={inputValue}
+        onInputChange={(event, newInputValue) => {
+          setInputValue(newInputValue);
+        }}
+        id="controllable-states-demo"
+        autoSelect
+        autoComplete
+        options={options}
+        sx={{ width: 200 }}
+        renderInput={(params) => <TextField {...params} label="상세 부작용" />}
+      /></TableCell>
                         <TableCell align="left">
                           <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
                             {sentenceCase(status)}
