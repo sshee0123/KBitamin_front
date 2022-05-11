@@ -1,3 +1,6 @@
+import React from 'react'
+import ReactDOM from 'react-dom';
+import ReactApexChart from 'react-apexcharts'
 import { faker } from '@faker-js/faker';
 // @mui
 import { useTheme } from '@mui/material/styles';
@@ -16,7 +19,9 @@ import {
   AppWidgetSummary,
   AppCurrentSubject,
   AppConversionRates,
+  ApexChart
 } from '../sections/@dashboard/app';
+
 
 // ----------------------------------------------------------------------
 
@@ -46,7 +51,21 @@ export default function Calendar() {
             <AppWidgetSummary title="부작용이 발생한 약" total={3} color="error" icon={'jam:triangle-danger'} />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={8}>
+          <Grid item xs={12} md={6} lg={6}>
+            <AppTasks
+              title="챙겨드셨나요?"
+              list={[
+                { id: '1', label: '가나릴정(이토프리드염산염)' },
+                { id: '2', label: '가나슨캡슐' },
+                { id: '3', label: '가로틴캡슐100밀리그램(가바펜틴)' },
+                { id: '4', label: '힙스브이파워정' },
+                { id: '5', label: '휴니즈트라셋정' },
+                { id: '6', label: '다펜-큐연질캡슐(이부프로펜)' },
+              ]}
+            />
+          </Grid>
+
+          {/* <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits
               title="방문자 수"
               subheader="전일대비 증감 (+5%)"
@@ -84,24 +103,11 @@ export default function Calendar() {
                 },
               ]}
             />
-          </Grid>
-          <Grid item xs={12} md={10} lg={4}>
-            <AppTasks
-              title="챙겨드셨나요?"
-              list={[
-                { id: '1', label: '가나릴정(이토프리드염산염)' },
-                { id: '2', label: '가나슨캡슐' },
-                { id: '3', label: '가로틴캡슐100밀리그램(가바펜틴)' },
-                { id: '4', label: '힙스브이파워정' },
-                { id: '5', label: '휴니즈트라셋정' },
-                { id: '5', label: '다펜-큐연질캡슐(이부프로펜)' },
-              ]}
-            />
-          </Grid>
-          {/* <Grid item xs={12} md={6} lg={4}>
+          </Grid> */}
+          <Grid item xs={12} md={6} lg={6}>
             
             <AppCurrentVisits
-              title="Current Visits"
+              title="이 약은 피하길"
               chartData={[
                 { label: 'America', value: 4344 },
                 { label: 'Asia', value: 5435 },
@@ -109,14 +115,20 @@ export default function Calendar() {
                 { label: 'Africa', value: 4443 },
               ]}
               chartColors={[
-                theme.palette.primary.main,
-                theme.palette.chart.blue[0],
-                theme.palette.chart.violet[0],
-                theme.palette.chart.yellow[0],
+                theme.palette.error.main,
+                theme.palette.warning.main,
+                theme.palette.text.secondary,
+                theme.palette.text.disabled,
               ]}
             />
-          </Grid> */}
-          <Grid item xs={12} md={6} lg={8}>
+          </Grid>
+          
+          <Grid  id = 'app' item xs={12} md={12} lg={12}>
+            <ApexChart />
+          </Grid>
+          
+          
+          <Grid item xs={12} md={6} lg={6}>
             <AppNewsUpdate
               title="부작용이 있었던 약"
               list={[...Array(5)].map((_, index) => ({
@@ -130,7 +142,7 @@ export default function Calendar() {
             
           </Grid>
 
-          <Grid item xs={12} md={6} lg={4}>
+          {/* <Grid item xs={12} md={6} lg={4}>
             <AppCurrentVisits
               title="이 약은 피하세요!"
               chartData={[
@@ -145,6 +157,23 @@ export default function Calendar() {
                 theme.palette.text.secondary,
                 theme.palette.text.disabled,
               ]}
+            />
+          </Grid> */}
+          <Grid item xs={12} md={6} lg={6}>
+            <AppOrderTimeline
+              title="약을 먹은 기간"
+              list={[...Array(5)].map((_, index) => ({
+                id: faker.datatype.uuid(),
+                title: [
+                  '1983, orders, $4220',
+                  '12 Invoices have been paid',
+                  'Order #37745 from September',
+                  'New order placed #XF-2356',
+                  'New order placed #XF-2346',
+                ][index],
+                type: `order${index + 1}`,
+                time: faker.date.past(),
+              }))}
             />
           </Grid>
 
@@ -167,7 +196,7 @@ export default function Calendar() {
             />
           </Grid>
 
-          {/* <Grid item xs={12} md={6} lg={4}>
+         <Grid item xs={12} md={6} lg={4}>
             <AppCurrentSubject
               title="Current Subject"
               chartLabels={['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math']}
@@ -180,23 +209,7 @@ export default function Calendar() {
             />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={4}>
-            <AppOrderTimeline
-              title="약을 먹은 기간"
-              list={[...Array(5)].map((_, index) => ({
-                id: faker.datatype.uuid(),
-                title: [
-                  '1983, orders, $4220',
-                  '12 Invoices have been paid',
-                  'Order #37745 from September',
-                  'New order placed #XF-2356',
-                  'New order placed #XF-2346',
-                ][index],
-                type: `order${index + 1}`,
-                time: faker.date.past(),
-              }))}
-            />
-          </Grid>
+          
           
 
           <Grid item xs={12} md={6} lg={4}>
@@ -238,7 +251,7 @@ export default function Calendar() {
                 { id: '5', label: 'Sprint Showcase' },
               ]}
             />
-          </Grid> */}
+          </Grid> 
         </Grid>
       </Container>
     </Page>
