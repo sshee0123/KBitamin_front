@@ -209,7 +209,9 @@ export default function MediInfo() {
   // 약 테이블 cell 클릭 리스너
   const handleCellClick = (MediName) => {
     console.log(MediName);
-    handleOpen();
+    // handleOpen();
+    
+
   }
 
   // Toggle function

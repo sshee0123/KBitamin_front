@@ -407,8 +407,7 @@ return (
                                                 selected={isItemSelected}
                                                 aria-checked={isItemSelected}
                                                 onClick={() => {
-                                                    // handleCellClick(name);
-                                                    // medicine/detailOneMediInfo?name=가바민정(레바미피드)
+                
                                                     navigate(`/dashboard/medicine/detailOneMediInfo`,
                                                         {state: name}
                                                     )

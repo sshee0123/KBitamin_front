@@ -20,33 +20,24 @@ import {
   TablePagination,
   Box
 } from '@mui/material';
-
 // components
-
 import Grid from '@material-ui/core/Grid';
 import Modal from '@mui/material/Modal';
-
-import UsageService from '../service/UsageService';
 // MediService
 import MediService from '../service/MedicineService';
-
-
-
-
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+
 export default function DetailOneMediInfo(){
 
     // mediInfo 에서 보낸 props: name
     const { state } = useLocation();
     MediService.getMedicineByName(state);
-    UsageService.getUsageByMediName(state);
-    // CautionService.getCautionByMediName(state);
-
+    
     // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
 
     const [medicine, setMedicine] = useState([]);
@@ -97,6 +88,14 @@ export default function DetailOneMediInfo(){
             <div>{medicine.color}</div>
             <h3>분할선</h3>
             <div>{medicine.divideLine}</div>
+
+            <h3>usage</h3>
+            <div>{medicine.usage}</div>
+
+            <h3>caution</h3>
+            <div>{medicine.caution}</div>
+
+
             </Stack>
 
 
