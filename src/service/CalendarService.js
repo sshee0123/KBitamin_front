@@ -3,6 +3,7 @@ import axios from 'axios';
 import authHeader from './auth-header';
 
 const CALENDAR_API_BASE_URL = "/api/calendar"; 
+const TAKING_API_BASE_URL = "/api/taking"; 
 
 class CalendarService{
 
@@ -19,6 +20,13 @@ class CalendarService{
         console.log({ headers: authHeader() })
         
         return axios.post(`${CALENDAR_API_BASE_URL}/calendarInsert?id=${userid}` ,   { title, start, end, color});
+    }
+    
+    // eslint-disable-next-line class-methods-use-this
+    getTakingPerUser(id){
+        console.log("front service getTakingPerUser?user_id=` + user_id,",id);
+
+        return axios.get(`${TAKING_API_BASE_URL}/takingUser?id=${id}`,{ headers: authHeader() });
     }
 }
 
