@@ -16,12 +16,8 @@ import { addDays } from "date-fns"
 import { Grid, Container, Stack, Typography, Button } from '@mui/material';
 // components
 // import Page from '../components/Page';
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { ColorPicker, createColor } from 'material-ui-color';
 import Iconify from '../components/Iconify';
-import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../sections/@dashboard/blog';
-// mock
-import POSTS from '../_mock/blog';
 // MediService
 import MediService from '../service/MedicineService';
 import CalendarService from '../service/CalendarService';

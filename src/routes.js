@@ -3,13 +3,12 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
-import Blog from './pages/Blog';
+// import Blog from './pages/Blog';
 import User from './pages/User';
 import Login from './pages/Login';
 import NotFound from './pages/Page404';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
-import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import Calendar from './pages/Calendar';
 import MediInfo from './pages/MediInfo';
@@ -26,8 +25,6 @@ export default function Router() {
         { path: 'mediInfo', element: <MediInfo /> },
         { path: 'medicine/detailOneMediInfo', element: <DetailOneMediInfo/> },
         { path: 'user', element: <User /> },
-        { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> },
         { path: 'calendar', element: <Calendar /> },
       ],
     },
