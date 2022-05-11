@@ -9,7 +9,7 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 import Box from '@mui/material/Box';
 import { addDays } from "date-fns"
 import Modal from '@mui/material/Modal';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
@@ -36,10 +36,22 @@ import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
-
+// MediService
+import MediService from '../service/MedicineService';
+import MemberService from '../service/MemberService';
 
 // ----------------------------------------------------------------------
+const currencies = [
+  {
+    value: 'EUR',
+    label: 'Yes',
+  },
+  {
+    value: 'USD',
+    label: 'No',
+  },
 
+];
 const TABLE_HEAD = [
   { id: 'name', label: '의약품', alignRight: false },
   { id: 'role', label: '복용 날짜', alignRight: false },
@@ -95,6 +107,11 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function User() {
+  const [currency, setCurrency] = React.useState('EUR');
+
+  const handleChange = (event) => {
+    setCurrency(event.target.value);
+  };
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -107,20 +124,41 @@ export default function User() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+      // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
+
+      const [medicines, setMedicines] = useState([]);
+      // 약 리스트 개수
+      const [medicineCnt, setMedicineCnt] = useState(0);
+  
+      // 비동기 처리로 다시 약 정보 가져오기
+      const fetchMediFunc = async () => {
+        await MediService.getTakingPerUser(MemberService.getCurrentUser().id).then((res) => {
+          setMedicineCnt(medicineCnt+1);
+          setMedicines(res.data);
+          console.log(res.data)
+          console.log(res.data.length)
+          return res.data;
+        })  
+      }
+    
+      useEffect(() => {
+        fetchMediFunc()
+      },[]);
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
+  // const handleSelectAllClick = (event) => {
+  //   if (event.target.checked) {
+  //     const newSelecteds = USERLIST.map((n) => n.name);
+  //     setSelected(newSelecteds);
+  //     return;
+  //   }
+  //   setSelected([]);
+  // };
 
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
@@ -242,7 +280,7 @@ export default function User() {
                   rowCount={USERLIST.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
+                  // onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
@@ -258,9 +296,7 @@ export default function User() {
                         selected={isItemSelected}
                         aria-checked={isItemSelected}
                       >
-                        <TableCell padding="checkbox">
-                          <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} />
-                        </TableCell>
+                        <TableCell padding="checkbox"/>
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
                             <Avatar alt={name} src={avatarUrl} />

@@ -32,8 +32,8 @@ import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 // MediService
 import MediService from '../service/MedicineService';
-import UsageService from 'src/service/UsageService';
-import CautionService from 'src/service/CautionService';
+import UsageService from '../service/UsageService';
+import CautionService from '../service/CautionService';
 // ----------------------------------------------------------------------
 export default function DetailOneMediInfo(){
 
