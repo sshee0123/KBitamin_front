@@ -22,14 +22,12 @@ import {
 } from '@mui/material';
 // components
 import Grid from '@material-ui/core/Grid';
-import Modal from '@mui/material/Modal';
 // MediService
 import MediService from '../service/MedicineService';
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
-import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 
 export default function DetailOneMediInfo(){
@@ -61,47 +59,45 @@ export default function DetailOneMediInfo(){
 
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
             <Typography variant="h4" gutterBottom>
-            { state } DetailOneMediInfo
+            { state }
             </Typography>
 
             </Stack>
 
-
           <Stack direction="row" alignItems="center" mb={5}>
-            <img alt = {medicine.name} src = {medicine.imageUrl} height = "300px" widtn = "400px"/>
+            <img alt = {medicine.name} src = {medicine.imageUrl} height = "200px" widtn = "300px"/>
             </Stack>
+
+
+            <Scrollbar>
 
             <Stack alignItems="left" mb={5}>
-            <h3>제품명</h3>
-            <div>{medicine.name}</div>
-            <h3>제형</h3>
-            <div>{medicine.formulation}</div>
-            <h3>모양</h3>
-            <div>{medicine.shape}</div>
-            <h3>제조업체</h3>
-            <div>{medicine.manufacturer}</div>
-            <h3>유효성분</h3>
-            <div>{medicine.ingredient}</div>
-            <h3>효능</h3>
-            <div>{medicine.efficacy}</div>
-            <h3>색상</h3>
-            <div>{medicine.color}</div>
-            <h3>분할선</h3>
-            <div>{medicine.divideLine}</div>
-
-            <h3>usage</h3>
-            <div>{medicine.usage}</div>
-
-            <h3>caution</h3>
-            <div>{medicine.caution}</div>
-
+            
+            <Typography variant="h5" gutterBottom>제품명</Typography>
+            <Typography variant="subtitle1" gutterBottom>{medicine.name}</Typography>
+            <Typography variant="h5" gutterBottom>제형</Typography>
+            <Typography variant="subtitle1" gutterBottom>{medicine.formulation}</Typography>
+            <Typography variant="h5" gutterBottom>모양</Typography>
+            <Typography variant="subtitle1" gutterBottom>{medicine.shape}</Typography>
+            <Typography variant="h5" gutterBottom>제조업체</Typography>
+            <Typography variant="subtitle1" gutterBottom>{medicine.manufacturer}</Typography>
+            <Typography variant="h5" gutterBottom>유효성분</Typography>
+            <Typography variant="subtitle1" gutterBottom>{medicine.ingredient}</Typography>
+            <Typography variant="h5" gutterBottom>색상</Typography>
+            <Typography variant="subtitle1" gutterBottom>{medicine.color}</Typography>
+            <Typography variant="h5" gutterBottom>분할선</Typography>
+            <Typography variant="subtitle1" gutterBottom>{medicine.divideLine}</Typography>
+            <Typography variant="h5" gutterBottom>용법</Typography>
+            <Typography variant="subtitle1" gutterBottom>{medicine.usage}</Typography>
+            <Typography variant="h5" gutterBottom>효능</Typography>
+            <Typography variant="subtitle1" gutterBottom>{medicine.efficacy}</Typography>
+            <Typography variant="h5" gutterBottom>주의사항</Typography>
+            <Typography variant="subtitle1" gutterBottom>{medicine.caution}</Typography>
 
             </Stack>
 
+            </Scrollbar>
 
-
-
-    
         </Container>
         </Page>
 

@@ -1,10 +1,12 @@
-import React from 'react'
 import ReactDOM from 'react-dom';
 import ReactApexChart from 'react-apexcharts'
 import { faker } from '@faker-js/faker';
+import React, { useState, useEffect } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
+// mocks_
+import account from '../_mock/account';
 // components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
@@ -21,12 +23,38 @@ import {
   AppConversionRates,
   ApexChart
 } from '../sections/@dashboard/app';
-
+// MediService
+import MediService from '../service/MedicineService';
+import MemberService from '../service/MemberService';
+import CalendarService from '../service/CalendarService';
 
 // ----------------------------------------------------------------------
 
 export default function Calendar() {
   const theme = useTheme();
+
+        // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
+
+        const [takingMedicines, setTakingMedicines] = useState([]);
+        // 약 리스트 개수
+        const [takingMedicineCnt, setTakingMedicineCnt] = useState(0);
+    
+        // 비동기 처리로 다시 약 정보 가져오기
+        const fetchMediFunc = async () => {
+          await CalendarService.getTakingPerUser(MemberService.getCurrentUser().id).then((res) => {
+            setTakingMedicineCnt(takingMedicineCnt+1);
+            setTakingMedicines(res.data);
+            console.log(res.data)
+            console.log(res.data.length)
+            console.log(takingMedicines[0][0])
+            return res.data;
+          })  
+        }
+      
+        useEffect(() => {
+          fetchMediFunc()
+        },[]);
+
 
   return (
     <Page title="Calendar">
@@ -38,11 +66,12 @@ export default function Calendar() {
         <Grid container spacing={3}>
 
           {/* 대시보드 페이지 맨 위 4가지 주석 */}
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="오늘 복용할 약" total={6} icon={'icon-park-outline:medicine-bottle'} />
-          </Grid>
+
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="복용 일수" total={2} color="info" icon={'ant-design:calendar-outlined'} />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="오늘 복용할 약" total={6} icon={'icon-park-outline:medicine-bottle'} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="남은 복용 일수" total={5} color="warning" icon={'ant-design:calendar-outlined'} />
@@ -54,6 +83,7 @@ export default function Calendar() {
           <Grid item xs={12} md={6} lg={6}>
             <AppTasks
               title="챙겨드셨나요?"
+                
               list={[
                 { id: '1', label: '가나릴정(이토프리드염산염)' },
                 { id: '2', label: '가나슨캡슐' },
@@ -123,14 +153,15 @@ export default function Calendar() {
             />
           </Grid>
           
+          {/* 멋진 차트 */}
           <Grid  id = 'app' item xs={12} md={12} lg={12}>
             <ApexChart />
           </Grid>
-          
-          
-          <Grid item xs={12} md={6} lg={6}>
+        
+
+          {<Grid item xs={12} md={6} lg={6}>
             <AppNewsUpdate
-              title="부작용이 있었던 약"
+              title="부작용 있는 약"
               list={[...Array(5)].map((_, index) => ({
                 id: faker.datatype.uuid(),
                 title: faker.name.jobTitle(),
@@ -139,8 +170,7 @@ export default function Calendar() {
                 postedAt: faker.date.recent(),
               }))}
             />
-            
-          </Grid>
+          </Grid>}
 
           {/* <Grid item xs={12} md={6} lg={4}>
             <AppCurrentVisits
@@ -159,6 +189,7 @@ export default function Calendar() {
               ]}
             />
           </Grid> */}
+
           <Grid item xs={12} md={6} lg={6}>
             <AppOrderTimeline
               title="약을 먹은 기간"
@@ -177,7 +208,7 @@ export default function Calendar() {
             />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={12}>
+          {/* <Grid item xs={12} md={6} lg={12}>
             <AppConversionRates
               title="최근 이 약을 많이 먹어요"
               // subheader="(+43%) than last year"
@@ -194,9 +225,9 @@ export default function Calendar() {
                 { label: 'United Kingdom', value: 1380 },
               ]}
             />
-          </Grid>
+          </Grid> */}
 
-         <Grid item xs={12} md={6} lg={4}>
+         {/* <Grid item xs={12} md={6} lg={4}>
             <AppCurrentSubject
               title="Current Subject"
               chartLabels={['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math']}
@@ -207,51 +238,9 @@ export default function Calendar() {
               ]}
               chartColors={[...Array(6)].map(() => theme.palette.text.secondary)}
             />
-          </Grid>
+          </Grid> */}
 
-          
-          
 
-          <Grid item xs={12} md={6} lg={4}>
-            <AppTrafficBySite
-              title="Traffic by Site"
-              list={[
-                {
-                  name: 'FaceBook',
-                  value: 323234,
-                  icon: <Iconify icon={'eva:facebook-fill'} color="#1877F2" width={32} height={32} />,
-                },
-                {
-                  name: 'Google',
-                  value: 341212,
-                  icon: <Iconify icon={'eva:google-fill'} color="#DF3E30" width={32} height={32} />,
-                },
-                {
-                  name: 'Linkedin',
-                  value: 411213,
-                  icon: <Iconify icon={'eva:linkedin-fill'} color="#006097" width={32} height={32} />,
-                },
-                {
-                  name: 'Twitter',
-                  value: 443232,
-                  icon: <Iconify icon={'eva:twitter-fill'} color="#1C9CEA" width={32} height={32} />,
-                },
-              ]}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={8}>
-            <AppTasks
-              title="Tasks"
-              list={[
-                { id: '1', label: 'Create FireStone Logo' },
-                { id: '2', label: 'Add SCSS and JS files if required' },
-                { id: '3', label: 'Stakeholder Meeting' },
-                { id: '4', label: 'Scoping & Estimations' },
-                { id: '5', label: 'Sprint Showcase' },
-              ]}
-            />
-          </Grid> 
         </Grid>
       </Container>
     </Page>

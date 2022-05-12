@@ -1,7 +1,7 @@
 import { filters } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // material
 import {
   Card,
@@ -72,8 +72,15 @@ import yellow from './color/yellow.png';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
+  // { id: 'medicineName', label: '의약품', alignRight: false },
+  // { id: 'shape', label: '외형정보', alignRight: false },
+  // { id: 'efficacy', label: '효능', alignRight: false },
+  // { id: '' },
   { id: 'medicineName', label: '의약품', alignRight: false },
-  { id: 'shape', label: '외형정보', alignRight: false },
+  { id: 'shape', label: '모양', alignRight: false },
+  { id: 'color', label: '색상', alignRight: false },
+  { id: 'formulation', label: '제형', alignRight: false },
+  { id: 'divideLine', label: '분할선', alignRight: false },
   { id: 'efficacy', label: '효능', alignRight: false },
   { id: '' },
 ];
@@ -122,6 +129,8 @@ export default function MediInfo() {
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const navigate = useNavigate();
 
     // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
 
@@ -209,8 +218,6 @@ export default function MediInfo() {
   // 약 테이블 cell 클릭 리스너
   const handleCellClick = (MediName) => {
     console.log(MediName);
-    // handleOpen();
-    
 
   }
 
@@ -240,10 +247,8 @@ export default function MediInfo() {
 
   const classes = useStyles();
 
-  // const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - MEDICINELIST.length) : 0;
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - medicines.length) : 0;
 
-  // const filteredUsers = applySortFilter(MEDICINELIST, getComparator(order, orderBy), filterName);
   const filteredUsers = applySortFilter(medicines, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
@@ -275,8 +280,211 @@ export default function MediInfo() {
   };
 
   return (
-    
-              <ShapeStyle menuItems={menuItem}/>
+
+    <Page title="MediInfo">
+    <Container>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+            <Typography variant="h4" gutterBottom>
+                Medicine Information
+            </Typography>
+
+            <Modal
+                id='modal'
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <div className="mbsc-grid mbsc-grid-fixed">
+                        <Typography variant="h4" gutterBottom>
+                            약 정보
+                        </Typography>
+                    </div>
+                </Box>
+            </Modal>
+
+        </Stack>
+
+        {/* Medicine 검색 조건 */}
+        <Card id='cardInMediInfo'>
+
+            <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+            </Stack>
+            <ButtonGroup className='buttonGroup'>
+                <Stack direction="row" alignItems="center" mb={3} spacing={3}>
+                    <Button className='classify' style={{ color: '-moz-initial' }}>모양<br />전체</Button>
+
+{/* Separate?? */}
+                    {/* <Separate button={buttons} filter1={filter} /> */}
+
+                    {/* 모양 버튼 추가 - 추후 이쁘게 */}
+                    <Button style = {{color : 'black'}} ><img src = {circle}/></Button>
+                    <Button style = {{color : 'black'}} ><img src = {oval}/></Button>
+                    <Button style = {{color : 'black'}} ><img src = {halfcircle}/></Button>
+                    <Button style = {{color : 'black'}} ><img src = {triangle}/></Button>
+                    <Button style = {{color : 'black'}} ><img src = {square}/></Button>
+                    <Button style = {{color : 'black'}} ><img src = {diamond}/></Button>
+                    <Button style = {{color : 'black'}} ><img src = {jangbang}/></Button>
+                    <Button style = {{color : 'black'}} ><img src = {penta}/></Button>
+                    <Button style = {{color : 'black'}} ><img src = {hexa}/></Button>
+
+
+
+                </Stack>
+            </ButtonGroup>
+            <ButtonGroup className='buttonGroup' >
+                <Stack direction="row" alignItems="center" mb={3} spacing={3}>
+                    <Button className='classify' style={{ color: '-moz-initial' }}>색상<br />전체</Button>
+
+                    <Button style={{ color: 'black' }}><img className='colorbtn' src={white} /></Button>
+
+                    <Button style={{ color: 'black' }}><img className='colorbtn' src={yellow} /></Button>
+                    <Button style={{ color: 'black' }}><img className='colorbtn' src={orange} /></Button>
+                    <Button style={{ color: 'black' }}><img className='colorbtn' src={pink} /></Button>
+                    <Button style={{ color: 'black' }}><img className='colorbtn' src={red} /></Button>
+                    <Button style={{ color: 'black' }}><img className='colorbtn' backgroundColor='brown' src={brown} /></Button>
+                    <Button style={{ color: 'black' }}><img className='colorbtn' src={lightgreen} /></Button>
+                    <Button style={{ color: 'black' }}><img className='colorbtn' src={green} /></Button>
+                    <Button style={{ color: 'black' }}><img className='colorbtn' src={teal} /></Button>
+
+                    {/* 색상 버튼 추가 - 추후 이쁘게 */}
+
+
+                </Stack>
+            </ButtonGroup>
+            <ButtonGroup className='buttonGroup'>
+                <Stack direction="row" alignItems="center" mb={3} spacing={3}>
+                    <Button className='classify' style={{ color: '-moz-initial' }}>제형<br />전체</Button>
+
+                    <Button style={{ color: 'black' }}><img src={jeongjae} /></Button>
+                    <Button style={{ color: 'black' }}><img src={kyungjil} /></Button>
+                    <Button style={{ color: 'black' }}><img src={yeonjil} /></Button>
+
+                    {/* 제형 버튼 추가 - 추후 이쁘게 */}
+
+                </Stack>
+            </ButtonGroup>
+            <p />
+
+            <ButtonGroup className='buttonGroup' variant="outlined" aria-label="outlined button group">
+                <Stack direction="row" alignItems="center" mb={3} spacing={3}>
+                    <Button className='classify' style={{ color: '-moz-initial' }}>분할선<br />전체</Button>
+
+
+                    <Button style={{ color: 'black' }}><img src={nothing} /></Button>
+                    <Button style={{ color: 'black' }}><img src={minus} /></Button>
+                    <Button style={{ color: 'black' }}><img src={plusplus} /></Button>
+                    <Button style={{ color: 'black' }}><img src={othershape} /></Button>
+                    {/* 분할선 버튼 추가 - 추후 이쁘게 */}
+
+
+                </Stack>
+            </ButtonGroup>
+
+
+            <Scrollbar>
+                <TableContainer sx={{ minWidth: 800 }}>
+                    <Table text-overflow='ellipsis'>
+                        <UserListHead
+                            order={order}
+                            orderBy={orderBy}
+                            headLabel={TABLE_HEAD}
+                            rowCount={medicineCnt}
+                            numSelected={selected.length}
+                            onRequestSort={handleRequestSort}
+                            onSelectAllClick={handleSelectAllClick}
+                        />
+
+                        <TableBody>
+                            {
+                                filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                                    // const { name, shape, efficacy, formulation, imageUrl } = row;
+                                    const { medicineName, shape, color, formulation, divideLine, efficacy } = row;
+                                    const isItemSelected = selected.indexOf(medicineName) !== -1;
+
+                                    // 여기 return 또 있음.
+                                    // 여기에 back에서 받은 json 데이터 list 보여줘야함.
+                                    return medicines.map((medicine) => (
+                                        <TableRow
+                                            hover
+                                            key={medicineName}
+                                            tabIndex={-1}
+                                            role="checkbox"
+                                            selected={isItemSelected}
+                                            aria-checked={isItemSelected}
+                                            onClick={() => {
+            
+                                                navigate(`/dashboard/medicine/detailOneMediInfo`,
+                                                    {state: medicine.name}
+                                                )
+                                            }}
+                                        >
+                                            <TableCell> </TableCell>
+                                            {/* 의약품 */}
+                                            <TableCell component="th" scope="row" padding="none">
+                                                <Stack direction="row" alignItems="center" spacing={2}>
+                                                    <Avatar alt={medicine.name} src={medicine.imageUrl} />
+                                                    <Typography variant="subtitle2" noWrap >{medicine.name}</Typography>
+                                                </Stack>
+                                            </TableCell>
+
+                                            {/* 외형정보로 합치기 Or 분할 */}
+                                            {/* 모양 */}
+                                            <TableCell align="left">{medicine.shape}</TableCell>
+                                            {/* 색상 */}
+                                            <TableCell align="left">{medicine.color}</TableCell>
+                                            {/* 제형 */}
+                                            <TableCell align="left">{medicine.formulation}</TableCell>
+                                            {/* 분할선 */}
+                                            <TableCell align="left">{medicine.divideLine}</TableCell>
+
+
+                                            {/* 효능 */}     
+                                            <TableCell align="left">{medicine.efficacy}</TableCell>
+
+                                        </TableRow>
+                                    ));
+                                    
+                            })};
+
+                            {emptyRows > 0 && (
+                                <TableRow style={{ height: 53 * emptyRows }}>
+                                    <TableCell colSpan={6} />
+                                </TableRow>
+                            )}
+
+                        </TableBody>
+
+                        {isUserNotFound && (
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                                        <SearchNotFound searchQuery={filterName} />
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                        )}
+
+                    </Table>
+                </TableContainer>
+            </Scrollbar>
+
+            {/* 페이지 조절... 근데 검색해야해서 mediInfo 페이지는 그냥 페이지 안나누는게 날 것 같음. */}
+            <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={medicines.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+
+        </Card>
+    </Container>
+</Page>
 
             
   );

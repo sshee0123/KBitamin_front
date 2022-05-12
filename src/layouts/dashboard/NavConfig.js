@@ -23,7 +23,7 @@ if(!MemberService.getCurrentUser()){
     },
     {
       title: 'user',
-      path: '/dashboard/user',
+      path: '/dashboard/myMedi',
       icon: getIcon('eva:people-fill'),
     },
     {
@@ -57,8 +57,8 @@ if(MemberService.getCurrentUser()){
       icon: getIcon('eva:info-fill'),
     },
     {
-      title: 'user',
-      path: '/dashboard/user',
+      title: 'MyMedi',
+      path: '/dashboard/myMedi',
       icon: getIcon('eva:people-fill'),
     },
     {
