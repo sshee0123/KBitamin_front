@@ -213,6 +213,7 @@ export default function MediInfo() {
     
 
   }
+  console.log(medicines);
 
   // Toggle function
   const useStyles = makeStyles((theme) => ({
