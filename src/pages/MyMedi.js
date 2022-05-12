@@ -36,13 +36,14 @@ import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+import { UserListHead, UserListToolbar, UserMoreMenu, Selectbox } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
 // MediService
 import MediService from '../service/MedicineService';
 import MemberService from '../service/MemberService';
 import CalendarService from '../service/CalendarService';
+// import { id } from 'date-fns/esm/locale';
 
 // ----------------------------------------------------------------------
 const currencies = [
@@ -63,15 +64,15 @@ const options = ['없음', '어지러움', '두통', '권태감', '쇼크', '불
 
 
 const TABLE_HEAD = [
-  { id: 'name', label: '의약품', alignRight: false },
-  { id: 'role', label: '복용 날짜', alignRight: false },
-  { id: 'isVerified', label: '부작용', alignRight: false },
+  { id: 'title', label: '의약품', alignRight: false },
+  { id: 'stDate', label: '복용 날짜', alignRight: false },
+  { id: 'enDate', label: '부작용', alignRight: false },
   { id: 'status', label: '복용중', alignRight: false },
   { id: '' },
 ];
 
 const style = {
-  
+
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -79,7 +80,7 @@ const style = {
   width: 800,
   bgcolor: '#FCFCFC',
   border: '2px solid lightgray',
-  borderRadius : '2%',
+  borderRadius: '2%',
   boxShadow: 24,
   p: 4,
 };
@@ -111,49 +112,74 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.title.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
 
 export default function User() {
-  const [currency, setCurrency] = React.useState('EUR');
 
-  const handleChange = (event) => {
-    setCurrency(event.target.value);
-  };
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
 
   const [selected, setSelected] = useState([]);
 
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState('title');
 
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-      // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
+  // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
 
-      const [medicines, setMedicines] = useState([]);
-      // 약 리스트 개수
-      const [medicineCnt, setMedicineCnt] = useState(0);
+  const [medicines, setMedicines] = useState([]);
+  // 약 리스트 개수
+  const [medicineCnt, setMedicineCnt] = useState(0);
+
+  // 비동기 처리로 다시 약 정보 가져오기
+
+  const fetchMediFunc = async () => {
+    await CalendarService.getTakingPerUser(MemberService.getCurrentUser().id).then((res) => {
+      setMedicineCnt(medicineCnt + 1);
+      setMedicines(res.data);
+      console.log(res.data)
+      // console.log(res.data.length)
+      return res.data;
+    })
+  }
+  // console.log(medicines)
   
-      // 비동기 처리로 다시 약 정보 가져오기
-      const fetchMediFunc = async () => {
-        await CalendarService.getTakingPerUser(MemberService.getCurrentUser().id).then((res) => {
-          setMedicineCnt(medicineCnt+1);
-          setMedicines(res.data);
-          console.log(res.data)
-          console.log(res.data.length)
-          return res.data;
-        })  
-      }
+  const medicine = [];
+  const thisdate = new Date();
+  console.log(thisdate)
+  for (let i = 0; i < medicines.length; i+= 1) {
+    medicines[i][1].toString();
+    medicines[i][2].toString();
+    const stdate = medicines[i][1].split('T')
+    const endate = medicines[i][2].split('T')
+    const compareStdate = new Date(medicines[i][1])
+    const compareEndate = new Date(medicines[i][2])
     
-      useEffect(() => {
-        fetchMediFunc()
-      },[]);
+    if (thisdate >= compareStdate && thisdate <= compareEndate){
+      medicines[i][3] = 'Yes'
+    }
+    else {
+      medicines[i][3] = 'No'
+    }
+    medicine.push({
+      id : i,
+      title : medicines[i][0],
+      start : stdate[0],
+      end : endate[0],
+      color : medicines[i][3]
+    })
+  }
+
+
+  useEffect(() => {
+    fetchMediFunc()
+  }, []);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -170,11 +196,11 @@ export default function User() {
   //   setSelected([]);
   // };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, title) => {
+    const selectedIndex = selected.indexOf(title);
     let newSelected = [];
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, title);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -198,13 +224,13 @@ export default function User() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - medicines.length) : 0;
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(medicine, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
 
-  
+
   const [state, setState] = useState([
     {
       startDate: new Date(),
@@ -217,10 +243,16 @@ export default function User() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-const [value, setValue] = React.useState(options[0]);
+  const [value, setValue] = React.useState(options[0]);
   const [inputValue, setInputValue] = React.useState('');
+  const [mediList, setMediList] = React.useState(medicine);
+  const onRemove = id => {
+    // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듬
+    // = user.id 가 id 인 것을 제거함
+    setMediList(medicine.filter(medicine => medicine.id !== id));
+  };
 
-
+  
 
 
 
@@ -231,15 +263,16 @@ const [value, setValue] = React.useState(options[0]);
           <Typography variant="h4" gutterBottom>
             My Medicine
           </Typography>
-            <Button onClick={handleOpen}  variant="contained" startIcon= {<Iconify icon="eva:plus-fill" />}>Add My Medicine</Button>
-            <Modal
-              id = 'modal'
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-              <Box sx ={style}>
+          <Button onClick={handleOpen} variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>Add My Medicine</Button>
+
+          <Modal
+            id='modal'
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
               <div className="mbsc-grid mbsc-grid-fixed">
                 <div className="mbsc-form-group">
                   <div className="mbsc-row mbsc-justify-content-center">
@@ -280,8 +313,8 @@ const [value, setValue] = React.useState(options[0]);
                 </div>
 
               </div>
-              </Box>
-            </Modal>
+            </Box>
+          </Modal>
         </Stack>
 
         <Card>
@@ -294,56 +327,42 @@ const [value, setValue] = React.useState(options[0]);
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={USERLIST.length}
+                  rowCount={medicineCnt}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                  // onSelectAllClick={handleSelectAllClick}
+                // onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, avatarUrl, isVerified } = row;
-                    const isItemSelected = selected.indexOf(name) !== -1;
+                    const { id, title, start, end, color } = row;
+                    const isItemSelected = selected.indexOf(title) !== -1;
 
                     return (
                       <TableRow
                         hover
-                        key={id}
+                        key={title}
                         tabIndex={-1}
                         role="checkbox"
                         selected={isItemSelected}
                         aria-checked={isItemSelected}
                       >
-                        <TableCell padding="checkbox"/>
+                        <TableCell padding="checkbox" />
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
+                            {/* <Avatar alt={name} src={avatarUrl} /> */}
                             <Typography variant="subtitle2" noWrap>
-                              {name}
+                              {title}
                             </Typography>
                           </Stack>
                         </TableCell>
-                        <TableCell align="left">{role}</TableCell>
+                        <TableCell align="left">{start} &nbsp; ~ &nbsp; {end}</TableCell>
                         <TableCell align="left">
-<Autocomplete
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
-        inputValue={inputValue}
-        onInputChange={(event, newInputValue) => {
-          setInputValue(newInputValue);
-        }}
-        id="controllable-states-demo"
-        autoSelect
-        autoComplete
-        options={options}
-        sx={{ width: 200 }}
-        renderInput={(params) => <TextField {...params} label="상세 부작용" />}
-      /></TableCell>
-                        <TableCell align="left">
-                          <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
+                          <Selectbox />
+                        </TableCell>
+                        <TableCell align="left">{color}
+                          {/* <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
                             {sentenceCase(status)}
-                          </Label>
+                          </Label> */}
                         </TableCell>
 
                         <TableCell align="right">
@@ -366,6 +385,7 @@ const [value, setValue] = React.useState(options[0]);
                         <SearchNotFound searchQuery={filterName} />
                       </TableCell>
                     </TableRow>
+
                   </TableBody>
                 )}
               </Table>
@@ -375,7 +395,7 @@ const [value, setValue] = React.useState(options[0]);
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={USERLIST.length}
+            count={medicines.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
