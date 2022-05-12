@@ -82,8 +82,8 @@ const TABLE_HEAD = [
     // { id: 'efficacy', label: '효능', alignRight: false },
     // { id: '' },
 
-    { id: 'medicineName', label: '의약품', alignRight: false },
-    { id: 'imageUrl', label: '이미지', alignRight: false },
+    { id: 'name', label: '의약품', alignRight: false },
+    //  { id: 'imageUrl', label: '이미지', alignRight: false },
         { id: 'shape', label: '모양', alignRight: false },
         { id: 'color', label: '색상', alignRight: false },
         { id: 'formulation', label: '제형', alignRight: false },
@@ -186,7 +186,7 @@ export default function MediInfo({ menuItems }) {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelecteds = medicines.map((n) => n.medicineName);
+            const newSelecteds = medicines.map((n) => n.name);
             setSelected(newSelecteds);
             return;
         }
@@ -398,15 +398,16 @@ return (
                                 {
                                     filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                                         // const { name, shape, efficacy, formulation, imageUrl } = row;
-                                    const { medicineName, imageUrl,shape, color, formulation, divideLine, efficacy} = row;
-                                        const isItemSelected = selected.indexOf(medicineName) !== -1;
+                                    const { name, imageUrl,shape, color, formulation, divideLine, efficacy} = row;
+                                    console.log('medin Naeme ',name)
+                                        const isItemSelected = selected.indexOf(name) !== -1;
 
                                         // 여기 return 또 있음.
                                         // 여기에 back에서 받은 json 데이터 list 보여줘야함.
                                         return (
                                             <TableRow
                                                 hover
-                                                key={medicineName}
+                                                key={name}
                                                 tabIndex={-1}
                                                 role="checkbox"
                                                 selected={isItemSelected}
@@ -414,22 +415,22 @@ return (
                                                 onClick={() => {
                 
                                                     navigate(`/dashboard/medicine/detailOneMediInfo`,
-                                                        {state: medicineName}
+                                                        {state: name}
                                                     )
                                                 }}
                                             >
-                                                <TableCell> </TableCell>
+                                            <TableCell/>
                                                 {/* 의약품 */}
-                                                <TableCell align="left" component="th" scope="row" padding="none">
-                                                    <Stack direction="row" alignItems="center" spacing={3}>
-                                                        {/* <Avatar alt={medicineName} src={imageUrl} /> */}
-                                                        <Typography variant="subtitle2" noWrap >{medicineName}</Typography>
-                                                    </Stack>
-                                                </TableCell>
-
-                                            <TableCell align="left">
-                                            <Typography variant="subtitle2" noWrap >{medicineName}</Typography>
+                                            <TableCell component="th" scope="row" padding="none" align="left">
+                                                 <Stack direction="row" alignItems="center" spacing={3}>
+                                                    <Avatar alt={name} src={imageUrl} />
+                                                    <Typography variant="subtitle2" noWrap >{name}</Typography>
+                                                </Stack>
                                             </TableCell>
+
+                                            {/* <TableCell align="left">
+                                            <Typography variant="subtitle2" noWrap >{medicineName}</Typography>
+                                            </TableCell> */}
 
                                             {/* 외형정보로 합치기 Or 분할 */}
                                             {/* 모양 */}
