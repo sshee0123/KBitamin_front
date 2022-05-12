@@ -44,7 +44,7 @@ import MediService from '../service/MedicineService';
 import MemberService from '../service/MemberService';
 import CalendarService from '../service/CalendarService';
 // import { id } from 'date-fns/esm/locale';
-
+import Blog from './Blog';
 // ----------------------------------------------------------------------
 const currencies = [
   {
@@ -273,7 +273,8 @@ export default function User() {
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <div className="mbsc-grid mbsc-grid-fixed">
+              <Blog/>
+              {/* <div className="mbsc-grid mbsc-grid-fixed">
                 <div className="mbsc-form-group">
                   <div className="mbsc-row mbsc-justify-content-center">
                     <div className="mbsc-col-md-10 mbsc-col-xl-8 mbsc-form-grid">
@@ -312,7 +313,7 @@ export default function User() {
 
                 </div>
 
-              </div>
+              </div> */}
             </Box>
           </Modal>
         </Stack>

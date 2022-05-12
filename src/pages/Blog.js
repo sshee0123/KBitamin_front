@@ -23,6 +23,7 @@ import MediService from '../service/MedicineService';
 import CalendarService from '../service/CalendarService';
 
 import MemberService from '../service/MemberService';
+import circle from "./Images/default_pill.png";
 // ----------------------------------------------------------------------
 
 setOptions({
@@ -92,6 +93,11 @@ export default function Blog() {
     formik.values.end = ranges.selection.endDate;
     setState([ranges.selection]);
   }
+
+    // 약 이미지 없을 경우 defualt 이미지 sj
+    const onErrorImg = (e) => {
+      e.target.src = circle;
+    }
   
   return (
     <FormikProvider value={formik}>
@@ -121,20 +127,42 @@ export default function Blog() {
                       const parts = parse(option.name, matches);
 
                       return (
+                        // <li {...props}>
+                        //   <div>
+                        //     {parts.map((part, index) => (
+                        //       <span
+                        //         key={index}
+                        //         style={{
+                        //           fontWeight: part.highlight ? 700 : 400,
+                        //         }}
+                        //       >
+                        //         {part.text}
+                        //       </span>
+                        //     ))}
+                        //   </div>
+                        // </li>
+<Stack component="li" direction="row" sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
+                          <img src={option.imageUrl}  alt="medi"  onError={onErrorImg} style={{ height: "30px", width: "30px", marginRight: "10px"
+                          }} 
+                          />
                         <li {...props}>
-                          <div>
+                          
                             {parts.map((part, index) => (
-                              <span
+                              <><span
                                 key={index}
                                 style={{
                                   fontWeight: part.highlight ? 700 : 400,
                                 }}
                               >
                                 {part.text}
-                              </span>
+                              </span></>
                             ))}
-                          </div>
+                          
                         </li>
+                        </Stack>
+
+
+
                       );
                     }}
                   />
