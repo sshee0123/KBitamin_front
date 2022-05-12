@@ -86,9 +86,6 @@ export default function Blog() {
   };
 
   const handleDateSelect = (ranges) =>{
-    // console.log(ranges);
-    // console.log('start : ',ranges.selection.startDate)
-    // console.log('end : ',ranges.selection.endDate)
     formik.values.start = ranges.selection.startDate;
     formik.values.end = ranges.selection.endDate;
     setState([ranges.selection]);
@@ -127,21 +124,8 @@ export default function Blog() {
                       const parts = parse(option.name, matches);
 
                       return (
-                        // <li {...props}>
-                        //   <div>
-                        //     {parts.map((part, index) => (
-                        //       <span
-                        //         key={index}
-                        //         style={{
-                        //           fontWeight: part.highlight ? 700 : 400,
-                        //         }}
-                        //       >
-                        //         {part.text}
-                        //       </span>
-                        //     ))}
-                        //   </div>
-                        // </li>
-<Stack component="li" direction="row" sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
+
+                          <Stack component="li" direction="row" sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
                           <img src={option.imageUrl}  alt="medi"  onError={onErrorImg} style={{ height: "30px", width: "30px", marginRight: "10px"
                           }} 
                           />
@@ -160,8 +144,6 @@ export default function Blog() {
                           
                         </li>
                         </Stack>
-
-
 
                       );
                     }}

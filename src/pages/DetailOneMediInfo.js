@@ -29,6 +29,8 @@ import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+import circle from "./Images/default_pill.png";
+
 
 export default function DetailOneMediInfo(){
 
@@ -53,6 +55,12 @@ export default function DetailOneMediInfo(){
         fetchMediFunc()
     }, []);
 
+
+      // 약 이미지 없을 경우 defualt 이미지 sj
+    const onErrorImg = (e) => {
+      e.target.src = circle;
+    }
+
     return(
         <Page title="DetailOneMediInfo">
         <Container>
@@ -65,7 +73,7 @@ export default function DetailOneMediInfo(){
             </Stack>
 
           <Stack direction="row" alignItems="center" mb={5}>
-            <img alt = {medicine.name} src = {medicine.imageUrl} height = "200px" widtn = "300px"/>
+            <img alt = {medicine.name} src = {medicine.imageUrl} onError={onErrorImg} height = "200px" widtn = "300px"/>
             </Stack>
 
 
