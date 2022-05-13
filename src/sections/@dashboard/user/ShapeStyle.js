@@ -450,7 +450,7 @@ return (
 
                                             {/* 의약품 */}
                                             <TableCell component="th" scope="row" padding="none" align="left">
-                                                 <Stack direction="row" alignItems="center" spacing={3}>
+                                                <Stack direction="row" alignItems="center" spacing={3}>
                                                     <Avatar alt={name} src={imageUrl} />
                                                     <Typography variant="subtitle2" noWrap >{name}</Typography>
                                                 </Stack>
