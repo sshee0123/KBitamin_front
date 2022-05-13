@@ -27,6 +27,7 @@ import {
 import MediService from '../service/MedicineService';
 import MemberService from '../service/MemberService';
 import CalendarService from '../service/CalendarService';
+import DashboardService from '../service/DashboardService';
 
 // ----------------------------------------------------------------------
 
@@ -44,15 +45,20 @@ export default function Calendar() {
           await CalendarService.getTakingPerUser(MemberService.getCurrentUser().id).then((res) => {
             setTakingMedicineCnt(takingMedicineCnt+1);
             setTakingMedicines(res.data);
-            console.log(res.data)
-            console.log(res.data.length)
-            console.log(takingMedicines[0][0])
             return res.data;
           })  
-        }
+        };
+        // 피해야 할 약 리스트
+        const recommendMediFunc = async () => {
+          await DashboardService.getRecommendMedi(MemberService.getCurrentUser().id).then((res) => {
+            console.log('recommendMediFunc', res);
+            return res;
+          })  
+        };
       
         useEffect(() => {
-          fetchMediFunc()
+          // fetchMediFunc();
+          recommendMediFunc();
         },[]);
 
 
