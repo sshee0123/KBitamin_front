@@ -72,16 +72,17 @@ import red from './color/red.png';
 import teal from './color/teal.png';
 import white from './color/white.png'
 import yellow from './color/yellow.png';
-// import { PinDropSharp } from '@material-ui/icons';
+import blue from './color/blue.png';
+import violet from './color/violet.png';
+import purple from './color/purple.png';
+import gray from './color/gray.png';
+import black from './color/black.png';
+import indigo from './color/indigo.png';
+import transparency from './color/transparency.png';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-    // { id: 'medicineName', label: '의약품', alignRight: false },
-    // { id: 'shape', label: '외형정보', alignRight: false },
-    // { id: 'efficacy', label: '효능', alignRight: false },
-    // { id: '' },
-
     { id: 'name', label: '의약품', alignRight: false },
     //  { id: 'imageUrl', label: '이미지', alignRight: false },
         { id: 'shape', label: '모양', alignRight: false },
@@ -259,18 +260,10 @@ export default function MediInfo({ menuItems }) {
     const isUserNotFound = filteredUsers.length === 0;
 
     const allCategories = ['All', '원형', '타원형', '장방형', 'None', '사각형', '삼각형'];
-    // console.log(medicines.shape)
-
-    // console.log('all', allCategories);
-
-    // console.log(medicines.shape)
-
-    // console.log('all', allCategories);
 
     const allCategories1 = medicines.map(item => item.name);
 
-    console.log(allCategories1)
-
+    // console.log(allCategories1)
 
     const [menuItem, setMenuItem] = useState(medicines);
     const [buttons, setButtons] = useState(allCategories);
@@ -286,8 +279,29 @@ export default function MediInfo({ menuItems }) {
         setMenuItem(filteredData)
     };
 
+    const [btnId, setBtnId] = useState('');
 
+    const [prevBtnId, setprevBtnId] = useState('');
+    const [filterDic, setFilterDic] = useState([]);
 
+    //  모양 filter
+    const shapeFilter = (event) => {
+        const clickBtn = document.getElementById(event.currentTarget.id);
+        const btns = document.getElementsByClassName('filterBtn');
+        console.log("click btn", clickBtn);
+        console.log("event.currentTarget.id",event.currentTarget.id);
+        console.log("btns", btns);
+        console.log("btns.length", btns.length);
+
+        for (let i; i<btns.length; i+=1){
+            console.log(btns[i].className);
+            btns[i].className = 'filterBtn';
+            console.log("btns[i].className", btns[i].className);
+        }
+        clickBtn.className += " active";
+        setprevBtnId(event.currentTarget.id);
+        
+    };
 
 return (
     <Page title="MediInfo">
@@ -321,62 +335,77 @@ return (
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                     <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
                 </Stack>
+
+                {/* 모양 버튼 추가 - 추후 이쁘게 */}
+                {/* 타원형 / None(기타로) / 원형 / 장방형 / 사각형 / 삼각형 / 오각형 / 기타 / 육각형 */}
                 <ButtonGroup className='buttonGroup'>
                     <Stack direction="row" alignItems="center" mb={3} spacing={3}>
-                        <Button className='classify' style={{ color: '-moz-initial' }}>모양<br />전체</Button>
+                        <Button className='filterBtn' id = '모양 전체' style={{ color: '-moz-initial' }}>모양<br />전체</Button>
+                        <Button className='filterBtn' id = '원형' style = {{color : 'black'}} onClick={shapeFilter}><img src = {circle}/></Button>
+                        <Button className='filterBtn' id = '타원형' style = {{color : 'black'}} onClick={shapeFilter}><img src = {oval}/></Button>
+                        <Button className='filterBtn' id = '삼각형' style = {{color : 'black'}} onClick={shapeFilter}><img src = {triangle}/></Button>
+                        <Button className='filterBtn' id = '사각형' style = {{color : 'black'}} onClick={shapeFilter}><img src = {square}/></Button>
+                        <Button className='filterBtn' id = '장방형' style = {{color : 'black'}} onClick={shapeFilter}><img src = {jangbang}/></Button>
+                        <Button className='filterBtn' id = '오각형' style = {{color : 'black'}} onClick={shapeFilter}><img src = {penta}/></Button>
+                        <Button className='filterBtn' id = '육각형' style = {{color : 'black'}} onClick={shapeFilter}><img src = {hexa}/></Button>
+                        <Button className='filterBtn' id = '모양 기타' style = {{color : 'black'}} onClick={shapeFilter}>기타</Button>
 
-                        <Separate button={buttons} filter1={filter} />
-                        {/* 모양 버튼 추가 - 추후 이쁘게 */}
+{/* 여기까지만 해보기 */}
 
 
+                {/* 색상 버튼 추가 - 추후 이쁘게 */}
+                {/* 갈색 / 검정 / 남색 / 노랑 / 노랑, 투명 / 보라 / 분홍 / 빨강 / 빨강, 투명 / 연두 / 자주 / 주황 / 주황, 투명 / 청록 / 초록 / 파랑 / 파랑, 투명 / 하양 / 회색 */}
+                {/*  검정 남색 보라 자주 파랑 회색  */}
                     </Stack>
                 </ButtonGroup>
                 <ButtonGroup className='buttonGroup' >
                     <Stack direction="row" alignItems="center" mb={3} spacing={3}>
-                        <Button className='classify' style={{ color: '-moz-initial' }}>색상<br />전체</Button>
+                        <Button className='filterBtn' id = '색상 전체' onClick={shapeFilter} style={{ color: '-moz-initial' }}>색상<br />전체</Button>
+                        <Button className='filterBtn' id = '갈색' onClick={shapeFilter} style={{ color: 'black' }}><img className='colorbtn' backgroundColor='brown' src={brown} /></Button>
 
-                        <Button style={{ color: 'black' }}><img className='colorbtn' src={white} /></Button>
+                        <Button className='filterBtn' id = '노랑' onClick={shapeFilter} style={{ color: 'black' }}><img className='colorbtn' src={yellow} /></Button>
 
-                        <Button style={{ color: 'black' }}><img className='colorbtn' src={yellow} /></Button>
-                        <Button style={{ color: 'black' }}><img className='colorbtn' src={orange} /></Button>
-                        <Button style={{ color: 'black' }}><img className='colorbtn' src={pink} /></Button>
-                        <Button style={{ color: 'black' }}><img className='colorbtn' src={red} /></Button>
-                        <Button style={{ color: 'black' }}><img className='colorbtn' backgroundColor='brown' src={brown} /></Button>
-                        <Button style={{ color: 'black' }}><img className='colorbtn' src={lightgreen} /></Button>
-                        <Button style={{ color: 'black' }}><img className='colorbtn' src={green} /></Button>
-                        <Button style={{ color: 'black' }}><img className='colorbtn' src={teal} /></Button>
-
-                        {/* 색상 버튼 추가 - 추후 이쁘게 */}
-
-
+                        <Button className='filterBtn' id = '분홍' onClick={shapeFilter} style={{ color: 'black' }}><img className='colorbtn' src={pink} /></Button>
+                        <Button className='filterBtn' id = '빨강' onClick={shapeFilter} style={{ color: 'black' }}><img className='colorbtn' src={red} /></Button>
+                        <Button className='filterBtn' id = '연두' onClick={shapeFilter} style={{ color: 'black' }}><img className='colorbtn' src={lightgreen} /></Button>
+                        <Button className='filterBtn' id = '주황' onClick={shapeFilter} style={{ color: 'black' }}><img className='colorbtn' src={orange} /></Button>
+                        <Button className='filterBtn' id = '청록' onClick={shapeFilter} style={{ color: 'black' }}><img className='colorbtn' src={teal} /></Button>
+                        <Button className='filterBtn' id = '초록' onClick={shapeFilter} style={{ color: 'black' }}><img className='colorbtn' src={green} /></Button>
+                        <Button className='filterBtn' id = '하양' onClick={shapeFilter} style={{ color: 'black' }}><img className='colorbtn' src={white} /></Button>
+                        <Button className='filterBtn' id = '파랑' onClick={shapeFilter} style={{ color: 'black' }}><img className='colorbtn' src={blue} /></Button>
+                        <Button className='filterBtn' id = '남색' onClick={shapeFilter} style={{ color: 'black' }}><img className='colorbtn' src={indigo} /></Button>
+                        <Button className='filterBtn' id = '자주' onClick={shapeFilter} style={{ color: 'black' }}><img className='colorbtn' src={violet} /></Button>
+                        <Button className='filterBtn' id = '보라' onClick={shapeFilter} style={{ color: 'black' }}><img className='colorbtn' src={purple} /></Button>
+                        <Button className='filterBtn' id = '회색' onClick={shapeFilter} style={{ color: 'black' }}><img className='colorbtn' src={gray} /></Button>
+                        <Button className='filterBtn' id = '검정' onClick={shapeFilter} style={{ color: 'black' }}><img className='colorbtn' src={black} /></Button>
+                        <Button className='filterBtn' id = '투명' onClick={shapeFilter} style={{ color: 'black' }}><img  src={transparency} /></Button>
+                                
                     </Stack>
                 </ButtonGroup>
+
+                {/* 제형 버튼 추가 - 추후 이쁘게 */}
+                {/* 정제 / None / 경질 / 원형 / 타원형 / 장방형 / 사각형 / 삼각형 / 연질 */}
+                {/* 정제, 경질, 연질이 제형같은데...원형 / 타원형 / 장방형 / 사각형 / 삼각형 / None 은 기타로 처리 */}
                 <ButtonGroup className='buttonGroup'>
                     <Stack direction="row" alignItems="center" mb={3} spacing={3}>
-                        <Button className='classify' style={{ color: '-moz-initial' }}>제형<br />전체</Button>
-
-                        <Button style={{ color: 'black' }}><img src={jeongjae} /></Button>
-                        <Button style={{ color: 'black' }}><img src={kyungjil} /></Button>
-                        <Button style={{ color: 'black' }}><img src={yeonjil} /></Button>
-
-                        {/* 제형 버튼 추가 - 추후 이쁘게 */}
-
+                        <Button className='filterBtn' id = '제형 전체' onClick={shapeFilter} style={{ color: '-moz-initial' }}>제형<br />전체</Button>
+                        <Button className='filterBtn' id = '정제' onClick={shapeFilter} style={{ color: 'black' }}><img src={jeongjae} /></Button>
+                        <Button className='filterBtn' id = '경질' onClick={shapeFilter} style={{ color: 'black' }}><img src={kyungjil} /></Button>
+                        <Button className='filterBtn' id = '연질' onClick={shapeFilter} style={{ color: 'black' }}><img src={yeonjil} /></Button>
+                        <Button className='filterBtn' id = '제형 기타' onClick={shapeFilter} style={{ color: 'black' }}>기타</Button>
                     </Stack>
                 </ButtonGroup>
                 <p />
 
+                {/* 분할선 버튼 추가 - 추후 이쁘게 */}
+                {/* - / None / +  */}
                 <ButtonGroup className='buttonGroup' variant="outlined" aria-label="outlined button group">
                     <Stack direction="row" alignItems="center" mb={3} spacing={3}>
-                        <Button className='classify' style={{ color: '-moz-initial' }}>분할선<br />전체</Button>
-
-
-                        <Button style={{ color: 'black' }}><img src={nothing} /></Button>
-                        <Button style={{ color: 'black' }}><img src={minus} /></Button>
-                        <Button style={{ color: 'black' }}><img src={plusplus} /></Button>
-                        <Button style={{ color: 'black' }}><img src={othershape} /></Button>
-                        {/* 분할선 버튼 추가 - 추후 이쁘게 */}
-
-
+                        <Button className='filterBtn' id = '분할선 전체' onClick={shapeFilter} style={{ color: '-moz-initial' }}>분할선<br />전체</Button>
+                        <Button className='filterBtn' id = '분할선 None' onClick={shapeFilter} style={{ color: 'black' }}><img src={nothing} /></Button>
+                        <Button className='filterBtn' id = '-' onClick={shapeFilter} style={{ color: 'black' }}><img src={minus} /></Button>
+                        <Button className='filterBtn' id = '+' onClick={shapeFilter} style={{ color: 'black' }}><img src={plusplus} /></Button>
+                        {/* <Button className='filterBtn' id = '원형' onClick={shapeFilter} style={{ color: 'black' }}><img src={othershape} /></Button> */}
                     </Stack>
                 </ButtonGroup>
 
@@ -397,9 +426,7 @@ return (
                             <TableBody>
                                 {
                                     filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                                        // const { name, shape, efficacy, formulation, imageUrl } = row;
-                                    const { name, imageUrl,shape, color, formulation, divideLine, efficacy} = row;
-                                    console.log('medin Naeme ',name)
+                                        const { name, imageUrl,shape, color, formulation, divideLine, efficacy} = row;
                                         const isItemSelected = selected.indexOf(name) !== -1;
 
                                         // 여기 return 또 있음.
@@ -413,24 +440,21 @@ return (
                                                 selected={isItemSelected}
                                                 aria-checked={isItemSelected}
                                                 onClick={() => {
-                
+                                                    // 약 상세 페이지로 push
                                                     navigate(`/dashboard/medicine/detailOneMediInfo`,
                                                         {state: name}
                                                     )
                                                 }}
                                             >
                                             <TableCell/>
-                                                {/* 의약품 */}
+
+                                            {/* 의약품 */}
                                             <TableCell component="th" scope="row" padding="none" align="left">
                                                 <Stack direction="row" alignItems="center" spacing={3}>
                                                     <Avatar alt={name} src={imageUrl} />
                                                     <Typography variant="subtitle2" noWrap >{name}</Typography>
                                                 </Stack>
                                             </TableCell>
-
-                                            {/* <TableCell align="left">
-                                            <Typography variant="subtitle2" noWrap >{medicineName}</Typography>
-                                            </TableCell> */}
 
                                             {/* 외형정보로 합치기 Or 분할 */}
                                             {/* 모양 */}
@@ -444,14 +468,6 @@ return (
                                             {/* 효능 */}     
                                             <TableCell align="left">{efficacy}</TableCell>
 
-                                                            {/* <TableCell align="left">
-                                                                모양 : {shape}</TableCell> */}
-
-                                                        {/* )
-                                                    })
-                                                } */}
-
-                                                {/* <TableCell align="left">{efficacy}</TableCell> */}
                                             </TableRow>
                                         );
 
@@ -459,6 +475,7 @@ return (
                                     }
                                     )
                                 }
+
                                 {emptyRows > 0 && (
                                     <TableRow style={{ height: 53 * emptyRows }}>
                                         <TableCell colSpan={6} />
