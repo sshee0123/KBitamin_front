@@ -46,7 +46,7 @@ export default function Calendar() {
             setTakingMedicineCnt(takingMedicineCnt+1);
             setTakingMedicines(res.data);
             return res.data;
-          })  
+          })
         };
         // 피해야 할 약 리스트
         const recommendMediFunc = async () => {
@@ -60,7 +60,6 @@ export default function Calendar() {
           // fetchMediFunc();
           recommendMediFunc();
         },[]);
-
 
   return (
     <Page title="Calendar">
