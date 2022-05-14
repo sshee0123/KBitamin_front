@@ -16,7 +16,6 @@ class MedicineService{
         console.log("MedicineService ",name);
 
         return axios.get(`${MEDICINE_API_BASE_URL}/detailOneMediInfo?name=${name}`,{ headers: authHeader() });
-
     }
 
 
