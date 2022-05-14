@@ -67,6 +67,7 @@ export default function Blog() {
       color: '',
     },
     onSubmit: () => {
+      console.log('start : ',formik.values.start)
       CalendarService.calendarInsert(MemberService.getCurrentUser().id,formik.values.name,formik.values.start, formik.values.end, formik.values.color);
     },
   });

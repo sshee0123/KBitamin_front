@@ -143,8 +143,7 @@ export default function User() {
     await CalendarService.getTakingPerUser(MemberService.getCurrentUser().id).then((res) => {
       setMedicineCnt(medicineCnt + 1);
       setMedicines(res.data);
-      console.log(res.data)
-      // console.log(res.data.length)
+
       return res.data;
     })
   }
@@ -152,7 +151,6 @@ export default function User() {
   
   const medicine = [];
   const thisdate = new Date();
-  console.log(thisdate)
   for (let i = 0; i < medicines.length; i+= 1) {
     medicines[i][1].toString();
     medicines[i][2].toString();
@@ -172,7 +170,8 @@ export default function User() {
       title : medicines[i][0],
       start : stdate[0],
       end : endate[0],
-      color : medicines[i][3]
+      color : medicines[i][3],
+      startDate : medicines[i][1]
     })
   }
 
@@ -274,46 +273,6 @@ export default function User() {
           >
             <Box sx={style}>
               <Blog/>
-              {/* <div className="mbsc-grid mbsc-grid-fixed">
-                <div className="mbsc-form-group">
-                  <div className="mbsc-row mbsc-justify-content-center">
-                    <div className="mbsc-col-md-10 mbsc-col-xl-8 mbsc-form-grid">
-                      <div className="mbsc-form-group-title" id='mediInfoEnter'>약 정보 입력</div>
-
-                      <div className="mbsc-row">
-                        <div className="mbsc-col-md-6 mbsc-col-12">
-                          <Input type="text" label="약 이름" placeholder="약 이름" inputStyle="box" labelStyle="floating" />
-                          <Input type="text" label="약 이름" placeholder="약 이름" inputStyle="box" labelStyle="floating" />
-                          <Input type="text" label="약 이름" placeholder="약 이름" inputStyle="box" labelStyle="floating" />
-                          <p className='btn1'>
-                            <Button align='right'> + 약 추가</Button>
-                            &nbsp;&nbsp;&nbsp;
-                            <Button align='right'> - 삭제</Button>
-                          </p>
-                        </div>
-
-                        <div className="mbsc-col-md-6 mbsc-col-12">
-                          <DateRange
-                            // editableDateInputs={true}
-                            onChange={item => setState([item.selection])}
-                            moveRangeOnFirstSelection={false}
-                            ranges={state}
-                          />
-                          <p className='btn2'>
-                            <p>&nbsp;&nbsp;&nbsp;</p>
-                            <Button variant="contained" onClick={handleClose}>저장하기 </Button>
-                            &nbsp;&nbsp;&nbsp;
-                            <Button variant="contained" onClick={handleClose}>취소</Button>
-                          </p>
-                        </div >
-                      </div>
-
-                    </div>
-                  </div>
-
-                </div>
-
-              </div> */}
             </Box>
           </Modal>
         </Stack>
@@ -335,7 +294,7 @@ export default function User() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, title, start, end, color } = row;
+                    const { id, title, start, end, color, startDate } = row;
                     const isItemSelected = selected.indexOf(title) !== -1;
 
                     return (
@@ -367,7 +326,7 @@ export default function User() {
                         </TableCell>
 
                         <TableCell align="right">
-                          <UserMoreMenu />
+                          <UserMoreMenu title ={title} start={startDate} />
                         </TableCell>
                       </TableRow>
                     );
