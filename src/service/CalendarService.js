@@ -30,10 +30,15 @@ class CalendarService{
     }
 
     // eslint-disable-next-line class-methods-use-this
+    updateTaking(id, title, start, sideEffectName){
+        console.log("front service updateTaking?user_id=` + user_id,",sideEffectName);
+
+        return axios.post(`${TAKING_API_BASE_URL}/updateTaking?id=${id}`, { title, start, sideEffectName});
+    }
+
+    // eslint-disable-next-line class-methods-use-this
     deleteTaking(id, title, start){
         console.log("front service deleteTaking?user_id=` + user_id,",id);
-        console.log("front service deleteTaking? title,",title);
-        console.log("front service deleteTaking? start,",start);
 
         return axios.post(`${TAKING_API_BASE_URL}/deleteTaking?id=${id}`, { title, start});
     }
