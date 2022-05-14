@@ -20,10 +20,12 @@ export default function UserMoreMenu(props) {
     CalendarService.deleteTaking(MemberService.getCurrentUser().id, title, start);
     navigate(0);
   };
-  const onClickEdit = (event , title) => {
+  const onClickEdit = (event , title, start, sideEffectName) => {
     console.log('수정버튼 ')
     setIsOpen(false);
-    console.log(title)
+    console.log(title,' ', start ,' sideEffectName ',sideEffectName)
+    // 부작용 수정하기
+    CalendarService.updateTaking(MemberService.getCurrentUser().id, title, start, sideEffectName);
   };
   
 
@@ -50,11 +52,11 @@ export default function UserMoreMenu(props) {
           <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }} onClick ={(event ) => {onClickEdit(event, props) }}>
+        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }} onClick ={(event ) => {onClickEdit(event, props.title, props.start, props.sideEffectName) }}>
           <ListItemIcon>
             <Iconify icon="eva:edit-fill" width={24} height={24}/>
           </ListItemIcon>
-          <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText primary="Save" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
       </Menu>
     </>

@@ -131,6 +131,8 @@ export default function User() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const [sideEffect, setSideEffect] = useState('');
+
   // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
 
   const [medicines, setMedicines] = useState([]);
@@ -166,6 +168,9 @@ export default function User() {
     // else {
     //  medicines[i][3] = 'No'
     // }
+    if(medicines[i][3]==null){
+      medicines[i][3] = '없음'
+    }
     medicine.push({
       id : i,
       title : medicines[i][0],
@@ -175,7 +180,6 @@ export default function User() {
       sideEffectName : medicines[i][3],
       startDate : medicines[i][1]
     })
-    console.log('hey~ ',medicines[i][3])
   }
 
 
@@ -228,9 +232,7 @@ export default function User() {
 
   const handleTextChange = (event, value) => {
     console.log(value)
-    
-    // formik.values.name = value.name;
-    // setValues({ name: value.name });
+    setSideEffect(value)
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - medicines.length) : 0;
@@ -331,11 +333,12 @@ export default function User() {
                             options={options}
                             onChange={handleTextChange}
                             id="controllable-states-demo"
-                            // getOptionLabel={(options) => options.name}
+                            // getOptionLabel={(options) => options}
+                            // renderOption={option => option}
                             autoSelect
                             autoComplete
-                            sx={{ width: 200 }}
-                            renderInput={(params) => <TextField {...params} label="상세 부작용" />}
+                            sx={{ width: 200 }} defaultValue={sideEffectName}
+                            renderInput={(params) => <TextField {...params}   label="상세 부작용" />}
                           />
                         </TableCell>
                         <TableCell align="left">{color}
@@ -345,7 +348,7 @@ export default function User() {
                         </TableCell>
 
                         <TableCell align="right">
-                          <UserMoreMenu title ={title} start={startDate} />
+                          <UserMoreMenu title ={title} start={startDate} sideEffectName = {sideEffect}/>
                         </TableCell>
                       </TableRow>
                     );
