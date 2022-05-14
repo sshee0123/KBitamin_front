@@ -1,15 +1,31 @@
 import { useRef, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // material
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 // component
 import Iconify from '../../../components/Iconify';
+import CalendarService from '../../../service/CalendarService'
+import MemberService from '../../../service/MemberService'
 
 // ----------------------------------------------------------------------
 
-export default function UserMoreMenu(user, onRemove) {
+export default function UserMoreMenu(props) {
+  const navigate = useNavigate();
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const onClickRemove = (event , title, start) => {
+    console.log('삭제버튼 ')
+    console.log(title,'  ', start)
+    setIsOpen(false);
+    CalendarService.deleteTaking(MemberService.getCurrentUser().id, title, start);
+    navigate(0);
+  };
+  const onClickEdit = (event , title) => {
+    console.log('수정버튼 ')
+    setIsOpen(false);
+    console.log(title)
+  };
+  
 
   return (
     <>
@@ -27,16 +43,16 @@ export default function UserMoreMenu(user, onRemove) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem sx={{ color: 'text.secondary' }}>
+        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }} onClick ={(event ) => {onClickRemove(event, props.title, props.start) }}>
           <ListItemIcon>
-            <Iconify icon="eva:trash-2-outline" width={24} height={24} />
+            <Iconify icon="eva:trash-2-outline" width={24} height={24}/>
           </ListItemIcon>
           <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
+        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }} onClick ={(event ) => {onClickEdit(event, props) }}>
           <ListItemIcon>
-            <Iconify icon="eva:edit-fill" width={24} height={24} onClick = {() => onRemove(user.id)}/>
+            <Iconify icon="eva:edit-fill" width={24} height={24}/>
           </ListItemIcon>
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>

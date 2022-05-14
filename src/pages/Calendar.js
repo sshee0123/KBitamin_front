@@ -245,50 +245,6 @@ export default function Calendar() {
             >
               <Box sx ={style}>
                 <Blog />
-                {/*
-              <div className="mbsc-grid mbsc-grid-fixed">
-                <div className="mbsc-form-group">
-                  <div className="mbsc-row mbsc-justify-content-center">
-                    <div className="mbsc-col-md-10 mbsc-col-xl-8 mbsc-form-grid">
-                      <div className="mbsc-form-group-title" id='mediInfoEnter'>약 정보 입력</div>
-
-                      <div className="mbsc-row">
-                        <div className="mbsc-col-md-6 mbsc-col-12">
-                          <Input type="text" label="약 이름" placeholder="약 이름" inputStyle="box" labelStyle="floating" />
-                          <Input type="text" label="약 이름" placeholder="약 이름" inputStyle="box" labelStyle="floating" />
-                          <Input type="text" label="약 이름" placeholder="약 이름" inputStyle="box" labelStyle="floating" />
-                          <p className='btn1'>
-                            <Button align='right'> + 약 추가</Button>
-                            &nbsp;&nbsp;&nbsp;
-                            <Button align='right'> - 삭제</Button>
-                          </p>
-                        </div>
-
-                        <div className="mbsc-col-md-6 mbsc-col-12">
-                          <DateRange
-                            // editableDateInputs={true}
-                            onChange={item => setState([item.selection]) }
-                            moveRangeOnFirstSelection={false}
-                            ranges={state}
-                          />
-                          <ColorPicker value={color} onChange={handleColorChange} />
-                          <p className='btn2'>
-                            &nbsp;&nbsp;&nbsp;
-                            <Button variant="contained" onClick={handleClose}>저장하기 </Button>
-                            &nbsp;&nbsp;&nbsp;
-                            <Button variant="contained" onClick={handleClose}>취소</Button>
-                          </p>
-                        </div >
-                      </div>
-
-                    </div>
-                  </div>
-
-                </div>
-
-              </div>
-
-              */}
               </Box>
             </Modal>
         </Stack>
