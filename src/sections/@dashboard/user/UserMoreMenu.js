@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // material
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 // component
@@ -10,7 +10,7 @@ import MemberService from '../../../service/MemberService'
 // ----------------------------------------------------------------------
 
 export default function UserMoreMenu(props) {
-  // console.log(props)
+  const navigate = useNavigate();
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const onClickRemove = (event , title, start) => {
@@ -18,6 +18,7 @@ export default function UserMoreMenu(props) {
     console.log(title,'  ', start)
     setIsOpen(false);
     CalendarService.deleteTaking(MemberService.getCurrentUser().id, title, start);
+    navigate(0);
   };
   const onClickEdit = (event , title) => {
     console.log('수정버튼 ')

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '@mobiscroll/react/dist/css/mobiscroll.min.css';
 import { Dropdown, Input, Page, setOptions } from '@mobiscroll/react';
 import { useFormik, Form, FormikProvider } from 'formik';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { DateRangePicker, DateRange } from 'react-date-range';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -36,12 +36,12 @@ const SORT_OPTIONS = [
   { value: 'popular', label: 'Popular' },
   { value: 'oldest', label: 'Oldest' },
 ];
-
 // ----------------------------------------------------------------------
 
 export default function Blog() {
 
   // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
+  const navigate = useNavigate();
   const [medicines, setMedicines] = useState([]);
   useEffect(() => {
     MediService.getAllMedicineInfo().then((res) => {
@@ -69,6 +69,7 @@ export default function Blog() {
     onSubmit: () => {
       console.log('start : ',formik.values.start)
       CalendarService.calendarInsert(MemberService.getCurrentUser().id,formik.values.name,formik.values.start, formik.values.end, formik.values.color);
+      navigate(0);
     },
   });
 

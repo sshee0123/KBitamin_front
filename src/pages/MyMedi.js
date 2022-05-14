@@ -141,9 +141,9 @@ export default function User() {
 
   const fetchMediFunc = async () => {
     await CalendarService.getTakingPerUser(MemberService.getCurrentUser().id).then((res) => {
+      console.log('data : ',res)
       setMedicineCnt(medicineCnt + 1);
       setMedicines(res.data);
-
       return res.data;
     })
   }
@@ -158,21 +158,24 @@ export default function User() {
     const endate = medicines[i][2].split('T')
     const compareStdate = new Date(medicines[i][1])
     const compareEndate = new Date(medicines[i][2])
-    
+    let hasEffect = 'No'
     if (thisdate >= compareStdate && thisdate <= compareEndate){
-      medicines[i][3] = 'Yes'
+      // medicines[i][3] = 'Yes'
+      hasEffect = 'Yes'
     }
-    else {
-      medicines[i][3] = 'No'
-    }
+    // else {
+    //  medicines[i][3] = 'No'
+    // }
     medicine.push({
       id : i,
       title : medicines[i][0],
       start : stdate[0],
       end : endate[0],
-      color : medicines[i][3],
+      color : hasEffect,
+      sideEffectName : medicines[i][3],
       startDate : medicines[i][1]
     })
+    console.log('hey~ ',medicines[i][3])
   }
 
 
@@ -221,6 +224,13 @@ export default function User() {
 
   const handleFilterByName = (event) => {
     setFilterName(event.target.value);
+  };
+
+  const handleTextChange = (event, value) => {
+    console.log(value)
+    
+    // formik.values.name = value.name;
+    // setValues({ name: value.name });
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - medicines.length) : 0;
@@ -294,7 +304,7 @@ export default function User() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, title, start, end, color, startDate } = row;
+                    const { id, title, start, end, color, sideEffectName, startDate } = row;
                     const isItemSelected = selected.indexOf(title) !== -1;
 
                     return (
@@ -317,7 +327,16 @@ export default function User() {
                         </TableCell>
                         <TableCell align="left">{start} &nbsp; ~ &nbsp; {end}</TableCell>
                         <TableCell align="left">
-                          <Selectbox />
+                          <Autocomplete
+                            options={options}
+                            onChange={handleTextChange}
+                            id="controllable-states-demo"
+                            // getOptionLabel={(options) => options.name}
+                            autoSelect
+                            autoComplete
+                            sx={{ width: 200 }}
+                            renderInput={(params) => <TextField {...params} label="상세 부작용" />}
+                          />
                         </TableCell>
                         <TableCell align="left">{color}
                           {/* <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>

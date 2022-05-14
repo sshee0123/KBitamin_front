@@ -300,7 +300,7 @@ export default function MediInfo({ menuItems }) {
             setFilterCond('all');
             setPrevBtnId('');
             for (let j = 0; j < btns.length; j+=1){
-                btns[i].className = 'hashMediBtn';
+                btns[j].className = 'hashMediBtn';
             }
         }
 
