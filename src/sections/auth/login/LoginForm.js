@@ -68,7 +68,7 @@ export default function LoginForm() {
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <Stack spacing={3}>
+        <Stack spacing={4}>
           <TextField
             fullWidth
             autoComplete="Id"

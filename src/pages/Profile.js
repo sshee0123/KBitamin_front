@@ -64,11 +64,11 @@ export default function Register() {
   return (
     <Page title="Register">
       <RootStyle>
-        <HeaderStyle>
-          <Logo />
+        {/* <HeaderStyle>
+        <Logo />
           
         </HeaderStyle>
-
+        */}
         <Container>
           <ContentStyle>
             <Typography variant="h4" gutterBottom>
@@ -77,8 +77,6 @@ export default function Register() {
 
             {/* 회원 정보 수정 form */}
             <ProfileForm/>
-        
-           
           </ContentStyle>
         </Container>
       </RootStyle>

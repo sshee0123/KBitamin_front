@@ -64,11 +64,10 @@ export default function Register() {
     <Page title="Register">
       <RootStyle>
         <HeaderStyle>
-          <Logo />
           {smUp && (
-            <Typography variant="body2" sx={{ mt: { md: -2 } }}>
+            <Typography variant="body2" sx={{ mt: { md: 9 } }}>
               이미 회원이신가요? {''}
-              <Link variant="subtitle2" component={RouterLink} to="/login">
+              <Link variant="subtitle2" component={RouterLink} to="/dashboard/login">
                 로그인
               </Link>
             </Typography>
@@ -87,7 +86,7 @@ export default function Register() {
             {!smUp && (
               <Typography variant="body2" sx={{ mt: 3, textAlign: 'center' }}>
                 이미 회원이신가요? {' '}
-                <Link variant="subtitle2" to="/login" component={RouterLink}>
+                <Link variant="subtitle2" to="/dashboard/login" component={RouterLink}>
                   로그인
                 </Link>
               </Typography>

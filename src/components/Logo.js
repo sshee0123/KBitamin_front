@@ -3,6 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Box } from '@mui/material';
+import LogoImg from '../pages/Images/logo.png'
 
 // ----------------------------------------------------------------------
 
@@ -21,11 +22,11 @@ export default function Logo({ disabledLink = false, sx }) {
   const PRIMARY_DARK = theme.palette.primary.dark;
 
   // OR
-  // const logo = <Box component="img" src="/static/logo.svg" sx={{ width: 40, height: 40, ...sx }} />
+  const logo = <Box component="img" src={LogoImg} sx={{ width: 250, height: 80, ...sx }} />
 
-  const logo = (
+  {/* const logo = (
     <Box sx={{ width: 40, height: 40, ...sx }}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 512 512">
+      <svg xmlns={LogoImg} width="100%" height="100%" viewBox="0 0 512 512">
         <defs>
           <linearGradient id="BG1" x1="100%" x2="50%" y1="9.946%" y2="50%">
             <stop offset="0%" stopColor={PRIMARY_DARK} />
@@ -58,7 +59,7 @@ export default function Logo({ disabledLink = false, sx }) {
       </svg>
     </Box>
   );
-
+  */}
   if (disabledLink) {
     return <>{logo}</>;
   }
