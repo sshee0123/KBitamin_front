@@ -64,12 +64,11 @@ export default function Login() {
     <Page title="Login">
       <RootStyle>
         <HeaderStyle>
-          <Logo />
 
           {smUp && (
-            <Typography variant="body2" sx={{ mt: { md: -2 } }}>
+            <Typography variant="body2" sx={{ mt: { md: 10 } }}>
               아직 회원이 아닌가요? {''}
-              <Link variant="subtitle2" component={RouterLink} to="/register">
+              <Link variant="subtitle2" component={RouterLink} to="/dashboard/register">
               회원가입
               </Link>
             </Typography>
@@ -87,7 +86,7 @@ export default function Login() {
             {!smUp && (
               <Typography variant="body2" align="center" sx={{ mt: 3 }}>
                 아직 회원이 아닌가요? {' '}
-                <Link variant="subtitle2" component={RouterLink} to="/register">
+                <Link variant="subtitle2" component={RouterLink} to="/dashboard/register">
                   회원가입
                 </Link>
               </Typography>

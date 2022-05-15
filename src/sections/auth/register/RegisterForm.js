@@ -108,7 +108,7 @@ export default function RegisterForm() {
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <Stack spacing={3}>
+        <Stack spacing={4}>
           {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}> */}
 
           {/* id */}

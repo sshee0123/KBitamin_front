@@ -20,7 +20,10 @@ export default function Router() {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
-        { path: 'app', element: <DashboardApp /> },
+        { path: 'app', element: <DashboardApp /> },,
+        { path: 'login', element: <Login /> },
+        { path: 'register', element: <Register /> },
+        { path: 'profile', element: <Profile /> },
         { path: 'mediInfo', element: <MediInfo /> },
         { path: 'medicine/detailOneMediInfo', element: <DetailOneMediInfo/> },
         { path: 'myMedi', element: <MyMedi /> },
@@ -32,9 +35,6 @@ export default function Router() {
       element: <LogoOnlyLayout />,
       children: [
         { path: '/', element: <Navigate to="/dashboard/app" /> },
-        { path: 'login', element: <Login /> },
-        { path: 'register', element: <Register /> },
-        { path: 'profile', element: <Profile /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],
