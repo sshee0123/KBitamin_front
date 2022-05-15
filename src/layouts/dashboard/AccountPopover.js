@@ -19,7 +19,7 @@ const MENU_OPTIONS = [
   {
     label: 'Profile',
     icon: 'eva:person-fill',
-    linkTo: '/profile',
+    linkTo: '/dashboard/profile',
   },
   {
     label: 'Settings',
@@ -38,7 +38,7 @@ export default function AccountPopover() {
   const handleOpen = (event) => {
     if(!MemberService.getCurrentUser()){
       alert('로그인 후 이용 가능합니다.');
-      window.location.href = "/login";
+      window.location.href = "/dashboard/login";
     }
     else{
       setOpen(event.currentTarget);

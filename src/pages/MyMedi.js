@@ -55,13 +55,9 @@ const currencies = [
     value: 'USD',
     label: 'No',
   },
-
 ];
 
 const options = ['없음', '어지러움', '두통', '권태감', '쇼크', '불면', '우울증', '흥분', '졸림', '빈맥', '혈압변화', '가슴 통증', '구토', '변비', '설사', '복통', '식욕부진', '위염', '발진', '두드러기', '부종', '탈모', '근육통', '관절통', '경련', '호흡곤란', '코피', '코막힘', '기침', '피로', '발열', '무기력증', '충혈', '눈곱', '각막염', '이명', '청력소실'];
-
-
-
 
 const TABLE_HEAD = [
   { id: 'title', label: '의약품', alignRight: false },
@@ -131,6 +127,8 @@ export default function User() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const [sideEffect, setSideEffect] = useState('');
+
   // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
 
   const [medicines, setMedicines] = useState([]);
@@ -141,10 +139,9 @@ export default function User() {
 
   const fetchMediFunc = async () => {
     await CalendarService.getTakingPerUser(MemberService.getCurrentUser().id).then((res) => {
+      console.log('data : ',res)
       setMedicineCnt(medicineCnt + 1);
       setMedicines(res.data);
-      console.log(res.data)
-      // console.log(res.data.length)
       return res.data;
     })
   }
@@ -152,7 +149,6 @@ export default function User() {
   
   const medicine = [];
   const thisdate = new Date();
-  console.log(thisdate)
   for (let i = 0; i < medicines.length; i+= 1) {
     medicines[i][1].toString();
     medicines[i][2].toString();
@@ -160,19 +156,25 @@ export default function User() {
     const endate = medicines[i][2].split('T')
     const compareStdate = new Date(medicines[i][1])
     const compareEndate = new Date(medicines[i][2])
-    
+    let hasEffect = 'No'
     if (thisdate >= compareStdate && thisdate <= compareEndate){
-      medicines[i][3] = 'Yes'
+      // medicines[i][3] = 'Yes'
+      hasEffect = 'Yes'
     }
-    else {
-      medicines[i][3] = 'No'
+    // else {
+    //  medicines[i][3] = 'No'
+    // }
+    if(medicines[i][3]==null){
+      medicines[i][3] = '없음'
     }
     medicine.push({
       id : i,
       title : medicines[i][0],
       start : stdate[0],
       end : endate[0],
-      color : medicines[i][3]
+      color : hasEffect,
+      sideEffectName : medicines[i][3],
+      startDate : medicines[i][1]
     })
   }
 
@@ -222,6 +224,11 @@ export default function User() {
 
   const handleFilterByName = (event) => {
     setFilterName(event.target.value);
+  };
+
+  const handleTextChange = (event, value) => {
+    console.log(value)
+    setSideEffect(value)
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - medicines.length) : 0;
@@ -274,46 +281,6 @@ export default function User() {
           >
             <Box sx={style}>
               <Blog/>
-              {/* <div className="mbsc-grid mbsc-grid-fixed">
-                <div className="mbsc-form-group">
-                  <div className="mbsc-row mbsc-justify-content-center">
-                    <div className="mbsc-col-md-10 mbsc-col-xl-8 mbsc-form-grid">
-                      <div className="mbsc-form-group-title" id='mediInfoEnter'>약 정보 입력</div>
-
-                      <div className="mbsc-row">
-                        <div className="mbsc-col-md-6 mbsc-col-12">
-                          <Input type="text" label="약 이름" placeholder="약 이름" inputStyle="box" labelStyle="floating" />
-                          <Input type="text" label="약 이름" placeholder="약 이름" inputStyle="box" labelStyle="floating" />
-                          <Input type="text" label="약 이름" placeholder="약 이름" inputStyle="box" labelStyle="floating" />
-                          <p className='btn1'>
-                            <Button align='right'> + 약 추가</Button>
-                            &nbsp;&nbsp;&nbsp;
-                            <Button align='right'> - 삭제</Button>
-                          </p>
-                        </div>
-
-                        <div className="mbsc-col-md-6 mbsc-col-12">
-                          <DateRange
-                            // editableDateInputs={true}
-                            onChange={item => setState([item.selection])}
-                            moveRangeOnFirstSelection={false}
-                            ranges={state}
-                          />
-                          <p className='btn2'>
-                            <p>&nbsp;&nbsp;&nbsp;</p>
-                            <Button variant="contained" onClick={handleClose}>저장하기 </Button>
-                            &nbsp;&nbsp;&nbsp;
-                            <Button variant="contained" onClick={handleClose}>취소</Button>
-                          </p>
-                        </div >
-                      </div>
-
-                    </div>
-                  </div>
-
-                </div>
-
-              </div> */}
             </Box>
           </Modal>
         </Stack>
@@ -335,7 +302,7 @@ export default function User() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, title, start, end, color } = row;
+                    const { id, title, start, end, color, sideEffectName, startDate } = row;
                     const isItemSelected = selected.indexOf(title) !== -1;
 
                     return (
@@ -358,7 +325,17 @@ export default function User() {
                         </TableCell>
                         <TableCell align="left">{start} &nbsp; ~ &nbsp; {end}</TableCell>
                         <TableCell align="left">
-                          <Selectbox />
+                          <Autocomplete
+                            options={options}
+                            onChange={handleTextChange}
+                            id="controllable-states-demo"
+                            // getOptionLabel={(options) => options}
+                            // renderOption={option => option}
+                            autoSelect
+                            autoComplete
+                            sx={{ width: 200 }} defaultValue={sideEffectName}
+                            renderInput={(params) => <TextField {...params}   label="상세 부작용" />}
+                          />
                         </TableCell>
                         <TableCell align="left">{color}
                           {/* <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
@@ -367,7 +344,7 @@ export default function User() {
                         </TableCell>
 
                         <TableCell align="right">
-                          <UserMoreMenu />
+                          <UserMoreMenu title ={title} start={startDate} sideEffectName = {sideEffect}/>
                         </TableCell>
                       </TableRow>
                     );
