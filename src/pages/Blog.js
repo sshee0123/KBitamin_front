@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,useRef } from 'react';
 import '@mobiscroll/react/dist/css/mobiscroll.min.css';
 import { Dropdown, Input, Page, setOptions } from '@mobiscroll/react';
 import { useFormik, Form, FormikProvider } from 'formik';
@@ -24,6 +24,8 @@ import CalendarService from '../service/CalendarService';
 
 import MemberService from '../service/MemberService';
 import circle from "./Images/default_pill.png";
+import CreateMedicine from "./CreateMedicine";
+import MedicineList from "./MedicineList";
 // ----------------------------------------------------------------------
 
 setOptions({
@@ -36,7 +38,9 @@ const SORT_OPTIONS = [
   { value: 'popular', label: 'Popular' },
   { value: 'oldest', label: 'Oldest' },
 ];
-// ----------------------------------------------------------------------
+
+
+
 
 export default function Blog() {
 
@@ -57,6 +61,59 @@ export default function Blog() {
     }
   ]);
 
+  
+// ------------------OCR request Hanlder---------------------------
+
+const uploadFile=(e)=> {
+  e.preventDefault();
+
+  const data = new FormData();
+  data.append('file', e.target.files[0]);
+  data.append('filename', e.target.value);
+
+  fetch('http://localhost:5000/fileUpload', {
+      method: 'POST',
+      body: data,
+    }).then((response) => {
+      response.json().then((body) => {
+          
+        console.log(body.data)
+        // setState({ imageURL: `http://localhost:5000/${body.file}` });
+        const arr = body.data.split(' ');
+        for(let i=0; i<arr.length; i+=1){
+          onCreate(arr[i]);
+          console.log(arr[i])
+        }
+      });
+    });
+}
+
+
+  // -------------- OCR 처리 후 약 생성 -----------------
+  // const [inputs, setInputs] = useState({
+  //  mediname: ''
+  // })
+  const mediname = '';
+  const [newmedicines, setNewMedicine] = useState([
+    {id:0, mediname:'test'}
+  ]);
+ 
+  const nextId = useRef(1);
+  const onCreate = (data) =>{
+    const medi = {
+      id: nextId.current,
+      mediname : data
+    }
+    mediname = data
+    setNewMedicine([...newmedicines, medi])
+ 
+    console.log(nextId.current);
+    nextId.current += 1;
+  }
+
+  
+
+  // ------------------------------------------------------------------
   const [values, setValues] = useState({ name: '', start: '', end: '', color: ''});
 
   const formik = useFormik({
@@ -110,9 +167,6 @@ export default function Blog() {
               
               <div className="mbsc-row">
                 <div className="mbsc-col-md-6 mbsc-col-12">
-                  <Input type="text" label="약 이름" placeholder="약 이름" inputStyle="box" labelStyle="floating" />
-                  <Input type="text" label="약 이름" placeholder="약 이름" inputStyle="box" labelStyle="floating" />
-                  <Input type="text" label="약 이름" placeholder="약 이름" inputStyle="box" labelStyle="floating" />
                   <Autocomplete
                     id="highlights-demo"
                     options={medicines}
@@ -150,7 +204,11 @@ export default function Blog() {
                       );
                     }}
                   />
-                
+                <CreateMedicine
+                  mediname={mediname} 
+                  onCreate={onCreate}
+                /> 
+                <MedicineList users={newmedicines}/>
                 </div>
                 
                 <div className="mbsc-col-md-6 mbsc-col-12">
@@ -162,6 +220,12 @@ export default function Blog() {
                     ranges={state}
                   />
                   <ColorPicker value={color} onChange={handleColorChange} />
+                  <>
+                  <input type="file" name="file" onChange={uploadFile} accept='image/jpg,impge/png,image/jpeg,image/gif' />
+                  <Button >
+                      Upload 
+                  </Button>
+                  </>
                   <p>
                   <LoadingButton type="submit" variant="contained">저장하기</LoadingButton>
                 </p>
