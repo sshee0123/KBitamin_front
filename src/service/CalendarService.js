@@ -42,6 +42,13 @@ class CalendarService{
 
         return axios.post(`${TAKING_API_BASE_URL}/deleteTaking?id=${id}`, { title, start});
     }
+
+    // eslint-disable-next-line class-methods-use-this
+    uploadImg(data){
+        console.log("uploadImg=" ,data);
+        alert('hell...')
+        return axios.post(`/upload`, {data});
+    }
 }
 
 export default new CalendarService();
