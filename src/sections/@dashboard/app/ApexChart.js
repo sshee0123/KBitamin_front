@@ -5,7 +5,7 @@ import ReactApexChart from 'react-apexcharts'
 import { styled } from '@mui/material/styles';
 
 
-const CHART_HEIGHT = 392;
+const CHART_HEIGHT = 360;
 
 const LEGEND_HEIGHT = 72;
 
@@ -36,17 +36,57 @@ export default class Products extends Component {
       this.state = {
       
         series: [{
-          name: 'PRODUCT A',
-          data: [44, 55, 41, 67, 22, 43]
+          name: '노년',
+          data: [190257,
+            382188,
+            13573,
+            33230,
+            120737,
+            33428,
+            65018,
+            186932,
+            152342,
+            184171
+            ]
         }, {
-          name: 'PRODUCT B',
-          data: [13, 23, 20, 8, 13, 27]
+          name: '장년',
+          data: [42125,
+            66963,
+            32484,
+            40844,
+            161979,
+            52311,
+            40682,
+            9896,
+            6784,
+            65417
+            ]
         }, {
-          name: 'PRODUCT C',
-          data: [11, 17, 15, 15, 21, 14]
+          name: '중년',
+          data: [152348,
+            271934,
+            21213,
+            39020,
+            141987,
+            42638,
+            67274,
+            90483,
+            43972,
+            110205
+            ]
         }, {
-          name: 'PRODUCT D',
-          data: [21, 7, 25, 13, 22, 8]
+          name: '청년',
+          data: [4234,
+            3843,
+            21389,
+            28943,
+            102718,
+            35973,
+            19973,
+            1656,
+            986,
+            31093
+            ]
         }],
         options: {
           chart: {
@@ -77,11 +117,14 @@ export default class Products extends Component {
             },
           },
           xaxis: {
-            type: 'datetime',
-            categories: ['01/01/2011 GMT', '01/02/2011 GMT', '01/03/2011 GMT', '01/04/2011 GMT',
-              '01/05/2011 GMT', '01/06/2011 GMT'
+            type: 'String',
+            categories: ['당뇨병', '본태성고혈압','급성 굴염','급성 상기도 감염', '급성기관지염', '혈관운동성 및 알레르기성 비염', '위-식도 역류질환', '무릎관절증','기타 척추병증', '복통'
             ],
           },
+          title:{
+            text: '연령층별 특정 질병 보유 통계',
+      align: 'left'
+        },
           legend: {
             position: 'right',
             offsetY: 40
@@ -99,7 +142,7 @@ export default class Products extends Component {
       return (
         <div id="chart">
           <Card>
-    <ReactApexChart options={this.state.options} series={this.state.series} type="bar" height={350} />
+    <ReactApexChart options={this.state.options} series={this.state.series} type="bar" height={520} />
     </Card>
     </div>
     

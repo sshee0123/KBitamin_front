@@ -9,3 +9,5 @@ export { default as AppCurrentSubject } from './AppCurrentSubject';
 export { default as AppConversionRates } from './AppConversionRates';
 
 export { default as ApexChart } from './ApexChart';
+export { default as LineChart } from './LineChart';
+export { default as Spline } from './Spline';
