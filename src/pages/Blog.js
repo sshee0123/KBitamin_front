@@ -1,4 +1,4 @@
-import React, { useState, useEffect ,useRef } from 'react';
+import React, { useState, useEffect ,useRef, useCallback } from 'react';
 import '@mobiscroll/react/dist/css/mobiscroll.min.css';
 import { Dropdown, Input, Page, setOptions } from '@mobiscroll/react';
 import { useFormik, Form, FormikProvider } from 'formik';
@@ -39,9 +39,6 @@ const SORT_OPTIONS = [
   { value: 'oldest', label: 'Oldest' },
 ];
 
-
-
-
 export default function Blog() {
 
   // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
@@ -61,7 +58,11 @@ export default function Blog() {
     }
   ]);
 
-  
+
+  // -------------- OCR 처리 후 약 생성 -----------------
+  const [newmedicines, setNewMedicine] = useState([
+
+  ]);
 // ------------------OCR request Hanlder---------------------------
 
 const uploadFile=(e)=> {
@@ -80,38 +81,15 @@ const uploadFile=(e)=> {
         console.log(body.data)
         // setState({ imageURL: `http://localhost:5000/${body.file}` });
         const arr = body.data.split(' ');
-        for(let i=0; i<arr.length; i+=1){
-          onCreate(arr[i]);
-          console.log(arr[i])
-        }
+        // for(let i=0; i<arr.length; i+=1){
+        //  onCreate(arr[i]);
+          // console.log(arr[i])
+        // }
+        setNewMedicine(arr);
+        // forceUpdate();
       });
     });
 }
-
-
-  // -------------- OCR 처리 후 약 생성 -----------------
-  // const [inputs, setInputs] = useState({
-  //  mediname: ''
-  // })
-  const mediname = '';
-  const [newmedicines, setNewMedicine] = useState([
-    {id:0, mediname:'test'}
-  ]);
- 
-  const nextId = useRef(1);
-  const onCreate = (data) =>{
-    const medi = {
-      id: nextId.current,
-      mediname : data
-    }
-    mediname = data
-    setNewMedicine([...newmedicines, medi])
- 
-    console.log(nextId.current);
-    nextId.current += 1;
-  }
-
-  
 
   // ------------------------------------------------------------------
   const [values, setValues] = useState({ name: '', start: '', end: '', color: ''});
@@ -125,6 +103,12 @@ const uploadFile=(e)=> {
     },
     onSubmit: () => {
       console.log('start : ',formik.values.start)
+
+      if(newmedicines.length>0)
+        for(let i=0; i<newmedicines.length; i+=1){
+          CalendarService.calendarInsert(MemberService.getCurrentUser().id,newmedicines[i],formik.values.start, formik.values.end, formik.values.color);
+        }
+
       CalendarService.calendarInsert(MemberService.getCurrentUser().id,formik.values.name,formik.values.start, formik.values.end, formik.values.color);
       navigate(0);
     },
@@ -180,7 +164,6 @@ const uploadFile=(e)=> {
                       const parts = parse(option.name, matches);
 
                       return (
-
                           <Stack component="li" direction="row" sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
                           <img src={option.imageUrl}  alt="medi"  onError={onErrorImg} style={{ height: "30px", width: "30px", marginRight: "10px"
                           }} 
@@ -200,14 +183,9 @@ const uploadFile=(e)=> {
                           
                         </li>
                         </Stack>
-
                       );
                     }}
                   />
-                <CreateMedicine
-                  mediname={mediname} 
-                  onCreate={onCreate}
-                /> 
                 <MedicineList users={newmedicines}/>
                 </div>
                 

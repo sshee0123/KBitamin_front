@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 import { addDays } from "date-fns"
 import Modal from '@mui/material/Modal';
 import React, { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // material
 import {
   Card,
@@ -128,6 +128,8 @@ export default function User() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [sideEffect, setSideEffect] = useState('');
+
+  const navigate = useNavigate();
 
   // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
 
@@ -313,6 +315,13 @@ export default function User() {
                         role="checkbox"
                         selected={isItemSelected}
                         aria-checked={isItemSelected}
+
+                        onClick={() => {
+                          // 약 상세 페이지로 push
+                          navigate(`/dashboard/medicine/detailOneMediInfo`,
+                              {state: title}
+                          )
+                      }}
                       >
                         <TableCell padding="checkbox" />
                         <TableCell component="th" scope="row" padding="none">

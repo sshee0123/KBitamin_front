@@ -1,9 +1,10 @@
 import React from 'react';
  
 function CreateMedicine({medicinename}){
+    // console.log('CreateMedicine', {medicinename})
     return (
         <div>
-            <text 
+            <input 
                 name="medicinename" 
                 value={medicinename}
             />
