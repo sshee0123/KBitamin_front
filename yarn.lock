@@ -1610,10 +1610,10 @@
     "prop-types" "^15.7.2"
     "react-is" "^16.8.0 || ^17.0.0"
 
-"@mobiscroll/react@https://npm.mobiscroll.com/@mobiscroll/react-trial/-/react-trial-5.16.0.tgz":
-  "integrity" "sha512-4ePaLOtdyTX8gAcxn1wjlFwRVlY2O06sNrT8tGLr9Zf4Xn6SRkZ3TzgD41qOemUrHw57MaBIsu/hTMLTF2pVkg=="
-  "resolved" "https://npm.mobiscroll.com/@mobiscroll/react-trial/-/react-trial-5.16.0.tgz"
-  "version" "5.16.0"
+"@mobiscroll/react@https://npm.mobiscroll.com/@mobiscroll/react-trial/-/react-trial-5.16.1.tgz":
+  "integrity" "sha512-4krWbKG6x4HXOjvND/RTLyGt5lWDJdLc5KAXJnTuMx6FTDMewkbLvfwXRbfwhL9uS/9Rrs2Y+BHKPF9+ximVPg=="
+  "resolved" "https://npm.mobiscroll.com/@mobiscroll/react-trial/-/react-trial-5.16.1.tgz"
+  "version" "5.16.1"
 
 "@mui/base@5.0.0-alpha.76":
   "integrity" "sha512-Pd0l4DvjXiGRyipn/CTDlYB2XrJwhpLktVXvbvcmzL2SMDaNprSarZqBkPHIubkulmRDZEEcnFDrpKgeSJDg4A=="

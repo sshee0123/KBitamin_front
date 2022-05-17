@@ -51,6 +51,7 @@ export default function Calendar() {
       return res.data;
     })
   };
+  
   // 피해야 할 약 리스트
   const recommendMediFunc = async () => {
     await DashboardService.getRecommendMedi(MemberService.getCurrentUser().id).then((res) => {
