@@ -1,6 +1,7 @@
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { Dropdown, Input, setOptions, Eventcalendar, getJson, toast } from '@mobiscroll/react';
+import '@mobiscroll/react/dist/css/mobiscroll.min.css';
 import { styled,createTheme } from '@mui/material/styles';
 import { DateRangePicker, DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
@@ -9,7 +10,7 @@ import Box from '@mui/material/Box';
 import { addDays } from "date-fns"
 import Modal from '@mui/material/Modal';
 import React, { useState } from 'react';
-import '@mobiscroll/react/dist/css/mobiscroll.min.css';
+
 
 import { Link as RouterLink } from 'react-router-dom';
 // material
