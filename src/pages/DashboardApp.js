@@ -21,7 +21,9 @@ import {
   AppWidgetSummary,
   AppCurrentSubject,
   AppConversionRates,
-  ApexChart
+  ApexChart,
+  Spline,
+  LineChart
 } from '../sections/@dashboard/app';
 // MediService
 import MediService from '../service/MedicineService';
@@ -29,37 +31,73 @@ import MemberService from '../service/MemberService';
 import CalendarService from '../service/CalendarService';
 import DashboardService from '../service/DashboardService';
 
+
 // ----------------------------------------------------------------------
 
 export default function Calendar() {
   const theme = useTheme();
 
-        // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
+  // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
 
-        const [takingMedicines, setTakingMedicines] = useState([]);
-        // 약 리스트 개수
-        const [takingMedicineCnt, setTakingMedicineCnt] = useState(0);
-    
-        // 비동기 처리로 다시 약 정보 가져오기
-        const fetchMediFunc = async () => {
-          await CalendarService.getTakingPerUser(MemberService.getCurrentUser().id).then((res) => {
-            setTakingMedicineCnt(takingMedicineCnt+1);
-            setTakingMedicines(res.data);
-            return res.data;
-          })
-        };
-        // 피해야 할 약 리스트
-        const recommendMediFunc = async () => {
-          await DashboardService.getRecommendMedi(MemberService.getCurrentUser().id).then((res) => {
-            console.log('recommendMediFunc', res);
-            return res;
-          })  
-        };
-      
-        useEffect(() => {
-          // fetchMediFunc();
-          recommendMediFunc();
-        },[]);
+  const [takingMedicines, setTakingMedicines] = useState([]);
+  // 약 리스트 개수
+  const [takingMedicineCnt, setTakingMedicineCnt] = useState(0);
+
+  // 비동기 처리로 다시 약 정보 가져오기
+  const fetchMediFunc = async () => {
+    await CalendarService.getTakingPerUser(MemberService.getCurrentUser().id).then((res) => {
+      setTakingMedicineCnt(takingMedicineCnt + 1);
+      setTakingMedicines(res.data);
+      return res.data;
+    })
+  };
+  // 피해야 할 약 리스트
+  const recommendMediFunc = async () => {
+    await DashboardService.getRecommendMedi(MemberService.getCurrentUser().id).then((res) => {
+      console.log('recommendMediFunc', res);
+      return res;
+    })
+  };
+
+
+  useEffect(() => {
+    // fetchMediFunc();
+    fetchMediFunc();
+  }, []);
+
+  // console.log(takingMedicines)
+
+  const medicine = [];
+  const thisdate = new Date();
+  console.log(thisdate)
+  for (let i = 0; i < takingMedicines.length; i += 1) {
+    takingMedicines[i][1].toString();
+    takingMedicines[i][2].toString();
+    const stdate = takingMedicines[i][1].split('T')
+    const endate = takingMedicines[i][2].split('T')
+    const compareStdate = new Date(takingMedicines[i][1])
+    const compareEndate = new Date(takingMedicines[i][2])
+
+    if (thisdate >= compareStdate && thisdate <= compareEndate) {
+      takingMedicines[i][3] = 'Yes'
+    }
+    else {
+      takingMedicines[i][3] = 'No'
+    }
+    medicine.push({
+      id: i,
+      label: takingMedicines[i][0],
+      start: stdate[0],
+      end: endate[0],
+      color: takingMedicines[i][3]
+    })
+  }
+
+  console.log(medicine)
+  useEffect(() => {
+    // fetchMediFunc();
+    recommendMediFunc();
+  }, []);
 
   return (
     <Page title="Calendar">
@@ -84,18 +122,31 @@ export default function Calendar() {
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="부작용이 발생한 약" total={3} color="error" icon={'jam:triangle-danger'} />
           </Grid>
+          <Grid id='app' item xs={12} md={12} lg={4}>
+            <LineChart />
+          </Grid>
+          <Grid id='app' item xs={12} md={12} lg={8}>
+            <Spline />
+          </Grid>
+          {/* 멋진 차트 */}
+          <Grid id='app' item xs={12} md={8} lg={8}>
+            <ApexChart style={{ height: 500 }} />
+          </Grid>
 
-          <Grid item xs={12} md={6} lg={6}>
+          <Grid className='first' item xs={12} md={4} lg={4}>
+            {/* {
+              medicine.map((med, index) => {
+                <AppTasks list = {[ {id : index+1, label :  med[index]}]}/>
+              })
+            } */}
             <AppTasks
-              title="챙겨드셨나요?"
-                
               list={[
-                { id: '1', label: '가나릴정(이토프리드염산염)' },
-                { id: '2', label: '가나슨캡슐' },
-                { id: '3', label: '가로틴캡슐100밀리그램(가바펜틴)' },
+                { id: '1', label: 'asdasd'},
+                { id: '2', label: 'qweqwe' },
+                { id: '3', label: '1234124'},
                 { id: '4', label: '힙스브이파워정' },
                 { id: '5', label: '휴니즈트라셋정' },
-                { id: '6', label: '다펜-큐연질캡슐(이부프로펜)' },
+
               ]}
             />
           </Grid>
@@ -140,7 +191,7 @@ export default function Calendar() {
             />
           </Grid> */}
           <Grid item xs={12} md={6} lg={6}>
-            
+
             <AppCurrentVisits
               title="이 약은 피하길"
               chartData={[
@@ -157,12 +208,9 @@ export default function Calendar() {
               ]}
             />
           </Grid>
-          
-          {/* 멋진 차트 */}
-          <Grid  id = 'app' item xs={12} md={12} lg={12}>
-            <ApexChart />
-          </Grid>
-        
+
+
+
 
           {<Grid item xs={12} md={6} lg={6}>
             <AppNewsUpdate
@@ -195,7 +243,7 @@ export default function Calendar() {
             />
           </Grid> */}
 
-          <Grid item xs={12} md={6} lg={6}>
+          <Grid item xs={12} md={6} lg={4}>
             <AppOrderTimeline
               title="약을 먹은 기간"
               list={[...Array(5)].map((_, index) => ({
@@ -213,7 +261,7 @@ export default function Calendar() {
             />
           </Grid>
 
-          {/* <Grid item xs={12} md={6} lg={12}>
+          <Grid item xs={12} md={6} lg={8}>
             <AppConversionRates
               title="최근 이 약을 많이 먹어요"
               // subheader="(+43%) than last year"
@@ -230,9 +278,9 @@ export default function Calendar() {
                 { label: 'United Kingdom', value: 1380 },
               ]}
             />
-          </Grid> */}
+          </Grid>
 
-         {/* <Grid item xs={12} md={6} lg={4}>
+          {/* <Grid item xs={12} md={6} lg={4}>
             <AppCurrentSubject
               title="Current Subject"
               chartLabels={['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math']}

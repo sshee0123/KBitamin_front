@@ -28,8 +28,8 @@ export default function AppTasks({ title, subheader, list, ...other }) {
   const { values, handleSubmit } = formik;
 
   return (
-    <Card {...other}>
-      <CardHeader title={title} subheader={subheader} />
+    <Card {...other} sx = {{height : 535}}>
+      <CardHeader title='챙겨드셨나요?' subheader={subheader} />
 
       <FormikProvider value={formik}>
         <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -101,7 +101,7 @@ function TaskItem({ formik, task, checked, ...other }) {
         sx={{ flexGrow: 1, m: 0 }}
       />
 
-      <MoreMenuButton
+      {/* <MoreMenuButton
         open={open}
         onClose={handleCloseMenu}
         onOpen={handleOpenMenu}
@@ -130,45 +130,45 @@ function TaskItem({ formik, task, checked, ...other }) {
             </MenuItem>
           </>
         }
-      />
+      /> */}
     </Stack>
   );
 }
 
 // ----------------------------------------------------------------------
 
-MoreMenuButton.propTypes = {
-  actions: PropTypes.node.isRequired,
-  onClose: PropTypes.func,
-  onOpen: PropTypes.func,
-  open: PropTypes.object,
-};
+// MoreMenuButton.propTypes = {
+//   actions: PropTypes.node.isRequired,
+//   onClose: PropTypes.func,
+//   onOpen: PropTypes.func,
+//   open: PropTypes.object,
+// };
 
-function MoreMenuButton({ actions, open, onOpen, onClose }) {
-  return (
-    <>
-      <IconButton size="large" color="inherit" sx={{ opacity: 0.48 }} onClick={onOpen}>
-        <Iconify icon={'eva:more-vertical-fill'} width={20} height={20} />
-      </IconButton>
+// function MoreMenuButton({ actions, open, onOpen, onClose }) {
+//   return (
+//     <>
+//       <IconButton size="large" color="inherit" sx={{ opacity: 0.48 }} onClick={onOpen}>
+//         <Iconify icon={'eva:more-vertical-fill'} width={20} height={20} />
+//       </IconButton>
 
-      <MenuPopover
-        open={Boolean(open)}
-        anchorEl={open}
-        onClose={onClose}
-        arrow="right-top"
-        sx={{
-          mt: -0.5,
-          width: 'auto',
-          '& .MuiMenuItem-root': {
-            px: 1,
-            typography: 'body2',
-            borderRadius: 0.75,
-            '& svg': { mr: 2, width: 20, height: 20 },
-          },
-        }}
-      >
-        {actions}
-      </MenuPopover>
-    </>
-  );
-}
+//       <MenuPopover
+//         open={Boolean(open)}
+//         anchorEl={open}
+//         onClose={onClose}
+//         arrow="right-top"
+//         sx={{
+//           mt: -0.5,
+//           width: 'auto',
+//           '& .MuiMenuItem-root': {
+//             px: 1,
+//             typography: 'body2',
+//             borderRadius: 0.75,
+//             '& svg': { mr: 2, width: 20, height: 20 },
+//           },
+//         }}
+//       >
+//         {actions}
+//       </MenuPopover>
+//     </>
+//   );
+// }

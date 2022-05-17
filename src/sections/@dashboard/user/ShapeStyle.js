@@ -153,6 +153,12 @@ export default function MediInfo({ menuItems }) {
             setMedicines(res.data);
             return res.data;
         })
+
+        // await MediService.getMedicineByButtonFilter().then((res) => {
+        //     setMedicineCnt(medicineCnt + 1);
+        //     setMedicines(res.data);
+        //     return res.data;
+        // })
     }
 
     useEffect(() => {
@@ -232,6 +238,7 @@ export default function MediInfo({ menuItems }) {
         toggleContainer: {
             margin: theme.spacing(2, 0),
         },
+
     }));
 
     const [alignment, setAlignment] = useState('left');
@@ -279,9 +286,19 @@ export default function MediInfo({ menuItems }) {
         setMenuItem(filteredData)
     };
 
-    const [btnId, setBtnId] = useState('');
-
     const [prevBtnId, setPrevBtnId] = useState('');
+
+    const [prevShapeBtnId, setPrevShapeBtnId] = useState('');
+    const [prevColorBtnId, setPrevColorBtnId] = useState('');
+    const [prevFormulationBtnId, setPrevFormulationBtnId] = useState('');
+    const [prevDivideLineBtnId, setPrevDivideLineBtnId] = useState('');
+
+    const [prevShapeBtnName, setPrevShapeBtnName] = useState('');
+    const [prevColorBtnName, setPrevColorBtnName] = useState('');
+    const [prevFormulationBtnName, setPrevFormulationBtnName] = useState('');
+    const [prevDivideLineBtnName, setPrevDivideLineBtnName] = useState('');
+
+
     const [prevBtnName, setPrevBtnName] = useState('');
     const [hashMedi, setHashMedi] = useState([]);
     const [filterCond, setFilterCond] = useState('all');
@@ -292,31 +309,89 @@ export default function MediInfo({ menuItems }) {
         const btns = document.getElementsByClassName('filterBtn');
         console.log("click btn", clickBtn);
         console.log("event.currentTarget.id",event.currentTarget.id);
-        console.log("btns", btns);
-        console.log("btns.length", btns.length);
+
+        const btnname = event.currentTarget.name;
+        console.log("Btnname", btnname);
 
         // 눌린 상태에서 버튼 또 누르면 초기화
         if (event.currentTarget.id == prevBtnId) {
             setFilterCond('all');
             setPrevBtnId('');
+
+            // active 제거
             for (let j = 0; j < btns.length; j+=1){
-                btns[j].className = 'hashMediBtn';
+                btns[j].classList.remove('active');
             }
+
         }
 
+        // 버튼 누르면
         else{
             for (let i; i<btns.length; i+=1){
-                btns[i].className = 'hashMediBtn';
-                console.log("btns[i].className", btns[i].className);
+                btns[i].classList.remove('active');
+                console.log("Remove ~ btns[i].className", btns[i].className);
             }
-            clickBtn.className += " active";
+
+            // active 다시
+            clickBtn.classList.add('active');
+            
             setFilterCond('hash');
+
             setPrevBtnId(event.currentTarget.id);
             setPrevBtnName(event.currentTarget.name);
-            // id, name 서비스 부르기.
+
+            console.log("prevBtnId",event.currentTarget.id);
+            console.log("prevBtnId~~~~~~~",prevBtnId);
+
+            console.log("prevBtnName",event.currentTarget.name);
+            console.log("btn:class~~~",clickBtn.className);
+
+            // 버튼 Type에 따라
+            switch (btnname) {
+                case "shape":
+                    setPrevShapeBtnId(event.currentTarget.id);
+                    setPrevShapeBtnName("shape");
+                    console.log("shapeid", prevShapeBtnId);
+                    console.log("shapename", prevShapeBtnName);
+                    break;
+
+                case "color":
+                    setPrevColorBtnId(event.currentTarget.id);
+                    setPrevColorBtnName("color");
+                    break;
+                
+                case "formulation":
+                    setPrevFormulationBtnId(event.currentTarget.id);
+                    setPrevFormulationBtnName("formulation");
+                    break;
+
+                case "divide_line":
+                    setPrevDivideLineBtnId(event.currentTarget.id);
+                    setPrevDivideLineBtnName("divide_line");
+                    break;
+                default:
+                    break;
+            }
+            
         };
 
     };
+
+    // 초기화 버튼 함수
+    const resetFilter = (event) => {
+        const btns = document.getElementsByClassName('filterBtn');
+        console.log("filterbtnssssss", btns);
+        for (let i; i<btns.length; i+=1){
+            btns[i].classList.remove('active');
+            console.log("reset~~~~~", btns[i].classList);
+        };
+
+        setPrevShapeBtnId('');
+        setPrevColorBtnId('');
+        setPrevFormulationBtnId('');
+        setPrevDivideLineBtnId('');
+        fetchMediFunc();
+    }
 
 return (
     <Page title="MediInfo">
@@ -353,9 +428,9 @@ return (
 
                 {/* 모양 버튼 추가 - 추후 이쁘게 */}
                 {/* 타원형 / None(기타로) / 원형 / 장방형 / 사각형 / 삼각형 / 오각형 / 기타 / 육각형 */}
-                <ButtonGroup className='buttonGroup'>
+                {/* <ButtonGroup className='buttonGroup'> */}
                     <Stack direction="row" alignItems="center" mb={3} spacing={3}>
-                        <Button className='filterBtn' id = '전체' name = "shape" style={{ color: '-moz-initial' }}>모양<br />전체</Button>
+                        <Button className='filterBtn' id = '전체' name = "shape" onClick={shapeFilter} style={{ color: '-moz-initial' }}>모양<br />전체</Button>
                         <Button className='filterBtn' id = '원형' name = "shape" style = {{color : 'black'}} onClick={shapeFilter}><img src = {circle}/></Button>
                         <Button className='filterBtn' id = '타원형' name = "shape" style = {{color : 'black'}} onClick={shapeFilter}><img src = {oval}/></Button>
                         <Button className='filterBtn' id = '삼각형' name = "shape" style = {{color : 'black'}} onClick={shapeFilter}><img src = {triangle}/></Button>
@@ -364,6 +439,8 @@ return (
                         <Button className='filterBtn' id = '오각형' name = "shape" style = {{color : 'black'}} onClick={shapeFilter}><img src = {penta}/></Button>
                         <Button className='filterBtn' id = '육각형' name = "shape" style = {{color : 'black'}} onClick={shapeFilter}><img src = {hexa}/></Button>
                         <Button className='filterBtn' id = '기타' name = "shape" style = {{color : 'black'}} onClick={shapeFilter}>기타</Button>
+                        </Stack>
+                {/* </ButtonGroup> */}
 
 {/* 여기까지만 해보기 */}
 
@@ -371,9 +448,8 @@ return (
                 {/* 색상 버튼 추가 - 추후 이쁘게 */}
                 {/* 갈색 / 검정 / 남색 / 노랑 / 노랑, 투명 / 보라 / 분홍 / 빨강 / 빨강, 투명 / 연두 / 자주 / 주황 / 주황, 투명 / 청록 / 초록 / 파랑 / 파랑, 투명 / 하양 / 회색 */}
                 {/*  검정 남색 보라 자주 파랑 회색  */}
-                    </Stack>
-                </ButtonGroup>
-                <ButtonGroup className='buttonGroup' >
+
+                {/* <ButtonGroup className='buttonGroup' > */}
                     <Stack direction="row" alignItems="center" mb={3} spacing={3}>
                         <Button className='filterBtn' id = '전체' name = "color" onClick={shapeFilter} style={{ color: '-moz-initial' }}>색상<br />전체</Button>
                         <Button className='filterBtn' id = '갈색' name = "color" onClick={shapeFilter} style={{ color: 'black' }}><img className='colorbtn' backgroundColor='brown' src={brown} /></Button>
@@ -396,12 +472,12 @@ return (
                         <Button className='filterBtn' id = '투명' name = "color" onClick={shapeFilter} style={{ color: 'black' }}><img  src={transparency} /></Button>
                                 
                     </Stack>
-                </ButtonGroup>
+                {/* </ButtonGroup> */}
 
                 {/* 제형 버튼 추가 - 추후 이쁘게 */}
                 {/* 정제 / None / 경질 / 원형 / 타원형 / 장방형 / 사각형 / 삼각형 / 연질 */}
                 {/* 정제, 경질, 연질이 제형같은데...원형 / 타원형 / 장방형 / 사각형 / 삼각형 / None 은 기타로 처리 */}
-                <ButtonGroup className='buttonGroup'>
+                {/* <ButtonGroup className='buttonGroup'> */}
                     <Stack direction="row" alignItems="center" mb={3} spacing={3}>
                         <Button className='filterBtn' id = '전체' name = "formulation" onClick={shapeFilter} style={{ color: '-moz-initial' }}>제형<br />전체</Button>
                         <Button className='filterBtn' id = '정제' name = "formulation" onClick={shapeFilter} style={{ color: 'black' }}><img src={jeongjae} /></Button>
@@ -409,19 +485,39 @@ return (
                         <Button className='filterBtn' id = '연질' name = "formulation" onClick={shapeFilter} style={{ color: 'black' }}><img src={yeonjil} /></Button>
                         <Button className='filterBtn' id = '기타' name = "formulation" onClick={shapeFilter} style={{ color: 'black' }}>기타</Button>
                     </Stack>
-                </ButtonGroup>
+                {/* </ButtonGroup> */}
                 <p />
 
                 {/* 분할선 버튼 추가 - 추후 이쁘게 */}
                 {/* - / None / +  */}
-                <ButtonGroup className='buttonGroup' variant="outlined" aria-label="outlined button group">
+                {/* <ButtonGroup className='buttonGroup' variant="outlined" aria-label="outlined button group"> */}
                     <Stack direction="row" alignItems="center" mb={3} spacing={3}>
                         <Button className='filterBtn' id = '전체' name = "divide_line" onClick={shapeFilter} style={{ color: '-moz-initial' }}>분할선<br />전체</Button>
                         <Button className='filterBtn' id = 'None' name = "divide_line" onClick={shapeFilter} style={{ color: 'black' }}><img src={nothing} /></Button>
                         <Button className='filterBtn' id = '-' name = "divide_line" onClick={shapeFilter} style={{ color: 'black' }}><img src={minus} /></Button>
                         <Button className='filterBtn' id = '+' name = "divide_line" onClick={shapeFilter} style={{ color: 'black' }}><img src={plusplus} /></Button>
                     </Stack>
-                </ButtonGroup>
+                {/* </ButtonGroup> */}
+
+
+                {/* 약 검색 필터링 저장하기 버튼 */}
+                <Stack direction="row" alignItems="center" mb={3} spacing={3}>
+
+                <Button variant="contained" onClick={ () => {
+
+                    MediService.getMedicineByButtonFilter(prevShapeBtnId, prevColorBtnId, prevFormulationBtnId, prevDivideLineBtnId).then((res) => {
+                        setMedicines(res.data);
+                        console.log("filtering data", res.data);
+                        return res.data;
+                    })
+
+                }}
+                     style = {{ alignItems:'center'}}>검색하기</Button>
+
+                {/* 필터링 초기화 버튼 */}
+                <Button variant="contained" onClick={resetFilter}>초기화</Button>
+
+                </Stack>
 
 
                 <Scrollbar>
