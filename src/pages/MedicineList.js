@@ -1,26 +1,25 @@
 import React, { useState } from 'react'
 
 function Medicine({user}){
-    const { username, id} = user;
     return (
         <div>
-            <b>{username}</b>
+            <b>{user}</b>
         </div>
 
     )
 }
 
 function MedicineList({users}) {
-    console.log('MedicineList',users)
     return (
         <div>
         {
             users.map(
-                user => (<Medicine user={user} key={user.id}/>)
+                
+                user => (<Medicine user={user}/>)
             )
         }
         </div>
     )
 }
- 
+
 export default MedicineList;

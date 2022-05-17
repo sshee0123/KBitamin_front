@@ -15,7 +15,7 @@ class CalendarService{
     // eslint-disable-next-line class-methods-use-this
     calendarInsert(userid, title, start, end, color) {
 
-        console.log('calendar Insert ')
+        console.log('calendar Insert ', title)
         console.log(title)
         console.log({ headers: authHeader() })
         
