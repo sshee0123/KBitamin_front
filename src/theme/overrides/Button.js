@@ -7,7 +7,12 @@ export default function Button(theme) {
         root: {
           '&:hover': {
             boxShadow: 'none'
-          }
+          },
+
+          "&.active": {
+            backgroundColor:theme.palette.action.hover
+        },
+
         },
         sizeLarge: {
           height: 48
