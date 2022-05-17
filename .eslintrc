@@ -26,6 +26,9 @@
     }
   },
   "rules": {
+
+    "camelcase": "off",
+
     "no-shadow": 0,
     "no-console": 0,
     "react/jsx-key": 1,

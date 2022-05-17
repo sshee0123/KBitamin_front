@@ -4,12 +4,34 @@ import { faker } from '@faker-js/faker';
 import React, { useState, useEffect } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography, Button } from '@mui/material';
-// mocks_
-import account from '../_mock/account';
+import { 
+  Grid, 
+  Container, 
+  Typography, 
+  Button, 
+  Card,
+  Table,
+  Stack,
+  Avatar,
+  Checkbox,
+  TableRow,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TablePagination,
+  CardHeader
+} from '@mui/material';
+// navigate
+import { useNavigate } from 'react-router-dom';
 // components
 import Page from '../components/Page';
+import Label from '../components/Label';
+import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
+import SearchNotFound from '../components/SearchNotFound';
+import { UserListHead, UserListToolbar, UserMoreMenu, Selectbox } from '../sections/@dashboard/user';
+// mocks_
+import account from '../_mock/account';
 // sections 
 import {
   AppTasks,
@@ -25,7 +47,7 @@ import {
   Spline,
   LineChart
 } from '../sections/@dashboard/app';
-// MediService
+// Service
 import MediService from '../service/MedicineService';
 import MemberService from '../service/MemberService';
 import CalendarService from '../service/CalendarService';
@@ -33,16 +55,34 @@ import DashboardService from '../service/DashboardService';
 
 
 
+
+
 // ----------------------------------------------------------------------
+
+const TABLE_HEAD = [
+  { id: 'title', label: '의약품', alignRight: false },
+  // { id: 'stDate', label: '복용 날짜', alignRight: false },
+  // { id: 'enDate', label: '부작용', alignRight: false },
+  // { id: 'status', label: '복용중', alignRight: false },
+  // { id: 'sideEffectName', label: '부작용', alignRight: false },
+  { id: 'sideEffect_name', label: '부작용', alignRight: false },
+  { id: '' },
+];
 
 export default function Calendar() {
   const theme = useTheme();
+
+  const navigate = useNavigate();
 
   // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
 
   const [takingMedicines, setTakingMedicines] = useState([]);
   // 약 리스트 개수
   const [takingMedicineCnt, setTakingMedicineCnt] = useState(0);
+  
+  // 부작용 있는 약 배열
+  const [sideEffectMedicines, setSideEffectMedicines] = useState([]);
+
 
   // 비동기 처리로 다시 약 정보 가져오기
   const fetchMediFunc = async () => {
@@ -63,8 +103,9 @@ export default function Calendar() {
 
   // 부작용 있는 약
   const sideEffectMediFunc = async () => {
-    await DashboardService.getTakingPerUser(MemberService.getCurrentUser().id).then((res) => {
+    await DashboardService.getSideEffectMediPerUser(MemberService.getCurrentUser().id).then((res) => {
       console.log('sideEffectMediFunc', res.data);
+      setSideEffectMedicines(res.data);
       return res.data;
     })
   }
@@ -72,6 +113,8 @@ export default function Calendar() {
 
   useEffect(() => {
     fetchMediFunc();
+
+    sideEffectMediFunc();
 
   }, []);
 
@@ -160,45 +203,6 @@ export default function Calendar() {
             />
           </Grid>
 
-          {/* <Grid item xs={12} md={6} lg={8}>
-            <AppWebsiteVisits
-              title="방문자 수"
-              subheader="전일대비 증감 (+5%)"
-              chartLabels={[
-                '01/01/2003',
-                '02/01/2003',
-                '03/01/2003',
-                '04/01/2003',
-                '05/01/2003',
-                '06/01/2003',
-                '07/01/2003',
-                '08/01/2003',
-                '09/01/2003',
-                '10/01/2003',
-                '11/01/2003',
-              ]}
-              chartData={[
-                {
-                  name: 'Team A',
-                  type: 'column',
-                  fill: 'solid',
-                  data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
-                },
-                {
-                  name: 'Team B',
-                  type: 'area',
-                  fill: 'gradient',
-                  data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
-                },
-                {
-                  name: 'Team C',
-                  type: 'line',
-                  fill: 'solid',
-                  data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
-                },
-              ]}
-            />
-          </Grid> */}
           <Grid item xs={12} md={6} lg={6}>
 
             <AppCurrentVisits
@@ -221,28 +225,74 @@ export default function Calendar() {
 
           {<Grid item xs={12} md={6} lg={6}>
 
-            {/* <Button onClick = {() => {sideEffectMediFunc
-
-            }} */}
-            <Button onClick = {sideEffectMediFunc}
-
-            
-            >부작용 불러봐</Button>
-            <AppNewsUpdate
+            {/* <AppNewsUpdate
               title="부작용 있는 약"
-
               list={[...Array(5)].map((_, index) => ({
                 id: faker.datatype.uuid(),
                 title: faker.name.jobTitle(),
                 description: faker.name.jobTitle(),
                 image: `/static/mock-images/covers/cover_${index + 1}.jpg`,
                 postedAt: faker.date.recent(),
-              }))}
+              }))
+            } /> */}
+
+            <Card>
+            <CardHeader title= "부작용이 있는 약"/>
+            &nbsp;
+            <TableContainer sx={{ minWidth: 700 }}>
+              <Table>
+                <UserListHead
+                  headLabel={TABLE_HEAD}
+                />
+                <TableBody>
+                  {sideEffectMedicines.map((sideEffectMedi) => {
+                    /* eslint-disable camelcase */
+                    const { title, sideEffect_name} = sideEffectMedi;
+
+                    return (
+                      <TableRow
+                        hover
+                        key = {title}
+                        tabIndex={-1}
+                        role="checkbox"
+                      >
+
+                        <TableCell>   </TableCell>
+                        <TableCell component="th" scope="row" padding="none" 
+                        
+                        onClick={() => {
+                          // 약 상세 페이지로 push
+                          navigate(`/dashboard/medicine/detailOneMediInfo`,
+                              {state: title}
+                          )
+                      }}
+                      >
+
+                      <Typography variant="subtitle2" noWrap>
+                        {title}
+                      </Typography>
+    
+                        </TableCell>
 
 
+                        <TableCell align="left">
+                        <Typography variant="subtitle2" noWrap>
+                          {sideEffect_name}
+                          </Typography>
+                          </TableCell>
 
-            />
-          </Grid>}
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+
+              </Table>
+              </TableContainer>
+
+              </Card>
+
+            </Grid>}
+          
 
           {/* <Grid item xs={12} md={6} lg={4}>
             <AppCurrentVisits
