@@ -1,11 +1,26 @@
 import React, { useState } from 'react'
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
 function Medicine({user}){
     return (
-        <div>
-            <b>{user}</b>
-        </div>
-
+        <Box
+            component="form"
+            sx={{
+                '& > :not(style)': { m: 2, width: '40ch', height: '5ch' },
+            }}
+            noValidate
+            autoComplete="off"
+        >
+        <TextField
+            label="약 이름"
+            color="warning"
+            focused
+            value={user}
+            margin="normal"
+            style ={{height: '5ch'}}
+        />
+        </Box>
     )
 }
 

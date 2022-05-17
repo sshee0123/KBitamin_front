@@ -68,7 +68,7 @@ const style = {
   bgcolor: '#FCFCFC',
   border: '2px solid #000',
   // 끝 둥글게 
-  // borderRadius : '1%',
+  borderRadius : '2%',
   boxShadow: 24,
   p: 4,
 };

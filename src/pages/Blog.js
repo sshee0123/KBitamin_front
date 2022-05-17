@@ -1,4 +1,7 @@
 import React, { useState, useEffect ,useRef, useCallback } from 'react';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import Box from '@mui/material/Box';
 import '@mobiscroll/react/dist/css/mobiscroll.min.css';
 import { Dropdown, Input, Page, setOptions } from '@mobiscroll/react';
 import { useFormik, Form, FormikProvider } from 'formik';
@@ -81,12 +84,7 @@ const uploadFile=(e)=> {
         console.log(body.data)
         // setState({ imageURL: `http://localhost:5000/${body.file}` });
         const arr = body.data.split(' ');
-        // for(let i=0; i<arr.length; i+=1){
-        //  onCreate(arr[i]);
-          // console.log(arr[i])
-        // }
         setNewMedicine(arr);
-        // forceUpdate();
       });
     });
 }
@@ -143,29 +141,39 @@ const uploadFile=(e)=> {
     <FormikProvider value={formik}>
     <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
     <Page>
-      <div className="mbsc-grid mbsc-grid-fixed">
-        <div className="mbsc-form-group">
-          <div className="mbsc-row mbsc-justify-content-center">
-            <div className="mbsc-col-md-10 mbsc-col-xl-8 mbsc-form-grid">
-              <div className="mbsc-form-group-title">약 정보 입력</div>
-              
-              <div className="mbsc-row">
-                <div className="mbsc-col-md-6 mbsc-col-12">
+    <Grid container spacing={2} columns={200}style={{
+        backgroundColor: 'white'
+      }}>
+    <Grid item xs={100}>
+                <center>
+                <Typography variant="h1" component="h3" style={{color:"#606060"}}>
+                  약 정보 입력
+                </Typography>
+                
                   <Autocomplete
                     id="highlights-demo"
                     options={medicines}
                     getOptionLabel={(option) => option.name}
                     onChange={handleTextChange}
                     renderInput={(params) => (
-                      <TextField {...params} label="약 이름" margin="normal"  variant="outlined" color="secondary" />
+                      <Box
+                          component="form"
+                          sx={{
+                              '& > :not(style)': { m: 3, width: '40ch', height: '10ch' },
+                          }}
+                          noValidate
+                          autoComplete="off"
+                      >
+                      <TextField {...params} label="약 이름" margin="normal"  variant="outlined" color="warning"/>
+                      </Box> 
                     )}
                     renderOption={(props, option, { inputValue }) => {
                       const matches = match(option.name, inputValue);
                       const parts = parse(option.name, matches);
 
                       return (
-                          <Stack component="li" direction="row" sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
-                          <img src={option.imageUrl}  alt="medi"  onError={onErrorImg} style={{ height: "30px", width: "30px", marginRight: "10px"
+                          <Stack component="li" direction="row" sx={{ '& > img': { mr: 1, flexShrink: 0 } }}>
+                          <img src={option.imageUrl}  alt="medi"  onError={onErrorImg} style={{ height: "30px", width: "30px", marginRight: "10px", marginLeft: "10px"
                           }} 
                           />
                         <li {...props}>
@@ -174,7 +182,7 @@ const uploadFile=(e)=> {
                               <><span
                                 key={index}
                                 style={{
-                                  fontWeight: part.highlight ? 700 : 400,
+                                  fontWeight: part.highlight ? 600 : 300,
                                 }}
                               >
                                 {part.text}
@@ -187,36 +195,45 @@ const uploadFile=(e)=> {
                     }}
                   />
                 <MedicineList users={newmedicines}/>
-                </div>
-                
-                <div className="mbsc-col-md-6 mbsc-col-12">
-                <div className="mbsc-form-group-title">날짜 입력</div>
-                  <DateRange
+                    <br/>
+                <>
+                  <label htmlFor="file">
+                    <input type="file" name="file" onChange={uploadFile} id="file" style={{ display: "none" }}accept='image/jpg,impge/png,image/jpeg,image/gif' />
+                    <Fab
+                      color="primary"
+                      size="small"
+                      component="span"
+                      aria-label="add"
+                      variant="extended"
+                    >
+                    <AddIcon /> Upload file
+                    </Fab><br/><br/><br/>
+                  </label>
+                  
+                  </>
+                  </center>
+                  </Grid>
+                  <Grid item xs={100}>
+                <center>
+                <Typography variant="h1" component="h3" style={{color:"#606060"}}>
+                  날짜 입력
+                </Typography>
+
+                <DateRange
                     editableDateInputs
                     onChange={handleDateSelect}
                     moveRangeOnFirstSelection={false}
                     ranges={state}
-                  />
-                  <ColorPicker value={color} onChange={handleColorChange} />
-                  <>
-                  <input type="file" name="file" onChange={uploadFile} accept='image/jpg,impge/png,image/jpeg,image/gif' />
-                  <Button >
-                      Upload 
-                  </Button>
-                  </>
-                  <p>
-                  <LoadingButton type="submit" variant="contained">저장하기</LoadingButton>
-                </p>
-                </div >
-              </div>
-
-            </div>
-          </div>
-          
-        </div>
-        
-      </div>
-      
+                  /><br/><br/>
+                  <ColorPicker value={color} onChange={handleColorChange} /><br/><br/>
+                </center>
+                  
+                  
+                  <center>
+                    <LoadingButton  style={{ textalign:"center" }} type="submit" variant="contained">저장하기</LoadingButton><br/><br/>
+                  </center>
+                  </Grid>
+</Grid>
     </Page>
     </Form>
     </FormikProvider>

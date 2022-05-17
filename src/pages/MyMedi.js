@@ -73,9 +73,9 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 800,
+  width: 1000,
   bgcolor: '#FCFCFC',
-  border: '2px solid lightgray',
+  border: '2px solid #000',
   borderRadius: '2%',
   boxShadow: 24,
   p: 4,
@@ -261,11 +261,6 @@ export default function User() {
     setMediList(medicine.filter(medicine => medicine.id !== id));
   };
 
-  const navipush = () => {
-    navigate(`/dashboard/app`,
-    {state: title, sideEffectName}
-  )
-  }
 
   return (
     <Page title="User">
