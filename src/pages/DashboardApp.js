@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker';
 import React, { useState, useEffect } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography } from '@mui/material';
+import { Grid, Container, Typography, Button } from '@mui/material';
 // mocks_
 import account from '../_mock/account';
 // components
@@ -30,6 +30,7 @@ import MediService from '../service/MedicineService';
 import MemberService from '../service/MemberService';
 import CalendarService from '../service/CalendarService';
 import DashboardService from '../service/DashboardService';
+
 
 
 // ----------------------------------------------------------------------
@@ -60,13 +61,20 @@ export default function Calendar() {
     })
   };
 
+  // 부작용 있는 약
+  const sideEffectMediFunc = async () => {
+    await DashboardService.getTakingPerUser(MemberService.getCurrentUser().id).then((res) => {
+      console.log('sideEffectMediFunc', res.data);
+      return res.data;
+    })
+  }
+
 
   useEffect(() => {
-    // fetchMediFunc();
     fetchMediFunc();
+
   }, []);
 
-  // console.log(takingMedicines)
 
   const medicine = [];
   const thisdate = new Date();
@@ -211,11 +219,18 @@ export default function Calendar() {
           </Grid>
 
 
-
-
           {<Grid item xs={12} md={6} lg={6}>
+
+            {/* <Button onClick = {() => {sideEffectMediFunc
+
+            }} */}
+            <Button onClick = {sideEffectMediFunc}
+
+            
+            >부작용 불러봐</Button>
             <AppNewsUpdate
               title="부작용 있는 약"
+
               list={[...Array(5)].map((_, index) => ({
                 id: faker.datatype.uuid(),
                 title: faker.name.jobTitle(),
@@ -223,6 +238,9 @@ export default function Calendar() {
                 image: `/static/mock-images/covers/cover_${index + 1}.jpg`,
                 postedAt: faker.date.recent(),
               }))}
+
+
+
             />
           </Grid>}
 

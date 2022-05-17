@@ -22,9 +22,11 @@ export default function AppNewsUpdate({ title, subheader, list, ...other }) {
 
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
+
           {list.map((news) => (
             <NewsItem key={news.id} news={news} />
           ))}
+          
         </Stack>
       </Scrollbar>
 
@@ -43,10 +45,12 @@ export default function AppNewsUpdate({ title, subheader, list, ...other }) {
 
 NewsItem.propTypes = {
   news: PropTypes.shape({
+
     description: PropTypes.string,
     image: PropTypes.string,
     postedAt: PropTypes.instanceOf(Date),
     title: PropTypes.string,
+
   }),
 };
 

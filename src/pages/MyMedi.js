@@ -261,9 +261,11 @@ export default function User() {
     setMediList(medicine.filter(medicine => medicine.id !== id));
   };
 
-  
-
-
+  const navipush = () => {
+    navigate(`/dashboard/app`,
+    {state: title, sideEffectName}
+  )
+  }
 
   return (
     <Page title="User">
