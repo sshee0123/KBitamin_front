@@ -1,7 +1,5 @@
 import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
-// import { Link as RouterLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 // material
@@ -452,7 +450,7 @@ return (
                 {/* <ButtonGroup className='buttonGroup' > */}
                     <Stack direction="row" alignItems="center" mb={3} spacing={3}>
                         <Button className='filterBtn' id = '전체' name = "color" onClick={shapeFilter} style={{ color: '-moz-initial' }}>색상<br />전체</Button>
-                        <Button className='filterBtn' id = '갈색' name = "color" onClick={shapeFilter} style={{ color: 'black' }}><img className='colorbtn' backgroundColor='brown' src={brown} /></Button>
+                        <Button className='filterBtn' id = '갈색' name = "color" onClick={shapeFilter} style={{ color: 'black' }}><img className='colorbtn' src={brown} /></Button>
 
                         <Button className='filterBtn' id = '노랑' name = "color"  onClick={shapeFilter} style={{ color: 'black' }}><img className='colorbtn' src={yellow} /></Button>
 

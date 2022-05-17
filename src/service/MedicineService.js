@@ -18,21 +18,14 @@ class MedicineService{
         return axios.get(`${MEDICINE_API_BASE_URL}/detailOneMediInfo?name=${name}`,{ headers: authHeader() });
     }
 
-    //  // eslint-disable-next-line class-methods-use-this
-    //  getMedicineByButtonFilter(shapeId, colorId, formulationId, dividelineId) {
-    //      console.log("getMedicineByButtonFilter",shapeId, colorId, formulationId, dividelineId);
 
-    //      return axios.post(`${MEDICINE_API_BASE_URL}/buttonFilter`, { shapeId, colorId, formulationId, dividelineId });
-
-    //  }
-
-         // eslint-disable-next-line class-methods-use-this
-         getMedicineByButtonFilter(shapeId, colorId, formulationId, dividelineId) {
-            console.log("getMedicineByButtonFilter",shapeId, colorId, formulationId, dividelineId);
+    // eslint-disable-next-line class-methods-use-this
+    getMedicineByButtonFilter(shapeId, colorId, formulationId, dividelineId) {
+        console.log("getMedicineByButtonFilter",shapeId, colorId, formulationId, dividelineId);
    
-            return axios.get(`${MEDICINE_API_BASE_URL}/buttonFilter?shapeId=${shapeId}&colorId=${colorId}&formulationId=${formulationId}&dividelineId=${dividelineId}`);
+        return axios.get(`${MEDICINE_API_BASE_URL}/buttonFilter?shapeId=${shapeId}&colorId=${colorId}&formulationId=${formulationId}&dividelineId=${dividelineId}`);
    
-        }
+    }
        
     
 

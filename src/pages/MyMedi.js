@@ -316,6 +316,10 @@ export default function User() {
                         selected={isItemSelected}
                         aria-checked={isItemSelected}
 
+                      >
+                        <TableCell padding="checkbox" />
+                        <TableCell component="th" scope="row" padding="none" 
+                        
                         onClick={() => {
                           // 약 상세 페이지로 push
                           navigate(`/dashboard/medicine/detailOneMediInfo`,
@@ -323,8 +327,6 @@ export default function User() {
                           )
                       }}
                       >
-                        <TableCell padding="checkbox" />
-                        <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
                             {/* <Avatar alt={name} src={avatarUrl} /> */}
                             <Typography variant="subtitle2" noWrap>
@@ -332,6 +334,8 @@ export default function User() {
                             </Typography>
                           </Stack>
                         </TableCell>
+
+
                         <TableCell align="left">{start} &nbsp; ~ &nbsp; {end}</TableCell>
                         <TableCell align="left">
                           <Autocomplete

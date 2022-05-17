@@ -16,15 +16,15 @@ const MENU_OPTIONS = [
     icon: 'eva:home-fill',
     linkTo: '/',
   },
-  {
-    label: 'Profile',
-    icon: 'eva:person-fill',
-    linkTo: '/dashboard/profile',
-  },
+  // {
+  //   label: 'Profile',
+  //   icon: 'eva:person-fill',
+  //   linkTo: '/dashboard/profile',
+  // },
   {
     label: 'Settings',
     icon: 'eva:settings-2-fill',
-    linkTo: '#',
+    linkTo: '/dashboard/profile',
   },
 ];
 

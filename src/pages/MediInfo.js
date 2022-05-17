@@ -1,73 +1,12 @@
 import { filters } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-// material
-import {
-  Card,
-  Table,
-  Stack,
-  Avatar,
-  Button,
-  Checkbox,
-  TableRow,
-  TableBody,
-  TableCell,
-  Container,
-  Typography,
-  TableContainer,
-  TablePagination,
-  Box
-} from '@mui/material';
 // components
-import { LoadingButton } from '@mui/lab';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import FormatBoldIcon from '@material-ui/icons/FormatBold';
-import FormatItalicIcon from '@material-ui/icons/FormatItalic';
-import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import FormatUnderlinedIcon from '@material-ui/icons/FormatUnderlined';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Modal from '@mui/material/Modal';
-import Page from '../components/Page';
-import Label from '../components/Label';
-import Scrollbar from '../components/Scrollbar';
-import Iconify from '../components/Iconify';
-import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu, ShapeStyle } from '../sections/@dashboard/user';
 // MediService
 import MediService from '../service/MedicineService';
-// import { id } from 'date-fns/locale';
+
 import './MediInfo.css';
-import circle from './Images/circle.png';
-import diamond from './Images/diamond.png';
-import fillcolor from './Images/fillcolor.png';
-import halfcircle from './Images/halfcircle.png';
-import hexa from './Images/hexa.png';
-import jangbang from './Images/jangbang.png';
-import jeongjae from './Images/jeongjae.png';
-import kyungjil from './Images/kyungjil.png';
-import minus from './Images/minus.png';
-import nothing from './Images/nothing.png';
-import othershape from './Images/othershape.png';
-import oval from './Images/oval.png';
-import penta from './Images/penta.png';
-import plusplus from './Images/plusplus.png';
-import square from './Images/square.png';
-import triangle from './Images/triangle.png';
-import yeonjil from './Images/yeonjil.png';
-import brown from './color/brown.png';
-import green from './color/green.png';
-import lightgreen from './color/lightgreen.png';
-import orange from './color/orange.png';
-import pink from './color/pink.png';
-import red from './color/red.png';
-import teal from './color/teal.png';
-import white from './color/white.png'
-import yellow from './color/yellow.png';
 
 // ----------------------------------------------------------------------
 
@@ -271,9 +210,7 @@ export default function MediInfo() {
   };
 
   return (
-    
               <ShapeStyle menuItems={menuItem}/>
 
-            
   );
 }
