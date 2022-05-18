@@ -58,10 +58,6 @@ export default class Products extends Component {
                     height: 350,
                     type: 'area'
                 },
-                title:{
-                    text: '각 나이별 진료 횟수 통계',
-              align: 'left'
-                },
                 dataLabels: {
                     enabled: false
                 },
@@ -87,6 +83,7 @@ export default class Products extends Component {
         return (
             <div id="chart">
                 <Card>
+            <CardHeader title= "각 나이별 진료 횟수 통계"/>
                     <ReactApexChart options={this.state.options} series={this.state.series} type="area" height={350} />
                 </Card>
             </div>

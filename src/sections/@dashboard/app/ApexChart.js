@@ -1,5 +1,5 @@
 import {React, Component} from 'react'
-import {Card} from '@mui/material';
+import {Card, CardHeader} from '@mui/material';
 import ReactDOM from 'react-dom';
 import ReactApexChart from 'react-apexcharts'
 import { styled } from '@mui/material/styles';
@@ -121,10 +121,6 @@ export default class Products extends Component {
             categories: ['당뇨병', '본태성고혈압','급성 굴염','급성 상기도 감염', '급성기관지염', '혈관운동성 및 알레르기성 비염', '위-식도 역류질환', '무릎관절증','기타 척추병증', '복통'
             ],
           },
-          title:{
-            text: '연령층별 특정 질병 보유 통계',
-      align: 'left'
-        },
           legend: {
             position: 'right',
             offsetY: 40
@@ -134,7 +130,6 @@ export default class Products extends Component {
           }
         },
       
-      
       };
     }
 
@@ -142,20 +137,12 @@ export default class Products extends Component {
       return (
         <div id="chart">
           <Card>
-    <ReactApexChart options={this.state.options} series={this.state.series} type="bar" height={520} />
-    </Card>
-    </div>
+          <CardHeader title= "연령층 별 질병 보유 통계"/>
+          <ReactApexChart options={this.state.options} series={this.state.series} type="bar" height={520} />
+          </Card>
+          </div>
     
       );
       }
-
-
-//   const rootElement = document.getElementById("root");
-// ReactDOM.render(<ApexChart />, rootElement);
-
-
-  // const domContainer = document.querySelector('#app');
-  // ReactDOM.render(<ApexChart />, domContainer);
-
  
 }

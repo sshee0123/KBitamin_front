@@ -20,41 +20,23 @@ import {
     Box
 } from '@mui/material';
 // components
-import { LoadingButton } from '@mui/lab';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import FormatBoldIcon from '@material-ui/icons/FormatBold';
-import FormatItalicIcon from '@material-ui/icons/FormatItalic';
-import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import FormatUnderlinedIcon from '@material-ui/icons/FormatUnderlined';
-import LaptopIcon from '@material-ui/icons/Laptop';
-import TvIcon from '@material-ui/icons/Tv';
-import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Modal from '@mui/material/Modal';
 import Page from '../../../components/Page';
-import Label from '../../../components/Label';
 import Scrollbar from '../../../components/Scrollbar';
-import Iconify from '../../../components/Iconify';
 import SearchNotFound from '../../../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu, Separate } from '.';
 // MediService
 import MediService from '../../../service/MedicineService';
 // import { id } from 'date-fns/locale';
 import circle from './Images/circle.png';
-import diamond from './Images/diamond.png';
-import fillcolor from './Images/fillcolor.png';
-import halfcircle from './Images/halfcircle.png';
 import hexa from './Images/hexa.png';
 import jangbang from './Images/jangbang.png';
 import jeongjae from './Images/jeongjae.png';
 import kyungjil from './Images/kyungjil.png';
 import minus from './Images/minus.png';
 import nothing from './Images/nothing.png';
-import othershape from './Images/othershape.png';
 import oval from './Images/oval.png';
 import penta from './Images/penta.png';
 import plusplus from './Images/plusplus.png';
@@ -152,11 +134,6 @@ export default function MediInfo({ menuItems }) {
             return res.data;
         })
 
-        // await MediService.getMedicineByButtonFilter().then((res) => {
-        //     setMedicineCnt(medicineCnt + 1);
-        //     setMedicines(res.data);
-        //     return res.data;
-        // })
     }
 
     useEffect(() => {
@@ -439,8 +416,6 @@ return (
                         <Button className='filterBtn' id = '기타' name = "shape" style = {{color : 'black'}} onClick={shapeFilter}>기타</Button>
                         </Stack>
                 {/* </ButtonGroup> */}
-
-{/* 여기까지만 해보기 */}
 
 
                 {/* 색상 버튼 추가 - 추후 이쁘게 */}

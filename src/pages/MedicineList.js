@@ -29,7 +29,6 @@ function MedicineList({users}) {
         <div>
         {
             users.map(
-                
                 user => (<Medicine user={user}/>)
             )
         }

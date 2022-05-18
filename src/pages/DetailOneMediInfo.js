@@ -1,14 +1,12 @@
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import { useLocation } from 'react-router';
 // material
 import {
   Card,
   Table,
   Stack,
-  Avatar,
   Button,
   Checkbox,
   TableRow,
@@ -17,18 +15,13 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
-  Box
+  CardHeader,
 } from '@mui/material';
 // components
 import Grid from '@material-ui/core/Grid';
 // MediService
 import MediService from '../service/MedicineService';
 import Page from '../components/Page';
-import Label from '../components/Label';
-import Scrollbar from '../components/Scrollbar';
-import Iconify from '../components/Iconify';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 import circle from "./Images/default_pill.png";
 
 
@@ -55,7 +48,6 @@ export default function DetailOneMediInfo(){
         fetchMediFunc()
     }, []);
 
-
       // 약 이미지 없을 경우 defualt 이미지 sj
     const onErrorImg = (e) => {
       e.target.src = circle;
@@ -72,39 +64,115 @@ export default function DetailOneMediInfo(){
 
             </Stack>
 
-          <Stack direction="row" alignItems="center" mb={5}>
-            <img alt = {medicine.name} src = {medicine.imageUrl} onError={onErrorImg} height = "200px" width = "300px"/>
-            </Stack>
+            <Card>
+            <CardHeader/>
+            <TableContainer>
+              <Table>
+                <TableBody>
 
+                  <TableRow>
+                    <TableCell align='center' component="th" style={{minWidth:100, maxWidth:100}} >
+                      <Typography variant="h5" gutterBottom>제품명</Typography>
+                      </TableCell>
+                    <TableCell>
+                    <Typography variant="subtitle1" gutterBottom>{medicine.name}</Typography>
+                    </TableCell>
+                  </TableRow>
 
-            <Scrollbar>
+                <TableRow>
+                    <TableCell align='center' component="th" style={{minWidth:100, maxWidth:100}}>
+                      <Typography variant="h6" gutterBottom>이미지</Typography>
+                      </TableCell>
+                    <TableCell>
+                    <img alt = {medicine.name} src = {medicine.imageUrl} onError={onErrorImg} height = "200px" width = "300px"/>
+                    </TableCell>
+                  </TableRow>
 
-            <Stack alignItems="left" mb={5}>
-            
-            <Typography variant="h5" gutterBottom>제품명</Typography>
-            <Typography variant="subtitle1" gutterBottom>{medicine.name}</Typography>
-            <Typography variant="h5" gutterBottom>제형</Typography>
-            <Typography variant="subtitle1" gutterBottom>{medicine.formulation}</Typography>
-            <Typography variant="h5" gutterBottom>모양</Typography>
-            <Typography variant="subtitle1" gutterBottom>{medicine.shape}</Typography>
-            <Typography variant="h5" gutterBottom>제조업체</Typography>
-            <Typography variant="subtitle1" gutterBottom>{medicine.manufacturer}</Typography>
-            <Typography variant="h5" gutterBottom>유효성분</Typography>
-            <Typography variant="subtitle1" gutterBottom>{medicine.ingredient}</Typography>
-            <Typography variant="h5" gutterBottom>색상</Typography>
-            <Typography variant="subtitle1" gutterBottom>{medicine.color}</Typography>
-            <Typography variant="h5" gutterBottom>분할선</Typography>
-            <Typography variant="subtitle1" gutterBottom>{medicine.divideLine}</Typography>
-            <Typography variant="h5" gutterBottom>용법</Typography>
-            <Typography variant="subtitle1" gutterBottom>{medicine.usage}</Typography>
-            <Typography variant="h5" gutterBottom>효능</Typography>
-            <Typography variant="subtitle1" gutterBottom>{medicine.efficacy}</Typography>
-            <Typography variant="h5" gutterBottom>주의사항</Typography>
-            <Typography variant="subtitle1" gutterBottom>{medicine.caution}</Typography>
+                  <TableRow>
+                    <TableCell align='center' component="th" style={{minWidth:100, maxWidth:100}}>
+                      <Typography variant="h6" gutterBottom>제형</Typography>
+                      </TableCell>
+                    <TableCell>
+                    <Typography variant="subtitle1" gutterBottom>{medicine.formulation}</Typography>
+                    </TableCell>
+                  </TableRow>
 
-            </Stack>
+                  <TableRow>
+                    <TableCell align='center' component="th" style={{minWidth:100, maxWidth:100}}>
+                      <Typography variant="h6" gutterBottom>모양</Typography>
+                      </TableCell>
+                    <TableCell>
+                    <Typography variant="subtitle1" gutterBottom>{medicine.shape}</Typography>
+                    </TableCell>
+                  </TableRow>
 
-            </Scrollbar>
+                  <TableRow>
+                    <TableCell align='center' component="th" style={{minWidth:100, maxWidth:100}}>
+                      <Typography variant="h6" gutterBottom>제조업체</Typography>
+                      </TableCell>
+                    <TableCell>
+                    <Typography variant="subtitle1" gutterBottom>{medicine.manufacturer}</Typography>
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell align='center' component="th" style={{minWidth:100, maxWidth:100}}>
+                      <Typography variant="h6" gutterBottom>유효성분</Typography>
+                      </TableCell>
+                    <TableCell>
+                    <Typography variant="subtitle1" gutterBottom>{medicine.ingredient}</Typography>
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell align='center' component="th" style={{minWidth:100, maxWidth:100}}>
+                      <Typography variant="h6" gutterBottom>색상</Typography>
+                      </TableCell>
+                    <TableCell>
+                    <Typography variant="subtitle1" gutterBottom>{medicine.color}</Typography>
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell align='center' component="th" style={{minWidth:100, maxWidth:100}}>
+                      <Typography variant="h6" gutterBottom>분할선</Typography>
+                      </TableCell>
+                    <TableCell>
+                    <Typography variant="subtitle1" gutterBottom>{medicine.divideLine}</Typography>
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell align='center' component="th" style={{minWidth:100, maxWidth:100}}>
+                      <Typography variant="h6" gutterBottom>효능</Typography>
+                      </TableCell>
+                    <TableCell>
+                    <Typography variant="subtitle1" gutterBottom>{medicine.efficacy}</Typography>
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell align='center' component="th" style={{minWidth:100, maxWidth:100}}>
+                      <Typography variant="h6" gutterBottom>용법</Typography>
+                      </TableCell>
+                    <TableCell>
+                    <Typography variant="subtitle1" gutterBottom>{medicine.usage}</Typography>
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell align='center' component="th" style={{minWidth:100, maxWidth:100}}>
+                      <Typography variant="h6" gutterBottom>주의사항</Typography>
+                      </TableCell>
+                    <TableCell>
+                    <Typography variant="subtitle1" gutterBottom>{medicine.caution}</Typography>
+                    </TableCell>
+                  </TableRow>
+                   
+                </TableBody>
+              </Table>
+              </TableContainer>
+              </Card>
 
         </Container>
         </Page>

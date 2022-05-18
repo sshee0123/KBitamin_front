@@ -33,8 +33,6 @@ import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu, Selectbox } from '../sections/@dashboard/user';
-// mocks_
-import account from '../_mock/account';
 // sections 
 import {
   AppTasks,
@@ -56,18 +54,10 @@ import MemberService from '../service/MemberService';
 import CalendarService from '../service/CalendarService';
 import DashboardService from '../service/DashboardService';
 
-
-
-
-
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'title', label: '의약품', alignRight: false },
-  // { id: 'stDate', label: '복용 날짜', alignRight: false },
-  // { id: 'enDate', label: '부작용', alignRight: false },
-  // { id: 'status', label: '복용중', alignRight: false },
-  // { id: 'sideEffectName', label: '부작용', alignRight: false },
   { id: 'sideEffect_name', label: '부작용', alignRight: false },
   { id: '' },
 ];
@@ -85,6 +75,8 @@ export default function Calendar() {
   
   // 부작용 있는 약 배열
   const [sideEffectMedicines, setSideEffectMedicines] = useState([]);  
+  // 부작용 있는 약 개수
+  const [sideEffectMedicineCnt, setSideEffectMedicineCnt] = useState(0);
 
   // 피해야 할 약 배열
   const [avoidMedicines, setAvoidMedicines] = useState([]);
@@ -109,11 +101,12 @@ export default function Calendar() {
   // 부작용 있는 약
   const sideEffectMediFunc = async () => {
     await DashboardService.getSideEffectMediPerUser(MemberService.getCurrentUser().id).then((res) => {
+      setSideEffectMedicineCnt(sideEffectMedicineCnt + 1);
+      console.log("부작용 발생한 약" , sideEffectMedicineCnt)
       setSideEffectMedicines(res.data);
       return res.data;
     })
   }
-
 
   useEffect(() => {
     recommendMediFunc();
@@ -157,7 +150,7 @@ export default function Calendar() {
 
         <Grid container spacing={3}>
 
-          {/* 대시보드 페이지 맨 위 4가지 주석 */}
+{/* 4가지 카드 */}
 
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="복용 일수" total={2} color="info" icon={'ant-design:calendar-outlined'} />
@@ -169,33 +162,15 @@ export default function Calendar() {
             <AppWidgetSummary title="남은 복용 일수" total={5} color="warning" icon={'ant-design:calendar-outlined'} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="부작용이 발생한 약" total={3} color="error" icon={'jam:triangle-danger'} />
-          </Grid>
-          <Grid id='app' item xs={12} md={12} lg={4}>
-            <LineChart avoidMedicines={avoidMedicines}/>
-          </Grid>
-          <Grid id='app' item xs={12} md={12} lg={8}>
-            <Spline />
-          </Grid>
-          {/* 멋진 차트 */}
-          <Grid id='app' item xs={12} md={8} lg={8}>
-            <ApexChart style={{ height: 500 }} />
+            <AppWidgetSummary title="부작용이 발생한 약" total={sideEffectMedicineCnt} color="error" icon={'jam:triangle-danger'} />
           </Grid>
 
-          <Grid className='first' item xs={12} md={4} lg={4}>
-            <AppTasks
-              list=
-              {medicine}
-            />
-          </Grid>
-
-
-          {<Grid item xs={12} md={6} lg={6}>
-
+{/* 부작용이 있는 약 대시보드 */}
+{<Grid item xs={12} md={6} lg={6}>
             <Card>
             <CardHeader title= "부작용이 있는 약"/>
             &nbsp;
-            <TableContainer sx={{ minWidth: 700 }}>
+            <TableContainer>
               <Table>
                 <UserListHead
                   headLabel={TABLE_HEAD}
@@ -212,7 +187,6 @@ export default function Calendar() {
                         tabIndex={-1}
                         role="checkbox"
                       >
-
                         <TableCell>   </TableCell>
                         <TableCell component="th" scope="row" padding="none" 
                         
@@ -227,9 +201,7 @@ export default function Calendar() {
                       <Typography variant="subtitle2" noWrap>
                         {title}
                       </Typography>
-    
                         </TableCell>
-
 
                         <TableCell align="left">
                         <Typography variant="subtitle2" noWrap>
@@ -244,14 +216,33 @@ export default function Calendar() {
 
               </Table>
               </TableContainer>
-
               </Card>
+            </Grid>
+            }
 
-            </Grid>}
-          
+          {/* 챙겨드셨나요? 대시보드 */}
+          <Grid className='first' item xs={12} md={6} lg={6}>
+            <AppTasks
+              list=
+              {medicine}
+            />
 
-        
-          <Grid item xs={12} md={6} lg={6}>
+          </Grid>
+
+
+        {/* 첫 번째 대시보드 그래프 */}
+        <Grid id='app' item xs={12} md={15} lg={15}>
+            <LineChart avoidMedicines={avoidMedicines}/>
+          </Grid>
+
+
+            {/* 각 나이별 진료 횟수 통계 그래프 */}
+            <Grid id='app' item xs={12} md={15} lg={15}>
+            <Spline />
+          </Grid>
+
+              {/* 최근 이 약을 많이 먹어요 대시보드 */}
+              <Grid item xs={12} md={15} lg={15}>
             <AppConversionRates
               title="최근 이 약을 많이 먹어요"
               // subheader="(+43%) than last year"
@@ -268,9 +259,17 @@ export default function Calendar() {
                 { label: '아노덱스골드정', value: 138 },
               ]}
             />
+
           </Grid>
 
-        </Grid>
+         {/* 연령층별 특정 질병 보유 통계 그래프 */}
+         <Grid id='app' item xs={12} md={15} lg={15}>
+            <ApexChart style={{ height: 500 }} />
+          </Grid>
+
+            </Grid>
+
+
       </Container>
     </Page>
   );
