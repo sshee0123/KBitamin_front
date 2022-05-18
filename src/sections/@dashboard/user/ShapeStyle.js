@@ -497,9 +497,8 @@ return (
                     </Stack>
                 {/* </ButtonGroup> */}
 
-
                 {/* 약 검색 필터링 저장하기 버튼 */}
-                <Stack direction="row" alignItems="center" mb={3} spacing={3}>
+                <Stack direction="row" alignItems="center" mb={2} spacing={2} justifyContent="center">
 
                 <Button variant="contained" onClick={ () => {
 
@@ -510,7 +509,7 @@ return (
                     })
 
                 }}
-                     style = {{ alignItems:'center'}}>검색하기</Button>
+                    style = {{ alignItems:'center'}}>검색하기</Button>
 
                 {/* 필터링 초기화 버튼 */}
                 <Button variant="contained" onClick={resetFilter}>초기화</Button>

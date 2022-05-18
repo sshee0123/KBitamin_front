@@ -73,7 +73,7 @@ export default function DetailOneMediInfo(){
             </Stack>
 
           <Stack direction="row" alignItems="center" mb={5}>
-            <img alt = {medicine.name} src = {medicine.imageUrl} onError={onErrorImg} height = "200px" widtn = "300px"/>
+            <img alt = {medicine.name} src = {medicine.imageUrl} onError={onErrorImg} height = "200px" width = "300px"/>
             </Stack>
 
 

@@ -21,6 +21,7 @@ import { CircularProgress } from "@material-ui/core";
 // components
 // import Page from '../components/Page';
 import { ColorPicker, createColor } from 'material-ui-color';
+import receipt from "./Images/처방전.jpg";
 import Iconify from '../components/Iconify';
 // MediService
 import MediService from '../service/MedicineService';
@@ -72,21 +73,23 @@ export default function Blog() {
 
 const uploadFile=(e)=> {
   e.preventDefault();
-
+  setImage(receipt);
   const data = new FormData();
   data.append('file', e.target.files[0]);
   data.append('filename', e.target.value);
-
+  
   fetch('http://localhost:5000/fileUpload', {
       method: 'POST',
       body: data,
     }).then((response) => {
+      
       response.json().then((body) => {
           
         console.log(body.data)
         // setState({ imageURL: `http://localhost:5000/${body.file}` });
         const arr = body.data.split(' ');
         setNewMedicine(arr);
+        setImage("")
       });
     });
 }
@@ -198,9 +201,9 @@ const uploadFile=(e)=> {
                   />
                 <MedicineList users={newmedicines}/>
                     <br/>
-                <>
+                <center>
 
-                <img src="/static/처방전.jpg" />
+                <img src= {image} alt="" /><br/>
                   <label htmlFor="file">
                     <input type="file" name="file" onChange={uploadFile} id="file" style={{ display: "none" }}accept='image/jpg,impge/png,image/jpeg,image/gif' />
                     
@@ -228,7 +231,7 @@ const uploadFile=(e)=> {
                     이미지 전송 
                     </Fab></span>
                     <br/><br/><br/>
-                  </>
+                  </center>
                   </center>
                   </Grid>
                   <Grid item xs={100}>
