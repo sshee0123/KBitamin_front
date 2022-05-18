@@ -7,7 +7,7 @@ import { styled } from '@mui/material/styles';
 export default class Products extends Component {
     constructor(props) {
         super(props);
-
+        console.log("Linechart     ",props.avoidMedicines.data)
         this.state = {
         
           series: [
@@ -16,6 +16,7 @@ export default class Products extends Component {
               data: [28, 29, 33, 36, 32, 32, 33]
             }
           ],
+          
           options: {
             chart: {
               height: 350,
@@ -56,12 +57,12 @@ export default class Products extends Component {
             xaxis: {
               categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
               title: {
-                text: 'Month'
+                text: '약 이름'
               }
             },
             yaxis: {
               title: {
-                text: 'Temperature'
+                text: 'score'
               },
               min: 5,
               max: 40
@@ -85,5 +86,9 @@ export default class Products extends Component {
               <ReactApexChart options={this.state.options} series={this.state.series} type="line" height={350} />
             </Card>
         );
+
       }
     }
+
+
+
