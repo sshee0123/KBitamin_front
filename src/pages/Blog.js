@@ -17,6 +17,7 @@ import { LoadingButton } from '@mui/lab';
 import { addDays } from "date-fns"
 // materialimport { DateRangePicker } from 'rsuite';
 import { Grid, Container, Stack, Typography, Button } from '@mui/material';
+import { CircularProgress } from "@material-ui/core";
 // components
 // import Page from '../components/Page';
 import { ColorPicker, createColor } from 'material-ui-color';
@@ -29,6 +30,7 @@ import MemberService from '../service/MemberService';
 import circle from "./Images/default_pill.png";
 import CreateMedicine from "./CreateMedicine";
 import MedicineList from "./MedicineList";
+import Demo from './Progress';
 // ----------------------------------------------------------------------
 
 setOptions({
@@ -64,8 +66,8 @@ export default function Blog() {
 
   // -------------- OCR 처리 후 약 생성 -----------------
   const [newmedicines, setNewMedicine] = useState([
-
   ]);
+  const [image, setImage] = useState('');
 // ------------------OCR request Hanlder---------------------------
 
 const uploadFile=(e)=> {
@@ -136,7 +138,7 @@ const uploadFile=(e)=> {
     const onErrorImg = (e) => {
       e.target.src = circle;
     }
-  
+
   return (
     <FormikProvider value={formik}>
     <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -197,8 +199,12 @@ const uploadFile=(e)=> {
                 <MedicineList users={newmedicines}/>
                     <br/>
                 <>
+
+                <img src="/static/처방전.jpg" />
                   <label htmlFor="file">
                     <input type="file" name="file" onChange={uploadFile} id="file" style={{ display: "none" }}accept='image/jpg,impge/png,image/jpeg,image/gif' />
+                    
+                    <span>
                     <Fab
                       color="primary"
                       size="small"
@@ -206,10 +212,22 @@ const uploadFile=(e)=> {
                       aria-label="add"
                       variant="extended"
                     >
-                    <AddIcon /> Upload file
-                    </Fab><br/><br/><br/>
+                    <AddIcon /> 파일 업로드  
+                    </Fab></span>
+                    &nbsp;&nbsp;&nbsp;
+                    
                   </label>
-                  
+                  <span>
+                    <Fab
+                      color="primary"
+                      size="small"
+                      component="span"
+                      aria-label="add"
+                      variant="extended"
+                    >
+                    이미지 전송 
+                    </Fab></span>
+                    <br/><br/><br/>
                   </>
                   </center>
                   </Grid>

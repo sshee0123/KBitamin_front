@@ -8,7 +8,6 @@ class DashboardService{
 
     // eslint-disable-next-line class-methods-use-this
     getRecommendMedi(id) {
-        console.log('getRecommendMedi')
         return axios.post(`${DASHBOARD_API_BASE_URL}/recommendMedi?id=${id}`,  { headers: authHeader() });
     }
 

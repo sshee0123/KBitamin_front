@@ -178,6 +178,7 @@ export default function User() {
       sideEffectName : medicines[i][3],
       startDate : medicines[i][1]
     })
+    console.log("medicine 출력 ",medicine)
   }
 
 
