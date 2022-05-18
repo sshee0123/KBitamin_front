@@ -11,7 +11,7 @@ import Iconify from './Iconify';
 
 const ListItemStyle = styled((props) => <ListItemButton disableGutters {...props} />)(({ theme }) => ({
   ...theme.typography.body2,
-  height: 48,
+  height: 68,
   position: 'relative',
   textTransform: 'capitalize',
   color: theme.palette.text.secondary,
@@ -19,8 +19,8 @@ const ListItemStyle = styled((props) => <ListItemButton disableGutters {...props
 }));
 
 const ListItemIconStyle = styled(ListItemIcon)({
-  width: 22,
-  height: 22,
+  width: 30,
+  height: 30,
   color: 'inherit',
   display: 'flex',
   alignItems: 'center',
@@ -72,7 +72,7 @@ function NavItem({ item, active }) {
           {info && info}
           <Iconify
             icon={open ? 'eva:arrow-ios-downward-fill' : 'eva:arrow-ios-forward-fill'}
-            sx={{ width: 16, height: 16, ml: 1 }}
+            sx={{ width: 30, height: 30, ml: 1 }}
           />
         </ListItemStyle>
 
@@ -95,8 +95,8 @@ function NavItem({ item, active }) {
                     <Box
                       component="span"
                       sx={{
-                        width: 4,
-                        height: 4,
+                        width: 30,
+                        height: 30,
                         display: 'flex',
                         borderRadius: '50%',
                         alignItems: 'center',
@@ -104,7 +104,7 @@ function NavItem({ item, active }) {
                         bgcolor: 'text.disabled',
                         transition: (theme) => theme.transitions.create('transform'),
                         ...(isActiveSub && {
-                          transform: 'scale(2)',
+                          transform: 'scale(3)',
                           bgcolor: 'primary.main',
                         }),
                       }}

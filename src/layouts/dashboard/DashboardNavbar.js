@@ -12,7 +12,7 @@ import NotificationsPopover from './NotificationsPopover';
 
 // ----------------------------------------------------------------------
 
-const DRAWER_WIDTH = 280;
+const DRAWER_WIDTH = 350;
 const APPBAR_MOBILE = 64;
 const APPBAR_DESKTOP = 92;
 
