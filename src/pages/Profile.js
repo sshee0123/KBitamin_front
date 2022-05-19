@@ -1,5 +1,4 @@
 // 회원 정보 수정 페이지
-import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Card, Link, Container, Typography } from '@mui/material';
@@ -7,7 +6,6 @@ import { Card, Link, Container, Typography } from '@mui/material';
 import useResponsive from '../hooks/useResponsive';
 // components
 import Page from '../components/Page';
-import Logo from '../components/Logo';
 // sections
 import { ProfileForm } from '../sections/auth/profile';
 
@@ -58,17 +56,11 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function Register() {
   const smUp = useResponsive('up', 'sm');
-
   const mdUp = useResponsive('up', 'md');
 
   return (
     <Page title="Register">
       <RootStyle>
-        {/* <HeaderStyle>
-        <Logo />
-          
-        </HeaderStyle>
-        */}
         <Container>
           <ContentStyle>
             <Typography variant="h4" gutterBottom>

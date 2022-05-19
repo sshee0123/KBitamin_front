@@ -1,13 +1,8 @@
 import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import '@mobiscroll/react/dist/css/mobiscroll.min.css';
-import { Dropdown, Input, setOptions } from '@mobiscroll/react';
-import { styled } from '@mui/material/styles';
-import { DateRangePicker, DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import Box from '@mui/material/Box';
-import { addDays } from "date-fns"
 import Modal from '@mui/material/Modal';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -16,9 +11,7 @@ import {
   Card,
   Table,
   Stack,
-  Avatar,
   Button,
-  Checkbox,
   TableRow,
   TableBody,
   TableCell,
@@ -29,33 +22,17 @@ import {
 } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-
 // components
 import Page from '../components/Page';
-import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu, Selectbox } from '../sections/@dashboard/user';
-// mock
-import USERLIST from '../_mock/user';
+import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 // MediService
-import MediService from '../service/MedicineService';
 import MemberService from '../service/MemberService';
 import CalendarService from '../service/CalendarService';
-// import { id } from 'date-fns/esm/locale';
 import Blog from './Blog';
 // ----------------------------------------------------------------------
-const currencies = [
-  {
-    value: 'EUR',
-    label: 'Yes',
-  },
-  {
-    value: 'USD',
-    label: 'No',
-  },
-];
 
 const options = ['없음', '어지러움', '두통', '권태감', '쇼크', '불면', '우울증', '흥분', '졸림', '빈맥', '혈압변화', '가슴 통증', '구토', '변비', '설사', '복통', '식욕부진', '위염', '발진', '두드러기', '부종', '탈모', '근육통', '관절통', '경련', '호흡곤란', '코피', '코막힘', '기침', '피로', '발열', '무기력증', '충혈', '눈곱', '각막염', '이명', '청력소실'];
 
@@ -68,7 +45,6 @@ const TABLE_HEAD = [
 ];
 
 const style = {
-
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -80,7 +56,6 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-
 
 // ----------------------------------------------------------------------
 
@@ -138,17 +113,18 @@ export default function User() {
   const [medicineCnt, setMedicineCnt] = useState(0);
 
   // 비동기 처리로 다시 약 정보 가져오기
-
   const fetchMediFunc = async () => {
     await CalendarService.getTakingPerUser(MemberService.getCurrentUser().id).then((res) => {
-      console.log('data : ',res)
       setMedicineCnt(medicineCnt + 1);
       setMedicines(res.data);
       return res.data;
     })
   }
-  // console.log(medicines)
-  
+  useEffect(() => {
+    fetchMediFunc()
+  }, []);
+
+  // 복용 날짜 문자열 처리 및 부작용 유무
   const medicine = [];
   const thisdate = new Date();
   console.log('thisdate',thisdate)
@@ -161,12 +137,8 @@ export default function User() {
     const compareEndate = new Date(endate[0])
     let hasEffect = 'No'
     if (thisdate >= compareStdate && thisdate <= compareEndate){
-      // medicines[i][3] = 'Yes'
       hasEffect = 'Yes'
     }
-    // else {
-    //  medicines[i][3] = 'No'
-    // }
     if(medicines[i][3]==null){
       medicines[i][3] = '없음'
     }
@@ -179,42 +151,12 @@ export default function User() {
       sideEffectName : medicines[i][3],
       startDate : medicines[i][1]
     })
-    console.log("medicine 출력 ",medicine)
   }
-
-
-  useEffect(() => {
-    fetchMediFunc()
-  }, []);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  // const handleSelectAllClick = (event) => {
-  //   if (event.target.checked) {
-  //     const newSelecteds = USERLIST.map((n) => n.name);
-  //     setSelected(newSelecteds);
-  //     return;
-  //   }
-  //   setSelected([]);
-  // };
-
-  const handleClick = (event, title) => {
-    const selectedIndex = selected.indexOf(title);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, title);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-    }
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -250,19 +192,16 @@ export default function User() {
     }
   ]);
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [value, setValue] = React.useState(options[0]);
-  const [inputValue, setInputValue] = React.useState('');
-  const [mediList, setMediList] = React.useState(medicine);
+  const [mediList, setMediList] = useState(medicine);
   const onRemove = id => {
     // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듬
     // = user.id 가 id 인 것을 제거함
     setMediList(medicine.filter(medicine => medicine.id !== id));
   };
-
 
   return (
     <Page title="User">
@@ -299,7 +238,6 @@ export default function User() {
                   rowCount={medicineCnt}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                // onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
@@ -314,26 +252,23 @@ export default function User() {
                         role="checkbox"
                         selected={isItemSelected}
                         aria-checked={isItemSelected}
-
                       >
                         <TableCell padding="checkbox" />
                         <TableCell component="th" scope="row" padding="none" 
                         
                         onClick={() => {
-                          // 약 상세 페이지로 push
+                          // 약 상세 페이지로 약 이름 push
                           navigate(`/dashboard/medicine/detailOneMediInfo`,
                               {state: title}
                           )
                       }}
                       >
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            {/* <Avatar alt={name} src={avatarUrl} /> */}
                             <Typography variant="subtitle2" noWrap>
                               {title}
                             </Typography>
                           </Stack>
                         </TableCell>
-
 
                         <TableCell align="left">{start} &nbsp; ~ &nbsp; {end}</TableCell>
                         <TableCell align="left">
@@ -341,8 +276,6 @@ export default function User() {
                             options={options}
                             onChange={handleTextChange}
                             id="controllable-states-demo"
-                            // getOptionLabel={(options) => options}
-                            // renderOption={option => option}
                             autoSelect
                             autoComplete
                             sx={{ width: 200 }} defaultValue={sideEffectName}
@@ -350,9 +283,7 @@ export default function User() {
                           />
                         </TableCell>
                         <TableCell align="left">{color}
-                          {/* <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
-                            {sentenceCase(status)}
-                          </Label> */}
+
                         </TableCell>
 
                         <TableCell align="right">
@@ -379,10 +310,8 @@ export default function User() {
                   </TableBody>
                 )}
               </Table>
-              
             </TableContainer>
           </Scrollbar>
-
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"

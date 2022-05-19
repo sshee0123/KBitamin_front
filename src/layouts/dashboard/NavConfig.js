@@ -9,6 +9,7 @@ const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 // eslint-disable-next-line import/no-mutable-exports
 let navConfig = null;
 
+// Login 안 된 메뉴
 if(!MemberService.getCurrentUser()){
   navConfig = [
     {
@@ -44,6 +45,7 @@ if(!MemberService.getCurrentUser()){
   ];
 }
 
+// Login 된 메뉴
 if(MemberService.getCurrentUser()){
   navConfig = [
     {
@@ -68,7 +70,5 @@ if(MemberService.getCurrentUser()){
     }
   ];
 }
-
-
 
 export default navConfig;

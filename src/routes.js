@@ -2,10 +2,9 @@ import { Navigate, useRoutes } from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
-//
+// pages
 import MyMedi from './pages/MyMedi';
 import Login from './pages/Login';
-import NotFound from './pages/Page404';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import DashboardApp from './pages/DashboardApp';
@@ -35,7 +34,6 @@ export default function Router() {
       element: <LogoOnlyLayout />,
       children: [
         { path: '/', element: <Navigate to="/dashboard/app" /> },
-        { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],
     },

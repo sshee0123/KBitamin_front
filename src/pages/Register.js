@@ -6,7 +6,6 @@ import { Card, Link, Container, Typography } from '@mui/material';
 import useResponsive from '../hooks/useResponsive';
 // components
 import Page from '../components/Page';
-import Logo from '../components/Logo';
 // sections
 import { RegisterForm } from '../sections/auth/register';
 
@@ -80,7 +79,7 @@ export default function Register() {
               회원가입
             </Typography>
 
-{/* 회원 가입 form */}
+          {/* 회원 가입 form */}
             <RegisterForm/>
         
             {!smUp && (

@@ -1,55 +1,33 @@
-import ReactDOM from 'react-dom';
-import ReactApexChart from 'react-apexcharts'
-import { faker } from '@faker-js/faker';
-import PropTypes from 'prop-types';
-import React, { useState, useEffect, useRef } from 'react';
-import { Form, FormikProvider, useFormik } from 'formik';
+import React, { useState, useEffect } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { 
   Grid, 
   Container, 
   Typography, 
-  Button, 
   Card,
   Table,
-  Stack,
-  Avatar,
-  Checkbox,
   TableRow,
   TableBody,
   TableCell,
   TableContainer,
-  TablePagination,
   CardHeader,
-  FormControlLabel
 } from '@mui/material';
 // navigate
 import { useNavigate } from 'react-router-dom';
 // components
 import Page from '../components/Page';
-import Label from '../components/Label';
-import Scrollbar from '../components/Scrollbar';
-import Iconify from '../components/Iconify';
-import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu, Selectbox } from '../sections/@dashboard/user';
+import { UserListHead } from '../sections/@dashboard/user';
 // sections 
 import {
   AppTasks,
-  AppNewsUpdate,
-  AppOrderTimeline,
-  AppCurrentVisits,
-  AppWebsiteVisits,
-  AppTrafficBySite,
   AppWidgetSummary,
-  AppCurrentSubject,
   AppConversionRates,
   ApexChart,
   Spline,
   LineChart
 } from '../sections/@dashboard/app';
 // Service
-import MediService from '../service/MedicineService';
 import MemberService from '../service/MemberService';
 import CalendarService from '../service/CalendarService';
 import DashboardService from '../service/DashboardService';
@@ -63,12 +41,14 @@ const TABLE_HEAD = [
 ];
 
 export default function Calendar() {
+  
   const theme = useTheme();
 
   const navigate = useNavigate();
 
   // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
 
+  // 복용 약 배열
   const [takingMedicines, setTakingMedicines] = useState([]);
   // 약 리스트 개수
   const [takingMedicineCnt, setTakingMedicineCnt] = useState(0);
@@ -93,29 +73,30 @@ export default function Calendar() {
   // 피해야 할 약 리스트
   const recommendMediFunc = async () => {
     await DashboardService.getRecommendMedi(MemberService.getCurrentUser().id).then((res) => {
-      console.log('recommendMediFunc', res);
       setAvoidMedicines(res);
       return res;
     })
   };
+
   // 부작용 있는 약
   const sideEffectMediFunc = async () => {
     await DashboardService.getSideEffectMediPerUser(MemberService.getCurrentUser().id).then((res) => {
       setSideEffectMedicineCnt(sideEffectMedicineCnt + 1);
-      console.log("부작용 발생한 약" , sideEffectMedicineCnt)
       setSideEffectMedicines(res.data);
       return res.data;
     })
   }
 
+  // Component 렌더링 시 호출
   useEffect(() => {
     recommendMediFunc();
     fetchMediFunc();
     sideEffectMediFunc();
-
   }, []);
 
+  // ----------------------------------------------------------------------
 
+  // 복용 날짜 start, end date 문자열 처리, 부작용 유무 확인
   const medicine = [];
   const thisdate = new Date();
   for (let i = 0; i < takingMedicines.length; i += 1) {
@@ -140,7 +121,6 @@ export default function Calendar() {
     }
   }
 
-
   return (
     <Page title="Calendar">
       <Container maxWidth="xl">
@@ -150,8 +130,7 @@ export default function Calendar() {
 
         <Grid container spacing={3}>
 
-{/* 4가지 카드 */}
-
+        {/* 4가지 카드 */}
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="복용 일수" total={1} color="info" icon={'ant-design:calendar-outlined'} />
           </Grid>
@@ -165,8 +144,8 @@ export default function Calendar() {
             <AppWidgetSummary title="부작용이 발생한 약" total={6} color="error" icon={'jam:triangle-danger'} />
           </Grid>
 
-{/* 부작용이 있는 약 대시보드 */}
-{<Grid item xs={12} md={6} lg={6}>
+        {/* 부작용이 있는 약 대시보드 */}
+        {<Grid item xs={12} md={6} lg={6}>
             <Card>
             <CardHeader title= "부작용이 있는 약"/>
             &nbsp;
@@ -191,61 +170,51 @@ export default function Calendar() {
                         <TableCell component="th" scope="row" padding="none" 
                         
                         onClick={() => {
-                          // 약 상세 페이지로 push
+                          // 약 상세 페이지로 약 이름 push
                           navigate(`/dashboard/medicine/detailOneMediInfo`,
                               {state: title}
                           )
                       }}
-                      >
-
-                      <Typography variant="subtitle2" noWrap>
-                        {title}
-                      </Typography>
+                        ><Typography variant="subtitle2" noWrap>
+                          {title}
+                          </Typography>
                         </TableCell>
 
                         <TableCell align="left">
-                        <Typography variant="subtitle2" noWrap>
+                          <Typography variant="subtitle2" noWrap>
                           {sideEffect_name}
                           </Typography>
-                          </TableCell>
-
+                        </TableCell>
                       </TableRow>
                     );
                   })}
                 </TableBody>
-
               </Table>
-              </TableContainer>
-              </Card>
-            </Grid>
+            </TableContainer>
+            </Card>
+          </Grid>
             }
 
-          {/* 챙겨드셨나요? 대시보드 */}
-          <Grid className='first' item xs={12} md={6} lg={6}>
-            <AppTasks
-              list=
-              {medicine}
-            />
-
-          </Grid>
-
+        {/* 챙겨드셨나요? 대시보드 */}
+        <Grid className='first' item xs={12} md={6} lg={6}>
+          <AppTasks
+            list={medicine}/>
+        </Grid>
 
         {/* 첫 번째 대시보드 그래프 */}
         <Grid id='app' item xs={12} md={15} lg={15}>
-            <LineChart avoidMedicines={avoidMedicines}/>
-          </Grid>
+          <LineChart avoidMedicines={avoidMedicines}/>
+        </Grid>
 
+        {/* 각 나이별 진료 횟수 통계 그래프 */}
+        <Grid id='app' item xs={12} md={15} lg={15}>
+          <Spline />
+        </Grid>
 
-            {/* 각 나이별 진료 횟수 통계 그래프 */}
-            <Grid id='app' item xs={12} md={15} lg={15}>
-            <Spline />
-          </Grid>
-
-              {/* 최근 이 약을 많이 먹어요 대시보드 */}
-              <Grid item xs={12} md={15} lg={15}>
-            <AppConversionRates
+        {/* 최근 이 약을 많이 먹어요 대시보드 */}
+        <Grid item xs={12} md={15} lg={15}>
+          <AppConversionRates
               title="최근 이 약을 많이 먹어요"
-              // subheader="(+43%) than last year"
               chartData={[
                 { label: '경동니자티딘', value: 40 },
                 { label: '벤포큐정', value: 43 },
@@ -259,55 +228,14 @@ export default function Calendar() {
                 { label: '아노덱스골드정', value: 138 },
               ]}
             />
+        </Grid>
 
-          </Grid>
-
-         {/* 연령층별 특정 질병 보유 통계 그래프 */}
-         <Grid id='app' item xs={12} md={15} lg={15}>
+        {/* 연령층별 특정 질병 보유 통계 그래프 */}
+        <Grid id='app' item xs={12} md={15} lg={15}>
             <ApexChart style={{ height: 500 }} />
-          </Grid>
-
-            </Grid>
-
-
-      </Container>
-    </Page>
-  );
-}
-
-TaskItem.propTypes = {
-  formik: PropTypes.object,
-  checked: PropTypes.bool,
-  task: PropTypes.object,
-};
-
-function TaskItem({ formik, task, checked, ...other }) {
-  const { getFieldProps } = formik;
-
-  const [open, setOpen] = useState(null);
-
-  const handleCloseMenu = () => {
-    setOpen(null);
-  };
-
-  return (
-    <Stack
-      direction="row"
-      sx={{
-        px: 2,
-        py: 0.75,
-        ...(checked && {
-          color: 'text.disabled',
-          textDecoration: 'line-through',
-        }),
-      }}
-    >
-      <FormControlLabel
-        control={<Checkbox {...getFieldProps('checked')} value={task.id} checked={checked} {...other} />}
-        label={task.label}
-        sx={{ flexGrow: 1, m: 0 }}
-      />
-
-    </Stack>
+        </Grid>
+      </Grid>
+    </Container>
+  </Page>
   );
 }

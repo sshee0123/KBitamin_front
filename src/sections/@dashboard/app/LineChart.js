@@ -1,8 +1,6 @@
 import { React, Component } from 'react'
 import { Card, CardHeader } from '@mui/material';
-import ReactDOM from 'react-dom';
 import ReactApexChart from 'react-apexcharts'
-import { styled } from '@mui/material/styles';
 
 export default class Products extends Component {
     constructor(props) {

@@ -1,5 +1,3 @@
-import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 // material
@@ -7,8 +5,6 @@ import {
   Card,
   Table,
   Stack,
-  Button,
-  Checkbox,
   TableRow,
   TableBody,
   TableCell,
@@ -17,29 +13,22 @@ import {
   TableContainer,
   CardHeader,
 } from '@mui/material';
-// components
-import Grid from '@material-ui/core/Grid';
 // MediService
 import MediService from '../service/MedicineService';
 import Page from '../components/Page';
 import circle from "./Images/default_pill.png";
 
-
 export default function DetailOneMediInfo(){
 
-    // mediInfo 에서 보낸 props: name
+    // mediInfo, DashboardApp 에서 보낸 약 정보 클릭시 보낸 약 이름 받기 
+    // -> props: name
     const { state } = useLocation();
-    MediService.getMedicineByName(state);
     
-    // ------<약 정보 가져오기> 랜더링 될 때 한 번만 실행--------
-
     const [medicine, setMedicine] = useState([]);
-
-    // 비동기 처리로 다시 약 정보 가져오기
+    // MediService 에서 받은 약 이름 보내서 해당 약 정보 가져오기
     const fetchMediFunc = async () => {
         await MediService.getMedicineByName(state).then((res) => {
             setMedicine(res.data);
-            console.log(res.data);
             return res.data;
         })
     }
@@ -56,16 +45,14 @@ export default function DetailOneMediInfo(){
     return(
         <Page title="DetailOneMediInfo">
         <Container>
-
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
             <Typography variant="h4" gutterBottom>
             { state }
             </Typography>
+          </Stack>
 
-            </Stack>
-
-            <Card>
-            <CardHeader/>
+          <Card>
+          <CardHeader/>
             <TableContainer>
               <Table>
                 <TableBody>
@@ -173,14 +160,7 @@ export default function DetailOneMediInfo(){
               </Table>
               </TableContainer>
               </Card>
-
         </Container>
         </Page>
-
-
     );
-
-
-
 }
-

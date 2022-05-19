@@ -1,5 +1,6 @@
 import axios from 'axios'; 
 
+// URL 정의
 const MEMBER_API_BASE_URL = "/api/auth/"; 
 
 class MemberService{

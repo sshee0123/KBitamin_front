@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';
-
 // routes
 import Router from './routes';
 // theme
@@ -11,7 +9,6 @@ import { BaseOptionChartStyle } from './components/chart/BaseOptionChart';
 
 // ----------------------------------------------------------------------
 
-
 function App() {
   return (
     <ThemeProvider>
@@ -21,6 +18,5 @@ function App() {
     </ThemeProvider>
   );
 }
-
 
 export default App;

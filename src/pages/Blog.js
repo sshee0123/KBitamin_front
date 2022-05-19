@@ -1,9 +1,9 @@
-import React, { useState, useEffect ,useRef, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import '@mobiscroll/react/dist/css/mobiscroll.min.css';
-import { Dropdown, Input, Page, setOptions } from '@mobiscroll/react';
+import { Page, setOptions } from '@mobiscroll/react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { DateRangePicker, DateRange } from 'react-date-range';
@@ -14,36 +14,24 @@ import match from 'autosuggest-highlight/match';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { LoadingButton } from '@mui/lab';
-import { addDays } from "date-fns"
 // materialimport { DateRangePicker } from 'rsuite';
-import { Grid, Container, Stack, Typography, Button } from '@mui/material';
-import { CircularProgress } from "@material-ui/core";
+import { Grid, Stack, Typography, Button } from '@mui/material';
 // components
-// import Page from '../components/Page';
 import { ColorPicker, createColor } from 'material-ui-color';
 import receipt from "./Images/처방전.jpg";
-import Iconify from '../components/Iconify';
 // MediService
 import MediService from '../service/MedicineService';
 import CalendarService from '../service/CalendarService';
-
 import MemberService from '../service/MemberService';
+// image
 import circle from "./Images/default_pill.png";
-import CreateMedicine from "./CreateMedicine";
 import MedicineList from "./MedicineList";
-import Demo from './Progress';
 // ----------------------------------------------------------------------
 
 setOptions({
   theme: 'ios',
   themeVariant: 'light'
 });
-
-const SORT_OPTIONS = [
-  { value: 'latest', label: 'Latest' },
-  { value: 'popular', label: 'Popular' },
-  { value: 'oldest', label: 'Oldest' },
-];
 
 export default function Blog() {
 
@@ -64,11 +52,11 @@ export default function Blog() {
     }
   ]);
 
-
   // -------------- OCR 처리 후 약 생성 -----------------
-  const [newmedicines, setNewMedicine] = useState([
-  ]);
+
+  const [newmedicines, setNewMedicine] = useState([]);
   const [image, setImage] = useState('');
+
 // ------------------OCR request Handler---------------------------
 
 const uploadFile=(e)=> {
@@ -78,15 +66,14 @@ const uploadFile=(e)=> {
   data.append('file', e.target.files[0]);
   data.append('filename', e.target.value);
   
+  // flask POST
   fetch('http://localhost:5000/fileUpload', {
       method: 'POST',
       body: data,
     }).then((response) => {
       
+      // 처방전 약 텍스트 데이터 RESPONSE
       response.json().then((body) => {
-          
-        console.log(body.data)
-        // setState({ imageURL: `http://localhost:5000/${body.file}` });
         const arr = body.data.split(' ');
         setNewMedicine(arr);
         setImage("")
@@ -105,8 +92,8 @@ const uploadFile=(e)=> {
       color: '',
     },
     onSubmit: () => {
-      console.log('start : ',formik.values.start)
 
+      // CalendarService의 캘린더에 정보 추가 서비스 호출
       if(newmedicines.length>0)
         for(let i=0; i<newmedicines.length; i+=1){
           CalendarService.calendarInsert(MemberService.getCurrentUser().id,newmedicines[i],formik.values.start, formik.values.end, formik.values.color);
@@ -137,7 +124,7 @@ const uploadFile=(e)=> {
     setState([ranges.selection]);
   }
 
-    // 약 이미지 없을 경우 defualt 이미지 sj
+    // 약 이미지 없을 경우 defualt 이미지
     const onErrorImg = (e) => {
       e.target.src = circle;
     }
@@ -172,6 +159,7 @@ const uploadFile=(e)=> {
                       <TextField {...params} label="약 이름" margin="normal"  variant="outlined" color="warning"/>
                       </Box> 
                     )}
+
                     renderOption={(props, option, { inputValue }) => {
                       const matches = match(option.name, inputValue);
                       const parts = parse(option.name, matches);
@@ -193,7 +181,6 @@ const uploadFile=(e)=> {
                                 {part.text}
                               </span></>
                             ))}
-                          
                         </li>
                         </Stack>
                       );
@@ -249,12 +236,11 @@ const uploadFile=(e)=> {
                   <ColorPicker value={color} onChange={handleColorChange} /><br/><br/>
                 </center>
                   
-                  
                   <center>
                     <LoadingButton  style={{ textalign:"center" }} type="submit" variant="contained">저장하기</LoadingButton><br/><br/>
                   </center>
                   </Grid>
-</Grid>
+              </Grid>
     </Page>
     </Form>
     </FormikProvider>

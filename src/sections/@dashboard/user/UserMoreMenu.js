@@ -13,22 +13,22 @@ export default function UserMoreMenu(props) {
   const navigate = useNavigate();
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+
+  // 부작용 삭제하기
   const onClickRemove = (event , title, start) => {
-    console.log('삭제버튼 ')
-    console.log(title,'  ', start)
     setIsOpen(false);
+    // 부작용 delete CalendarService 호출
     CalendarService.deleteTaking(MemberService.getCurrentUser().id, title, start);
     navigate(0);
   };
+
+  // 부작용 수정하기
   const onClickEdit = (event , title, start, sideEffectName) => {
-    console.log('수정버튼 ')
     setIsOpen(false);
-    console.log(title,' ', start ,' sideEffectName ',sideEffectName)
-    // 부작용 수정하기
+    // 부작용 update CalendarService 호출
     CalendarService.updateTaking(MemberService.getCurrentUser().id, title, start, sideEffectName);
   };
   
-
   return (
     <>
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>

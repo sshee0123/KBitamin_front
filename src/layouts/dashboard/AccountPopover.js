@@ -16,11 +16,6 @@ const MENU_OPTIONS = [
     icon: 'eva:home-fill',
     linkTo: '/',
   },
-  // {
-  //   label: 'Profile',
-  //   icon: 'eva:person-fill',
-  //   linkTo: '/dashboard/profile',
-  // },
   {
     label: 'Settings',
     icon: 'eva:settings-2-fill',
@@ -74,7 +69,6 @@ export default function AccountPopover() {
   };
   return (
     <>
-    
       <IconButton
         ref={anchorRef}
         onClick={handleOpen}
@@ -95,7 +89,6 @@ export default function AccountPopover() {
       >
         <Avatar src={account.photoURL} alt="photoURL" />
       </IconButton>
-
       <MenuPopover
         open={Boolean(open)}
         anchorEl={open}
