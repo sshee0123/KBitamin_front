@@ -123,8 +123,8 @@ export default function Calendar() {
     takingMedicines[i][2].toString();
     const stdate = takingMedicines[i][1].split('T')
     const endate = takingMedicines[i][2].split('T')
-    const compareStdate = new Date(takingMedicines[i][1])
-    const compareEndate = new Date(takingMedicines[i][2])
+    const compareStdate = new Date(stdate[0])
+    const compareEndate = new Date(endate[0])
 
     if (thisdate >= compareStdate && thisdate <= compareEndate) {
       takingMedicines[i][3] = 'Yes'
@@ -153,16 +153,16 @@ export default function Calendar() {
 {/* 4가지 카드 */}
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="복용 일수" total={2} color="info" icon={'ant-design:calendar-outlined'} />
+            <AppWidgetSummary title="복용 일수" total={1} color="info" icon={'ant-design:calendar-outlined'} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="오늘 복용할 약" total={6} icon={'icon-park-outline:medicine-bottle'} />
+            <AppWidgetSummary title="오늘 복용할 약" total={5} icon={'icon-park-outline:medicine-bottle'} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="남은 복용 일수" total={5} color="warning" icon={'ant-design:calendar-outlined'} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="부작용이 발생한 약" total={sideEffectMedicineCnt} color="error" icon={'jam:triangle-danger'} />
+            <AppWidgetSummary title="부작용이 발생한 약" total={6} color="error" icon={'jam:triangle-danger'} />
           </Grid>
 
 {/* 부작용이 있는 약 대시보드 */}
