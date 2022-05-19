@@ -151,13 +151,14 @@ export default function User() {
   
   const medicine = [];
   const thisdate = new Date();
+  console.log('thisdate',thisdate)
   for (let i = 0; i < medicines.length; i+= 1) {
     medicines[i][1].toString();
     medicines[i][2].toString();
     const stdate = medicines[i][1].split('T')
     const endate = medicines[i][2].split('T')
-    const compareStdate = new Date(medicines[i][1])
-    const compareEndate = new Date(medicines[i][2])
+    const compareStdate = new Date(stdate[0])
+    const compareEndate = new Date(endate[0])
     let hasEffect = 'No'
     if (thisdate >= compareStdate && thisdate <= compareEndate){
       // medicines[i][3] = 'Yes'

@@ -78,6 +78,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
     justifyContent: 'center',
     flexDirection: 'column',
     padding: theme.spacing(0, 0),
+    height: 1000
   }));
   
 

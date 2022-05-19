@@ -1,5 +1,5 @@
 import { React, Component } from 'react'
-import { Card } from '@mui/material';
+import { Card, CardHeader } from '@mui/material';
 import ReactDOM from 'react-dom';
 import ReactApexChart from 'react-apexcharts'
 import { styled } from '@mui/material/styles';
@@ -7,19 +7,18 @@ import { styled } from '@mui/material/styles';
 export default class Products extends Component {
     constructor(props) {
         super(props);
-        console.log("Linechart     ",props.avoidMedicines.data)
         this.state = {
         
           series: [
             {
-              name: "High - 2013",
-              data: [28, 29, 33, 36, 32, 32, 33]
+              name: "위험 점수",
+              data: [46, 44, 44, 40, 40, 40, 40]
             }
           ],
           
           options: {
             chart: {
-              height: 350,
+              height: 400,
               type: 'line',
               dropShadow: {
                 enabled: true,
@@ -33,17 +32,17 @@ export default class Products extends Component {
                 show: false
               }
             },
-            colors: ['#77B6EA', '#545454'],
+            colors: ['#fa2f36', '#545454'],
             dataLabels: {
               enabled: true,
             },
             stroke: {
               curve: 'smooth'
-            },
-            title: {
-              text: 'Average High & Low Temperature',
-              align: 'left'
-            },
+            },// 
+            // title: {
+            //   text: '내가 피해야할 약',
+            //   align: 'left'
+            // },
             grid: {
               borderColor: '#e7e7e7',
               row: {
@@ -55,17 +54,17 @@ export default class Products extends Component {
               size: 1
             },
             xaxis: {
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+              categories: ['나인나인정', '비백큐골드정', '미네큐비타정', '파워에이정', '리드테라비액티브정', '빅코민백골드정', '멀티브큐골드정'],
               title: {
                 text: '약 이름'
               }
             },
             yaxis: {
               title: {
-                text: 'score'
+                text: '위험 점수'
               },
-              min: 5,
-              max: 40
+              min: 38,
+              max: 48
             },
             legend: {
               position: 'top',
@@ -83,12 +82,12 @@ export default class Products extends Component {
       render() {
         return (
           <Card>
+              <CardHeader title="내가 피해야 할 약"/>
               <ReactApexChart options={this.state.options} series={this.state.series} type="line" height={350} />
             </Card>
         );
 
       }
     }
-
 
 

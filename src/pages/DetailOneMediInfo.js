@@ -84,7 +84,7 @@ export default function DetailOneMediInfo(){
                       <Typography variant="h6" gutterBottom>이미지</Typography>
                       </TableCell>
                     <TableCell>
-                    <img alt = {medicine.name} src = {medicine.imageUrl} onError={onErrorImg} height = "200px" width = "300px"/>
+                    <img alt = {medicine.name} src = {medicine.imageUrl} onError={onErrorImg} height = "200px" width = "350px"/>
                     </TableCell>
                   </TableRow>
 

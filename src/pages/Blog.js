@@ -69,7 +69,7 @@ export default function Blog() {
   const [newmedicines, setNewMedicine] = useState([
   ]);
   const [image, setImage] = useState('');
-// ------------------OCR request Hanlder---------------------------
+// ------------------OCR request Handler---------------------------
 
 const uploadFile=(e)=> {
   e.preventDefault();
