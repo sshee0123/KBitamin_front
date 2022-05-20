@@ -1,14 +1,11 @@
 import {React, Component} from 'react'
 import {Card, CardHeader} from '@mui/material';
-import ReactDOM from 'react-dom';
 import ReactApexChart from 'react-apexcharts'
 import { styled } from '@mui/material/styles';
-
 
 const CHART_HEIGHT = 360;
 
 const LEGEND_HEIGHT = 72;
-
 
 const ChartWrapperStyle = styled('div')(({ theme }) => ({
   height: CHART_HEIGHT,
@@ -28,13 +25,11 @@ const ChartWrapperStyle = styled('div')(({ theme }) => ({
   },
 }));
 
-
 export default class Products extends Component {
     constructor(props) {
       super(props);
 
       this.state = {
-      
         series: [{
           name: '노년',
           data: [190257,
@@ -140,9 +135,7 @@ export default class Products extends Component {
           <CardHeader title= "연령층 별 질병 보유 통계"/>
           <ReactApexChart options={this.state.options} series={this.state.series} type="bar" height={520} />
           </Card>
-          </div>
-    
-      );
+          </div>  
+        );
       }
- 
 }

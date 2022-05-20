@@ -119,7 +119,6 @@ function NavItem({ item, active }) {
       </>
     );
   }
-
   return (
     <ListItemStyle
       component={RouterLink}

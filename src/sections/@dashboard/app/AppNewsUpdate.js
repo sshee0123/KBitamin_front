@@ -33,7 +33,6 @@ export default function AppNewsUpdate({ title, subheader, list, ...other }) {
       })
     }
 
- 
   return (
     <Card {...other} >
       {sideEffectMediFunc}
@@ -68,12 +67,6 @@ NewsItem.propTypes = {
     image: PropTypes.string,
     postedAt: PropTypes.instanceOf(Date),
     title: PropTypes.string,
-
-    // start: PropTypes.instanceOf(Date),
-    // end: PropTypes.instanceOf(Date),
-    // title: PropTypes.string,
-    // sideEffectName: PropTypes.string,
-    // userid: PropTypes.string,
   }),
 
 };
@@ -81,7 +74,6 @@ NewsItem.propTypes = {
 
 function NewsItem({ news }) {
   const { image, title, description, postedAt } = news;
-  // const { start, end, title, sideEffectName, userid} = news;
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>

@@ -46,7 +46,6 @@ export default function ColorManyPicker({ colors, onChecked, sx, ...other }) {
     <Box sx={sx}>
       {colors.map((color) => {
         const isWhite = color === '#FFFFFF' || color === 'white';
-
         return (
           <Checkbox
             key={color}
