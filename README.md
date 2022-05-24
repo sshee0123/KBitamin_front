@@ -1,3 +1,8 @@
+# K-Bitamin Front-end
+
+기술 스택 : React, html5, css, javascript
+---
+
 ## Minimal [(Free version)](https://minimal-kit-react.vercel.app/)
 
 ![license](https://img.shields.io/badge/license-MIT-blue.svg)
